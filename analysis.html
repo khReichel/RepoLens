@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding Pulseflow Analyses &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="API Reference" href="api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Understanding Pulseflow Analyses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#analysis-scopes">Analysis Scopes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#evolution-pulse-activity">Evolution &amp; Pulse (Activity)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#change-frequency-commits">Change Frequency (Commits)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-recency-activity-recency">Change Recency (Activity Recency)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#absolute-churn">Absolute Churn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#development-trend-development-velocity">Development Trend (Development Velocity)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-risk">Quality &amp; Risk</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hotspot-analysis-file-module">Hotspot Analysis (File &amp; Module)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#structure-logic-complexity">Structure &amp; Logic (Complexity)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#complexity">Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#complexity-trend">Complexity Trend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#team-knowledge-ownership">Team &amp; Knowledge (Ownership)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-ownership">Code Ownership</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#knowledge-fragmentation">Knowledge Fragmentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ownership-by-teams">Module Ownership by Teams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#top-team-contributors">Top Team Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#base-metrics">Base Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lines-of-code-loc">Lines of Code (LOC)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comment-density">Comment Density</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Understanding Pulseflow Analyses</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="understanding-pulseflow-analyses">
+<span id="analysis"></span><h1>Understanding Pulseflow Analyses<a class="headerlink" href="#understanding-pulseflow-analyses" title="Link to this heading"></a></h1>
+<p>Pulseflow offers a comprehensive suite of analyses to help you understand the health, evolution, and risks within your codebase. Each analysis provides a unique lens, from identifying high-activity areas to pinpointing technical debt and knowledge bottlenecks.</p>
+<p>As a <strong>Lead Developer</strong> or <strong>Software Architect</strong>, you can use these metrics to guide your refactoring efforts, balance team workloads, and mitigate risks before they lead to production issues.</p>
+<section id="analysis-scopes">
+<h2>Analysis Scopes<a class="headerlink" href="#analysis-scopes" title="Link to this heading"></a></h2>
+<p>Pulseflow allows you to view metrics at different levels of granularity, depending on the questions you are trying to answer:</p>
+<ul class="simple">
+<li><p><strong>File Level</strong>: Focuses on individual source code files. Ideal for identifying specific “hotspots” or complex files that need immediate refactoring.</p></li>
+<li><p><strong>Module Level</strong>: Aggregates data by logical components or directories. Useful for seeing which parts of the system are growing fastest or where architectural complexity is accumulating.</p></li>
+<li><p><strong>Team Level</strong>: Analyzes how different teams contribute to the codebase. Helps in understanding ownership distribution and identifying potential communication overhead or knowledge silos.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="evolution-pulse-activity">
+<h2>Evolution &amp; Pulse (Activity)<a class="headerlink" href="#evolution-pulse-activity" title="Link to this heading"></a></h2>
+<p>These metrics focus on the “pulse” of your development process—where work is happening and how the codebase is changing over time.</p>
+<section id="change-frequency-commits">
+<h3>Change Frequency (Commits)<a class="headerlink" href="#change-frequency-commits" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Change Frequency / Module Change Frequency</p></li>
+<li><p><strong>What it Measures</strong>: The total number of commits made to a file or module within the selected timeframe.</p></li>
+<li><p><strong>How to Interpret</strong>: High commit counts indicate active development. A file with an unusually high number of commits compared to others might be a “god object” or a source of instability that requires frequent fixes.</p></li>
+</ul>
+</section>
+<section id="change-recency-activity-recency">
+<h3>Change Recency (Activity Recency)<a class="headerlink" href="#change-recency-activity-recency" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Change Recency</p></li>
+<li><p><strong>What it Measures</strong>: The time elapsed since a file (or the latest file in a module) was last modified.</p></li>
+<li><p><strong>How to Interpret</strong>:
+*   <strong>Young files</strong> are recent additions, often indicating new features.
+*   <strong>Old files</strong> that haven’t been touched in a long time are stable (or dead) code.
+*   <strong>Old files with recent changes</strong> are often core legacy components that are being maintained.</p></li>
+</ul>
+</section>
+<section id="absolute-churn">
+<h3>Absolute Churn<a class="headerlink" href="#absolute-churn" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Absolute Churn</p></li>
+<li><p><strong>What it Measures</strong>: The total number of lines added and deleted. Unlike net Lines of Code, churn measures the <em>volume of activity</em>.</p></li>
+<li><p><strong>How to Interpret</strong>: High churn indicates a file is being heavily reworked. While high churn is normal during initial development, persistent high churn in an established file is a strong warning sign of instability or unclear requirements.</p></li>
+</ul>
+</section>
+<section id="development-trend-development-velocity">
+<h3>Development Trend (Development Velocity)<a class="headerlink" href="#development-trend-development-velocity" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Development Trend</p></li>
+<li><p><strong>What it Measures</strong>: This compares a “Baseline” period with a “Current” period to show the direction of activity.</p></li>
+<li><p><strong>How to Interpret</strong>:
+*   <strong>Spiking</strong>: Activity is significantly higher than in the past.
+*   <strong>Cooling</strong>: The component is stabilizing; activity is decreasing.
+*   <strong>Stable</strong>: No significant change in activity levels.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quality-risk">
+<h2>Quality &amp; Risk<a class="headerlink" href="#quality-risk" title="Link to this heading"></a></h2>
+<p>These analyses combine multiple metrics to identify structural risks and architectural hotspots.</p>
+<section id="hotspot-analysis-file-module">
+<h3>Hotspot Analysis (File &amp; Module)<a class="headerlink" href="#hotspot-analysis-file-module" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Hotspot Analysis (Zeitfenster) / Module Hotspot Trend</p></li>
+<li><p><strong>What it Measures</strong>: This analysis identifies areas that are likely to cause problems by combining <strong>Churn</strong> (how much it changes) with <strong>Age</strong> (how long it has been changing). It compares two time windows to see if a component is heating up or cooling down.
+*   <strong>Activity Score</strong>: High churn in a short time (current intensity).
+*   <strong>Structural Score</strong>: Consistent churn over a long period (long-term instability).</p></li>
+<li><p><strong>How to Interpret</strong>:
+*   <strong>File Level</strong>: Files with both high Activity and high Structural scores are your most critical hotspots. They are likely sources of long-term technical debt and should be the first candidates for refactoring.
+*   <strong>Module Level</strong>: Aggregates these scores for whole components. It reveals which architectural modules are becoming increasingly unstable over time, helping in higher-level resource allocation.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="structure-logic-complexity">
+<h2>Structure &amp; Logic (Complexity)<a class="headerlink" href="#structure-logic-complexity" title="Link to this heading"></a></h2>
+<p>These metrics focus on how difficult the code is to understand and maintain.</p>
+<section id="complexity">
+<h3>Complexity<a class="headerlink" href="#complexity" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Complexity</p></li>
+<li><p><strong>What it Measures</strong>: A holistic view of complexity, combining:
+*   <strong>Cyclomatic Complexity</strong>: The number of independent paths through the code (branching logic).
+*   <strong>Cognitive Complexity</strong>: How difficult the code is for a human to read and understand.
+*   <strong>Efforts</strong>: An estimated measure of the effort required to maintain the file (based on Halstead metrics).</p></li>
+<li><p><strong>How to Interpret</strong>: High complexity scores, especially when combined with high churn (Hotspots), are the single best predictor of bugs.</p></li>
+</ul>
+</section>
+<section id="complexity-trend">
+<h3>Complexity Trend<a class="headerlink" href="#complexity-trend" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>What it Measures</strong>: Complexity isn’t just a snapshot; Pulseflow tracks how <strong>Cognitive Complexity</strong> changes between two points in time.</p></li>
+<li><p><strong>Calculation</strong>: It compares the complexity at the start and end of your selected timeframe.
+*   A <strong>relative increase</strong> in cognitive complexity suggests that new features are being added in a way that makes the code harder to understand.
+*   A <strong>decrease</strong> usually indicates successful refactoring or simplification.</p></li>
+<li><p><strong>How to Interpret</strong>: In the UI, icons indicate the trend (Rising, Stable, or Falling). A rising complexity trend in a file that already has high churn is a “code red” situation.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="team-knowledge-ownership">
+<h2>Team &amp; Knowledge (Ownership)<a class="headerlink" href="#team-knowledge-ownership" title="Link to this heading"></a></h2>
+<p>Understanding who knows what is critical for maintaining a healthy project and reducing the “bus factor.”</p>
+<section id="code-ownership">
+<h3>Code Ownership<a class="headerlink" href="#code-ownership" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Code Ownership</p></li>
+<li><p><strong>What it Measures</strong>: Identifies the primary contributor to a file or module and the percentage of their contribution.</p></li>
+<li><p><strong>How to Interpret</strong>: High ownership by a single person is efficient but risky. If that person leaves, knowledge is lost.</p></li>
+</ul>
+</section>
+<section id="knowledge-fragmentation">
+<h3>Knowledge Fragmentation<a class="headerlink" href="#knowledge-fragmentation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Knowledge Fragmentation</p></li>
+<li><p><strong>What it Measures</strong>: The number of distinct developers who have modified a component.</p></li>
+<li><p><strong>How to Interpret</strong>: Too many contributors (fragmentation) often leads to a “diffusion of responsibility” and higher communication overhead. It may indicate that a component lacks a clear owner or is a “junk drawer” for unrelated changes.</p></li>
+</ul>
+</section>
+<section id="module-ownership-by-teams">
+<h3>Module Ownership by Teams<a class="headerlink" href="#module-ownership-by-teams" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Module Ownership by Teams</p></li>
+<li><p><strong>What it Measures</strong>: Shows the top modules a specific <strong>Team</strong> is working on, based on the percentage of churn they generated.</p></li>
+<li><p><strong>How to Interpret</strong>: This view is “Team-centric.” It helps managers see if a team is focused on its assigned modules or if its effort is scattered across the system.</p></li>
+</ul>
+</section>
+<section id="top-team-contributors">
+<h3>Top Team Contributors<a class="headerlink" href="#top-team-contributors" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Top Team Contributors</p></li>
+<li><p><strong>What it Measures</strong>: Shows the top 3 contributing teams for each <strong>Module</strong>.</p></li>
+<li><p><strong>How to Interpret</strong>: This view is “Module-centric.” It reveals which teams are actually driving the development of a specific component and identifies cases where a module is being modified by teams that shouldn’t normally be touching it.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="base-metrics">
+<h2>Base Metrics<a class="headerlink" href="#base-metrics" title="Link to this heading"></a></h2>
+<p>Fundamental statistics about the size and structure of your codebase.</p>
+<section id="lines-of-code-loc">
+<h3>Lines of Code (LOC)<a class="headerlink" href="#lines-of-code-loc" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Lines of Code</p></li>
+<li><p><strong>What it Measures</strong>: The physical number of lines (net).</p></li>
+<li><p><strong>How to Interpret</strong>: Useful for identifying “God Objects”—massive files that do too much and should be split up to follow the Single Responsibility Principle.</p></li>
+</ul>
+</section>
+<section id="comment-density">
+<h3>Comment Density<a class="headerlink" href="#comment-density" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>UI Name</strong>: Comment Density</p></li>
+<li><p><strong>What it Measures</strong>: The ratio of comments to code lines.</p></li>
+<li><p><strong>How to Interpret</strong>: Extremely low density might indicate cryptic code; extremely high density might indicate that the code is so complex it requires excessive explanation, or simply contains a lot of “dead” commented-out code.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

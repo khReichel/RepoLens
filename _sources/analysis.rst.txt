@@ -1,0 +1,145 @@
+.. _analysis:
+
+Understanding Pulseflow Analyses
+================================
+
+Pulseflow offers a comprehensive suite of analyses to help you understand the health, evolution, and risks within your codebase. Each analysis provides a unique lens, from identifying high-activity areas to pinpointing technical debt and knowledge bottlenecks.
+
+As a **Lead Developer** or **Software Architect**, you can use these metrics to guide your refactoring efforts, balance team workloads, and mitigate risks before they lead to production issues.
+
+Analysis Scopes
+---------------
+
+Pulseflow allows you to view metrics at different levels of granularity, depending on the questions you are trying to answer:
+
+*   **File Level**: Focuses on individual source code files. Ideal for identifying specific "hotspots" or complex files that need immediate refactoring.
+*   **Module Level**: Aggregates data by logical components or directories. Useful for seeing which parts of the system are growing fastest or where architectural complexity is accumulating.
+*   **Team Level**: Analyzes how different teams contribute to the codebase. Helps in understanding ownership distribution and identifying potential communication overhead or knowledge silos.
+
+---------
+
+Evolution & Pulse (Activity)
+----------------------------
+
+These metrics focus on the "pulse" of your development process—where work is happening and how the codebase is changing over time.
+
+Change Frequency (Commits)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Change Frequency / Module Change Frequency
+*   **What it Measures**: The total number of commits made to a file or module within the selected timeframe.
+*   **How to Interpret**: High commit counts indicate active development. A file with an unusually high number of commits compared to others might be a "god object" or a source of instability that requires frequent fixes.
+
+Change Recency (Activity Recency)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Change Recency
+*   **What it Measures**: The time elapsed since a file (or the latest file in a module) was last modified.
+*   **How to Interpret**:
+    *   **Young files** are recent additions, often indicating new features.
+    *   **Old files** that haven't been touched in a long time are stable (or dead) code.
+    *   **Old files with recent changes** are often core legacy components that are being maintained.
+
+Absolute Churn
+^^^^^^^^^^^^^^
+*   **UI Name**: Absolute Churn
+*   **What it Measures**: The total number of lines added and deleted. Unlike net Lines of Code, churn measures the *volume of activity*.
+*   **How to Interpret**: High churn indicates a file is being heavily reworked. While high churn is normal during initial development, persistent high churn in an established file is a strong warning sign of instability or unclear requirements.
+
+Development Trend (Development Velocity)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Development Trend
+*   **What it Measures**: This compares a "Baseline" period with a "Current" period to show the direction of activity.
+*   **How to Interpret**:
+    *   **Spiking**: Activity is significantly higher than in the past.
+    *   **Cooling**: The component is stabilizing; activity is decreasing.
+    *   **Stable**: No significant change in activity levels.
+
+---------
+
+Quality & Risk
+--------------
+
+These analyses combine multiple metrics to identify structural risks and architectural hotspots.
+
+Hotspot Analysis (File & Module)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Hotspot Analysis (Zeitfenster) / Module Hotspot Trend
+*   **What it Measures**: This analysis identifies areas that are likely to cause problems by combining **Churn** (how much it changes) with **Age** (how long it has been changing). It compares two time windows to see if a component is heating up or cooling down.
+    *   **Activity Score**: High churn in a short time (current intensity).
+    *   **Structural Score**: Consistent churn over a long period (long-term instability).
+*   **How to Interpret**: 
+    *   **File Level**: Files with both high Activity and high Structural scores are your most critical hotspots. They are likely sources of long-term technical debt and should be the first candidates for refactoring.
+    *   **Module Level**: Aggregates these scores for whole components. It reveals which architectural modules are becoming increasingly unstable over time, helping in higher-level resource allocation.
+
+---------
+
+Structure & Logic (Complexity)
+------------------------------
+
+These metrics focus on how difficult the code is to understand and maintain.
+
+Complexity
+^^^^^^^^^^
+*   **UI Name**: Complexity
+*   **What it Measures**: A holistic view of complexity, combining:
+    *   **Cyclomatic Complexity**: The number of independent paths through the code (branching logic).
+    *   **Cognitive Complexity**: How difficult the code is for a human to read and understand.
+    *   **Efforts**: An estimated measure of the effort required to maintain the file (based on Halstead metrics).
+*   **How to Interpret**: High complexity scores, especially when combined with high churn (Hotspots), are the single best predictor of bugs.
+
+Complexity Trend
+^^^^^^^^^^^^^^^^
+*   **What it Measures**: Complexity isn't just a snapshot; Pulseflow tracks how **Cognitive Complexity** changes between two points in time.
+*   **Calculation**: It compares the complexity at the start and end of your selected timeframe.
+    *   A **relative increase** in cognitive complexity suggests that new features are being added in a way that makes the code harder to understand.
+    *   A **decrease** usually indicates successful refactoring or simplification.
+*   **How to Interpret**: In the UI, icons indicate the trend (Rising, Stable, or Falling). A rising complexity trend in a file that already has high churn is a "code red" situation.
+
+---------
+
+Team & Knowledge (Ownership)
+----------------------------
+
+Understanding who knows what is critical for maintaining a healthy project and reducing the "bus factor."
+
+Code Ownership
+^^^^^^^^^^^^^^
+*   **UI Name**: Code Ownership
+*   **What it Measures**: Identifies the primary contributor to a file or module and the percentage of their contribution.
+*   **How to Interpret**: High ownership by a single person is efficient but risky. If that person leaves, knowledge is lost.
+
+Knowledge Fragmentation
+^^^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Knowledge Fragmentation
+*   **What it Measures**: The number of distinct developers who have modified a component.
+*   **How to Interpret**: Too many contributors (fragmentation) often leads to a "diffusion of responsibility" and higher communication overhead. It may indicate that a component lacks a clear owner or is a "junk drawer" for unrelated changes.
+
+Module Ownership by Teams
+^^^^^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Module Ownership by Teams
+*   **What it Measures**: Shows the top modules a specific **Team** is working on, based on the percentage of churn they generated.
+*   **How to Interpret**: This view is "Team-centric." It helps managers see if a team is focused on its assigned modules or if its effort is scattered across the system.
+
+Top Team Contributors
+^^^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Top Team Contributors
+*   **What it Measures**: Shows the top 3 contributing teams for each **Module**.
+*   **How to Interpret**: This view is "Module-centric." It reveals which teams are actually driving the development of a specific component and identifies cases where a module is being modified by teams that shouldn't normally be touching it.
+
+---------
+
+Base Metrics
+------------
+
+Fundamental statistics about the size and structure of your codebase.
+
+Lines of Code (LOC)
+^^^^^^^^^^^^^^^^^^^
+*   **UI Name**: Lines of Code
+*   **What it Measures**: The physical number of lines (net).
+*   **How to Interpret**: Useful for identifying "God Objects"—massive files that do too much and should be split up to follow the Single Responsibility Principle.
+
+Comment Density
+^^^^^^^^^^^^^^^
+*   **UI Name**: Comment Density
+*   **What it Measures**: The ratio of comments to code lines.
+*   **How to Interpret**: Extremely low density might indicate cryptic code; extremely high density might indicate that the code is so complex it requires excessive explanation, or simply contains a lot of "dead" commented-out code.

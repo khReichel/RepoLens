@@ -1,0 +1,82 @@
+.. _manage_script:
+
+Management Script Usage
+=======================
+
+The ``manage.sh`` script is a utility for controlling the lifecycle of the Pulseflow Docker containers. It provides simple commands for common operations like starting, stopping, and updating the application.
+
+Usage
+-----
+
+To use the script, run it from the root of the project with one of the available commands.
+
+.. code-block:: bash
+
+   ./manage.sh [command]
+
+Available Commands
+------------------
+
+Here is a list of the commands supported by the ``manage.sh`` script:
+
+**up**
+   Builds the Docker images and starts all services in detached mode.
+
+   .. code-block:: bash
+
+      ./manage.sh up
+
+**down**
+   Stops and removes all running containers, networks, and volumes defined in the ``docker-compose.yml`` file.
+
+   .. code-block:: bash
+
+      ./manage.sh down
+
+**import <path>**
+   Runs the full data import process for a local repository. This command takes the path to the repository on your host machine, mounts it into the container, and runs both the configuration and analysis import steps.
+
+   .. code-block:: bash
+
+      ./manage.sh import /path/to/your/local/repo
+
+**replace <source_dir> <new_basename> <old_basename>**
+   Safely replaces the analysis and configuration database files. This command is designed for scenarios where you are migrating from one set of database files to another, potentially with a different naming convention.
+
+   .. code-block:: bash
+
+      ./manage.sh replace /path/to/new_db_dir new_pulseflow old_pulseflow
+
+   *   **<source_dir>**: The directory containing the new database files (e.g., ``new_pulseflow.duckdb`` and ``new_pulseflow_config.duckdb``).
+   *   **<new_basename>**: The base name of the new database files.
+   *   **<old_basename>**: The base name of the existing database files that will be replaced.
+
+   The script performs a transactional replacement by backing up the old files before copying the new ones. It also includes error handling to attempt a rollback if something goes wrong.
+
+**update**
+   Rebuilds the Docker images and restarts all services. This is useful when you have made changes to the source code.
+
+   .. code-block:: bash
+
+      ./manage.sh update
+
+**logs**
+   Streams the logs from all running containers into a file in the ``./logs`` directory. The command runs in the background.
+
+   .. code-block:: bash
+
+      ./manage.sh logs
+
+**pull-latest**
+   Pulls the latest Docker images from the GitLab registry and restarts the services. This is useful for updating to the latest pre-built version.
+
+   .. code-block:: bash
+
+      ./manage.sh pull-latest
+
+**debug-path**
+   A debugging utility that prints the Python search path (``sys.path``) and lists the contents of the ``/app/src`` directory inside the ``importer`` container. This is useful for diagnosing module import errors.
+
+   .. code-bash
+
+      ./manage.sh debug-path

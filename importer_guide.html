@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Import Guide &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dashboard User Guide" href="usage.html" />
+    <link rel="prev" title="Management Script Usage" href="manage_script.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Import Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#method-1-using-docker-recommended">Method 1: Using Docker (Recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#method-2-direct-script-execution">Method 2: Direct Script Execution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-sync">1. Configuration Sync</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-import">2. Analysis Import</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Pulseflow Analyses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Data Import Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/importer_guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="data-import-guide">
+<span id="importer-guide"></span><h1>Data Import Guide<a class="headerlink" href="#data-import-guide" title="Link to this heading"></a></h1>
+<p>This guide explains how to import data into Pulseflow. The import process is responsible for two key tasks:</p>
+<ol class="arabic simple">
+<li><p><strong>Configuration Sync</strong>: Loading your project settings, component definitions, and team structures from <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code> into the configuration database.</p></li>
+<li><p><strong>Analysis Import</strong>: Scanning your Git repository, calculating metrics (like complexity and churn), and populating the analysis database.</p></li>
+</ol>
+<p>There are two ways to run the importer, depending on your environment.</p>
+<section id="method-1-using-docker-recommended">
+<h2>Method 1: Using Docker (Recommended)<a class="headerlink" href="#method-1-using-docker-recommended" title="Link to this heading"></a></h2>
+<p>If you are running Pulseflow via Docker, the easiest way to import data is using the <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code> script. This handles all the container mounting and environment setup for you.</p>
+<p><strong>Command:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import<span class="w"> </span>/absolute/path/to/your/repository
+</pre></div>
+</div>
+<p><strong>What it does:</strong></p>
+<ul class="simple">
+<li><p>Mounts your local repository into the Docker container (mapped to <code class="docutils literal notranslate"><span class="pre">/repo</span></code>).</p></li>
+<li><p>Runs the configuration sync.</p></li>
+<li><p>Runs the full analysis import.</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Instead of passing the absolute path every time, you can create a symlink named <code class="docutils literal notranslate"><span class="pre">repo</span></code> in the Pulseflow root directory pointing to your target repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span>/path/to/target/repo<span class="w"> </span>./repo
+</pre></div>
+</div>
+<p>If you do this, the <code class="docutils literal notranslate"><span class="pre">importer</span></code> container will use this symlink by default if no path is provided to the script (though <code class="docutils literal notranslate"><span class="pre">manage.sh</span> <span class="pre">import</span></code> still expects an argument for clarity). This is also helpful when running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">run</span></code> directly.</p>
+</div>
+<p><strong>Prerequisites:</strong></p>
+<ul class="simple">
+<li><p>Docker must be running.</p></li>
+<li><p>You must have a valid <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code> in your project root.</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">project.repo_path</span></code> must be set to <code class="docutils literal notranslate"><span class="pre">/repo</span></code> (the path inside the container).</p></li>
+</ul>
+</section>
+<section id="method-2-direct-script-execution">
+<h2>Method 2: Direct Script Execution<a class="headerlink" href="#method-2-direct-script-execution" title="Link to this heading"></a></h2>
+<p>If you are developing locally or running Pulseflow without Docker, you can use the helper scripts provided in the <code class="docutils literal notranslate"><span class="pre">scripts/</span></code> directory.</p>
+<section id="configuration-sync">
+<h3>1. Configuration Sync<a class="headerlink" href="#configuration-sync" title="Link to this heading"></a></h3>
+<p>To sync your <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code> with the configuration database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/import_config.sh<span class="w"> </span><span class="o">[</span>dev<span class="p">|</span>prod<span class="o">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>dev</strong>: (Default) Uses <code class="docutils literal notranslate"><span class="pre">pulseflow_config_dev.yaml</span></code>.</p></li>
+<li><p><strong>prod</strong>: Uses <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code>.</p></li>
+</ul>
+</section>
+<section id="analysis-import">
+<h3>2. Analysis Import<a class="headerlink" href="#analysis-import" title="Link to this heading"></a></h3>
+<p>To scan your repository and populate the analysis database:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./scripts/import_analysis.sh<span class="w"> </span><span class="o">[</span>dev<span class="p">|</span>prod<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>What these scripts do:</strong></p>
+<ul class="simple">
+<li><p>They validate your Python environment and dependencies.</p></li>
+<li><p>They execute the Python importer module directly on your host machine.</p></li>
+<li><p>They use the settings defined in your local configuration files.</p></li>
+</ul>
+<p><strong>Prerequisites:</strong></p>
+<ul class="simple">
+<li><p><strong>Python Environment</strong>: You must have the project’s virtual environment active (<code class="docutils literal notranslate"><span class="pre">.venv</span></code>).</p></li>
+<li><p><strong>Dependencies</strong>: All Python dependencies must be installed (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>).</p></li>
+<li><p><strong>Rust Code Analysis</strong>: The <code class="docutils literal notranslate"><span class="pre">rust-code-analysis-cli</span></code> tool must be installed and available in your system PATH, as the importer relies on it for complexity metrics.</p></li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<p>Ensure your <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code> points to the correct local paths for:
+*   <code class="docutils literal notranslate"><span class="pre">repo_path</span></code>: The path to the Git repository you want to analyze.
+*   <code class="docutils literal notranslate"><span class="pre">db_path</span></code>: The directory where the DuckDB database files should be created.</p>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>“rust-code-analysis-cli not found”</strong>: If running locally, ensure you have installed the tool (usually via <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">install</span> <span class="pre">rust-code-analysis-cli</span></code>).</p></li>
+<li><p><strong>Database Locks</strong>: Ensure no other process (like the API server or DBeaver) has the DuckDB files open in write mode during the import.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="manage_script.html" class="btn btn-neutral float-left" title="Management Script Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Dashboard User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

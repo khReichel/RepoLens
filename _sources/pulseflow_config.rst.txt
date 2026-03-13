@@ -1,0 +1,144 @@
+.. _pulseflow_config:
+
+Pulseflow Configuration File
+============================
+
+The ``pulseflow_config.yaml`` file is the central place to configure the analysis performed by Pulseflow. It defines the project settings, what to include and exclude from the analysis, and how to map users to teams.
+
+This document describes the structure and purpose of each section in the configuration file.
+
+Project Section
+---------------
+
+The ``project`` section contains general settings for the project and the analysis.
+
+.. code-block:: yaml
+
+   project:
+     name: "mongodb"
+     db_path: "./data_tmp"
+     db_basename: "pulseflow"
+     repo_path: "/home/user/projects/mongo"
+     branch: "master"
+     analysis_since: "2025-01-01"
+
+*   **name**: A string representing the name of the project.
+*   **db_path**: The file system path where the database files will be stored.
+*   **db_basename**: The base name for the generated database files (e.g., ``pulseflow.duckdb``).
+*   **repo_path**: The absolute or relative path to the Git repository that you want to analyze.
+*   **branch**: The specific branch of the repository to be analyzed.
+*   **analysis_since**: The start date for the analysis in ``YYYY-MM-DD`` format. Commits older than this date will be ignored.
+
+Analysis Section
+----------------
+
+The ``analysis`` section defines the scope of the code analysis, including which parts of the codebase to analyze and which to ignore.
+
+.. code-block:: yaml
+
+   analysis:
+     components:
+       - component_name: "client"
+         path_prefix: "src/mongo/client/"
+         display_name: "Client"
+       # ... other components
+
+     excluded_prefixes:
+       - "bazel/"
+       - "buildfarm/"
+       # ... other prefixes
+
+     excluded_extensions:
+       - ".json"
+       - ".md"
+       # ... other extensions
+
+*   **components**: A list of objects, each representing a logical component of the software.
+
+    *   **component_name**: A unique identifier for the component.
+    *   **path_prefix**: The directory path that uniquely identifies the files belonging to this component.
+    *   **display_name**: A user-friendly name for the component that will be used in the UI.
+
+*   **excluded_prefixes**: A list of directory paths to be excluded from the analysis. Any file or directory starting with one of these prefixes will be ignored.
+
+*   **excluded_extensions**: A list of file extensions to be excluded from the analysis. Files with these extensions will be ignored.
+
+Users and Teams
+---------------
+
+This part of the configuration allows you to define users and group them into teams. This is useful for attributing code changes and for team-level analysis.
+
+.. code-block:: yaml
+
+   users:
+     - name: "jsteemann"
+       aliases:
+         - "jsteemann"
+     # ... other users
+
+   teams:
+     - name : "TeamF"
+       members:
+         - "jsteemann"
+         - "allisoneaston"
+     # ... other teams
+
+*   **users**: A list of user objects.
+
+    *   **name**: The canonical name of the user.
+    *   **aliases**: A list of aliases (e.g., different usernames for different systems) that should be mapped to this user.
+
+*   **teams**: A list of team objects.
+
+    *   **name**: The name of the team.
+    *   **members**: A list of user names (as defined in the ``users`` section) that belong to this team. This creates implicit team memberships that are valid from the ``analysis_since`` date onwards with no end date.
+
+Team Memberships
+----------------
+
+The ``team_memberships`` section provides a way to track temporal membership of users in teams. This is useful for historical analysis, understanding how team composition changed over time, and correlating team changes with code metrics.
+
+.. code-block:: yaml
+
+   team_memberships:
+     columns:
+       - developer
+       - team
+       - valid_from
+       - valid_to
+
+     format:
+       valid_from: "YYYY-MM-DD or ISO8601 datetime (e.g. 2024-01-01 or 2024-01-01T00:00:00Z)"
+       valid_to: "nullable; same format as valid_from; omit or set to null for active membership"
+
+     entries:
+       - developer: "jsteemann"
+         team: "TeamF"
+         valid_from: "2024-01-01"
+         valid_to: null
+
+       - developer: "allisoneaston"
+         team: "TeamF"
+         valid_from: "2023-06-01"
+         valid_to: "2024-12-31"
+
+*   **team_memberships**: Configuration for tracking when users belonged to teams.
+
+    *   **columns**: Informational field documenting the expected data structure. Not used during import but helpful for understanding the schema.
+
+    *   **format**: Format specifications and notes for the date fields used in memberships.
+
+        *   **valid_from**: The start date of the membership. Must be a valid date in ``YYYY-MM-DD`` format or ISO 8601 datetime format.
+        *   **valid_to**: The end date of the membership. Optional; can be omitted or set to ``null`` to indicate an ongoing membership (i.e., the user is currently a member). Must use the same format as ``valid_from``.
+
+    *   **entries**: A list of membership records, each specifying a time-bounded relationship between a developer and a team.
+
+        *   **developer**: The name or alias of the user (as defined in the ``users`` section). Aliases are automatically resolved to the corresponding user.
+        *   **team**: The name of the team (as defined in the ``teams`` section). If a team in a membership entry does not exist in the ``teams`` section, it will be created automatically.
+        *   **valid_from**: The date when the user joined the team.
+        *   **valid_to**: The date when the user left the team. Set to ``null`` or omit to indicate ongoing membership.
+
+
+**Important**: The relationship between users and teams is defined exclusively through the ``team_memberships`` table. The ``teams`` table contains only the team identifiers and names. To query which users belong to a team, always join ``teams`` with ``team_memberships`` on the ``team_id`` field.
+
+

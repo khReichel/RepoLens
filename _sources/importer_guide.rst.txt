@@ -1,0 +1,93 @@
+.. _importer_guide:
+
+Data Import Guide
+=================
+
+This guide explains how to import data into Pulseflow. The import process is responsible for two key tasks:
+
+1.  **Configuration Sync**: Loading your project settings, component definitions, and team structures from ``pulseflow_config.yaml`` into the configuration database.
+2.  **Analysis Import**: Scanning your Git repository, calculating metrics (like complexity and churn), and populating the analysis database.
+
+There are two ways to run the importer, depending on your environment.
+
+Method 1: Using Docker (Recommended)
+------------------------------------
+
+If you are running Pulseflow via Docker, the easiest way to import data is using the ``manage.sh`` script. This handles all the container mounting and environment setup for you.
+
+**Command:**
+
+.. code-block:: bash
+
+   ./manage.sh import /absolute/path/to/your/repository
+
+**What it does:**
+
+*   Mounts your local repository into the Docker container (mapped to ``/repo``).
+*   Runs the configuration sync.
+*   Runs the full analysis import.
+
+.. tip::
+   Instead of passing the absolute path every time, you can create a symlink named ``repo`` in the Pulseflow root directory pointing to your target repository:
+   
+   .. code-block:: bash
+   
+      ln -s /path/to/target/repo ./repo
+
+   If you do this, the ``importer`` container will use this symlink by default if no path is provided to the script (though ``manage.sh import`` still expects an argument for clarity). This is also helpful when running ``docker compose run`` directly.
+
+**Prerequisites:**
+
+*   Docker must be running.
+*   You must have a valid ``pulseflow_config.yaml`` in your project root.
+*   In ``pulseflow_config.yaml``, ``project.repo_path`` must be set to ``/repo`` (the path inside the container).
+
+Method 2: Direct Script Execution
+---------------------------------
+
+If you are developing locally or running Pulseflow without Docker, you can use the helper scripts provided in the ``scripts/`` directory.
+
+1. Configuration Sync
+~~~~~~~~~~~~~~~~~~~~~
+
+To sync your ``pulseflow_config.yaml`` with the configuration database:
+
+.. code-block:: bash
+
+   ./scripts/import_config.sh [dev|prod]
+
+*   **dev**: (Default) Uses ``pulseflow_config_dev.yaml``.
+*   **prod**: Uses ``pulseflow_config.yaml``.
+
+2. Analysis Import
+~~~~~~~~~~~~~~~~~~
+
+To scan your repository and populate the analysis database:
+
+.. code-block:: bash
+
+   ./scripts/import_analysis.sh [dev|prod]
+
+**What these scripts do:**
+
+*   They validate your Python environment and dependencies.
+*   They execute the Python importer module directly on your host machine.
+*   They use the settings defined in your local configuration files.
+
+**Prerequisites:**
+
+*   **Python Environment**: You must have the project's virtual environment active (``.venv``).
+*   **Dependencies**: All Python dependencies must be installed (``pip install -r requirements.txt``).
+*   **Rust Code Analysis**: The ``rust-code-analysis-cli`` tool must be installed and available in your system PATH, as the importer relies on it for complexity metrics.
+
+**Configuration:**
+
+Ensure your ``pulseflow_config.yaml`` points to the correct local paths for:
+*   ``repo_path``: The path to the Git repository you want to analyze.
+*   ``db_path``: The directory where the DuckDB database files should be created.
+
+Troubleshooting
+---------------
+
+*   **"rust-code-analysis-cli not found"**: If running locally, ensure you have installed the tool (usually via ``cargo install rust-code-analysis-cli``).
+*   **Database Locks**: Ensure no other process (like the API server or DBeaver) has the DuckDB files open in write mode during the import.

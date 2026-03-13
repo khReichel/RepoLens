@@ -1,0 +1,490 @@
+API Reference
+=============
+
+This guide is intended for developers who wish to build their own frontend applications or integrations on top of the Pulseflow API.
+
+The API is built with **FastAPI** and follows RESTful principles. All responses are JSON-formatted.
+
+.. note::
+   The Base URL for all endpoints is ``/api/v1``.
+
+Common Concepts
+---------------
+
+Request Format
+~~~~~~~~~~~~~~
+Most analysis endpoints accept ``POST`` requests to allow for complex filtering parameters in the body.
+Dates should be provided in ISO 8601 format (e.g., ``2023-01-01T00:00:00``).
+
+**Standard Filter Parameters:**
+
+*   ``start_date`` (or ``from_``): The beginning of the analysis time window.
+*   ``end_date`` (or ``to``): The end of the analysis time window.
+*   ``module_name`` (or ``module``): Optional. Filter results to a specific architectural component/module.
+
+Response Format
+~~~~~~~~~~~~~~~
+List-based responses follow a consistent structure wrapping the results in an ``items`` array:
+
+.. code-block:: json
+
+   {
+     "items": [
+       { ... },
+       { ... }
+     ]
+   }
+
+--------------------------------------------------------------------------------
+
+Lines of Code (LOC)
+-------------------
+
+Endpoints for analyzing the size of the codebase.
+
+Get LOC per File
+~~~~~~~~~~~~~~~~
+Returns the Lines of Code count for each file, based on the latest commit within the selected timeframe.
+
+*   **URL:** ``/analysis/loc/files``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "module_name": "optional_module_name"
+   }
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "name": "src/main.py",
+         "loc": 150
+       }
+     ]
+   }
+
+Get LOC per Module
+~~~~~~~~~~~~~~~~~~
+Returns the aggregated Lines of Code for each defined module.
+
+*   **URL:** ``/analysis/loc/modules``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Get LOC per File*.
+
+Get Total LOC
+~~~~~~~~~~~~~
+Returns the grand total Lines of Code for the entire project (or filtered selection).
+
+*   **URL:** ``/analysis/loc/total``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Get LOC per File*.
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "name": "Total",
+         "loc": 15420
+       }
+     ]
+   }
+
+--------------------------------------------------------------------------------
+
+Evolution & Pulse
+-----------------
+
+Endpoints for analyzing how the codebase changes over time.
+
+Change Frequency (Files)
+~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves commit activity for files, including commit counts, author metrics, and last modification details.
+
+*   **URL:** ``/analyze/commits``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "module_name": "optional_module_name"
+   }
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "file_path": "src/core/analysis.py",
+         "commit_count": 42,
+         "last_modified": "2023-12-01T10:00:00",
+         "main_contributor": "John Doe",
+         "author_count": 3,
+         "last_commit_message": "Refactor analysis engine"
+       }
+     ]
+   }
+
+Change Frequency (Modules)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Retrieves commit activity aggregated by module.
+
+*   **URL:** ``/analyze/modules/commits``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Change Frequency (Files)*.
+
+Change Recency (Files)
+~~~~~~~~~~~~~~~~~~~~~~
+Returns the age of files (time since first and last commit).
+
+*   **URL:** ``/analyze/age``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "from_": "2023-01-01T00:00:00",
+     "to": "2023-12-31T23:59:59",
+     "module": "optional_module_name",
+     "nbr_items": 50
+   }
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "file_path": "src/utils.py",
+         "first_commit": "2021-01-01T12:00:00",
+         "last_commit": "2023-11-15T09:30:00",
+         "age_days": 1048,
+         "revisions": 15
+       }
+     ]
+   }
+
+Change Recency (Modules)
+~~~~~~~~~~~~~~~~~~~~~~~~
+Returns the age aggregated by module.
+
+*   **URL:** ``/analyze/modules/age``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Change Recency (Files)*.
+
+Absolute Churn
+~~~~~~~~~~~~~~
+Returns the absolute churn (added + deleted lines) per file.
+
+*   **URL:** ``/analyze/abs_churn``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "from_": "2023-01-01T00:00:00",
+     "to": "2023-12-31T23:59:59",
+     "module": "optional_module_name",
+     "nbr_items": 100
+   }
+
+Development Trend
+~~~~~~~~~~~~~~~~~
+Analyzes the evolution of hotspots by comparing a baseline time window with a current time window.
+
+*   **URL:** ``/analyze/hotspot_trends``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "baseline": {
+       "from_": "2023-01-01T00:00:00",
+       "to": "2023-06-30T23:59:59"
+     },
+     "current": {
+       "from_": "2023-07-01T00:00:00",
+       "to": "2023-12-31T23:59:59"
+     },
+     "module": "optional_module_name"
+   }
+
+File Trend History
+~~~~~~~~~~~~~~~~~~
+Returns the historical development of metrics for a specific file.
+
+*   **URL:** ``/analyze/file_trend``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "file_path": "src/core/service.py",
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "bucket_days": 14
+   }
+
+--------------------------------------------------------------------------------
+
+Quality & Risk
+--------------
+
+Hotspot Analysis (Age & Churn)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Identifies "Hotspots" based on the intersection of high churn and file age.
+
+*   **URL:** ``/analyze/hotspots/churnage``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "from": "2023-01-01T00:00:00",
+     "to": "2023-12-31T23:59:59",
+     "module": "optional_module_name",
+     "nbr_items": 50
+   }
+
+Hotspot Analysis (Complexity & Churn)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Identifies hotspots by combining cognitive complexity with churn metrics.
+
+*   **URL:** ``/analyze/hotspots/complexity``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "component_name": "optional_module_name"
+   }
+
+**Response:**
+
+.. code-block:: json
+
+   [
+     {
+       "file_path": "src/complex_logic.py",
+       "complexity": 150,
+       "churn": 2500,
+       "hotspot_score": 0.85
+     }
+   ]
+
+--------------------------------------------------------------------------------
+
+Structure & Logic
+-----------------
+
+Combined Complexity (Files)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Returns complexity metrics (Cyclomatic, Cognitive, Efforts) combined with a trend indicator.
+
+*   **URL:** ``/analysis/complexity/combined``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "module_name": "optional_module_name"
+   }
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "file_path": "src/main.py",
+         "cognitive": 12,
+         "cyclomatic": 8,
+         "loc": 150,
+         "efforts": 450.5,
+         "trend_indicator": 2.0
+       }
+     ]
+   }
+
+Combined Complexity (Modules)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Returns aggregated complexity metrics for modules.
+
+*   **URL:** ``/analysis/complexity/modules``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Combined Complexity (Files)*.
+
+Complexity Trend History
+~~~~~~~~~~~~~~~~~~~~~~~~
+Returns the historical complexity trend for a specific file or module.
+
+*   **URL:** ``/analyze/trends/complexity``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "file_path": "src/core/service.py",
+     "module_name": null,
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59"
+   }
+
+--------------------------------------------------------------------------------
+
+Team & Knowledge
+----------------
+
+Code Ownership (Files)
+~~~~~~~~~~~~~~~~~~~~~~
+Returns the number of distinct authors per file and identifies the main contributor.
+
+*   **URL:** ``/analysis/contributors/files``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "module_name": "optional_module_name"
+   }
+
+Code Ownership (Modules)
+~~~~~~~~~~~~~~~~~~~~~~~~
+Returns ownership statistics aggregated by module.
+
+*   **URL:** ``/analysis/contributors/modules``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Code Ownership (Files)*.
+
+Module Ownership by Teams
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Shows how much of each module is owned by different teams (Team-centric view).
+
+*   **URL:** ``/analysis/alignment/modules``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date": "2023-01-01T00:00:00",
+     "end_date": "2023-12-31T23:59:59",
+     "component_name": "optional_module_name"
+   }
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "team_name": "Frontend Team",
+         "module_name_1": "UI Components",
+         "ratio_1": 0.85,
+         "module_name_2": "Icons",
+         "ratio_2": 0.10,
+         "module_name_3": "Tests",
+         "ratio_3": 0.05,
+         "health_status": "healthy"
+       }
+     ]
+   }
+
+Top Team Contributors
+~~~~~~~~~~~~~~~~~~~~~
+Shows the top 3 contributing teams for each module (Module-centric view).
+
+*   **URL:** ``/analysis/alignment/teams``
+*   **Method:** ``POST``
+*   **Request Body:** Same as *Module Ownership by Teams*.
+
+--------------------------------------------------------------------------------
+
+Configuration
+-------------
+
+Get Modules
+~~~~~~~~~~~
+Returns a list of all configured modules/components.
+
+*   **URL:** ``/config/modules``
+*   **Method:** ``GET``
+
+Get Analysis Start Date
+~~~~~~~~~~~~~~~~~~~~~~~
+Returns the configured start date for the current analysis session.
+
+*   **URL:** ``/config/analysis-since``
+*   **Method:** ``GET``
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "analysis_since": "2020-01-01T00:00:00"
+   }
+
+--------------------------------------------------------------------------------
+
+Application Info
+----------------
+
+Health Check
+~~~~~~~~~~~~
+Returns the current health status of the API and database.
+
+*   **URL:** ``/api/health``
+*   **Method:** ``GET``
+
+API Info
+~~~~~~~~
+Returns metadata about the currently running analysis session.
+
+*   **URL:** ``/info``
+*   **Method:** ``GET``

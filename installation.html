@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deployment and Installation Guide &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pulseflow Configuration File" href="pulseflow_config.html" />
+    <link rel="prev" title="Welcome to Pulseflow’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment and Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#option-1-installation-from-source-gitlab">Option 1: Installation from Source (GitLab)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#option-2-running-from-docker-registry">Option 2: Running from Docker Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-the-application">Accessing the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maintenance-database-updates">Maintenance &amp; Database Updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pulseflow_config.html">Pulseflow Configuration File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manage_script.html">Management Script Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Pulseflow Analyses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Deployment and Installation Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deployment-and-installation-guide">
+<span id="deployment-guide"></span><h1>Deployment and Installation Guide<a class="headerlink" href="#deployment-and-installation-guide" title="Link to this heading"></a></h1>
+<p>This guide provides instructions on how to set up and run the Pulseflow application using Docker.
+Pulseflow is composed of three main services:</p>
+<ul class="simple">
+<li><p>a <strong>React.js</strong> frontend</p></li>
+<li><p>a Python <strong>FastAPI</strong> backend and</p></li>
+<li><p>an <strong>Nginx</strong> gateway.</p></li>
+</ul>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
+<p>Before starting, ensure you have the following installed on your system:</p>
+<ul class="simple">
+<li><p><strong>Docker</strong> (version 20.10 or higher)</p></li>
+<li><p><strong>Docker Compose</strong> (version 2.0 or higher)</p></li>
+<li><p><strong>Git</strong> (if installing from source)</p></li>
+</ul>
+</section>
+<section id="option-1-installation-from-source-gitlab">
+<h2>Option 1: Installation from Source (GitLab)<a class="headerlink" href="#option-1-installation-from-source-gitlab" title="Link to this heading"></a></h2>
+<p>Use this method if you want to run the latest development version or modify the source code.</p>
+<ol class="arabic">
+<li><p><strong>Clone the Repository</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.com/khrl01/pulseflow.git
+<span class="nb">cd</span><span class="w"> </span>pulseflow
+</pre></div>
+</div>
+</li>
+<li><p><strong>Prepare Environment</strong></p>
+<p>Ensure your database files are placed in the <code class="docutils literal notranslate"><span class="pre">data/</span></code> directory</p>
+<ul class="simple">
+<li><p>pulseflow.duckdb - analysis data</p></li>
+<li><p>pulseflow_config.duckdb - configuration data</p></li>
+</ul>
+<p>You can find empty database files in folder <code class="docutils literal notranslate"><span class="pre">examples</span></code>.</p>
+</li>
+<li><p><strong>Import Configuration</strong></p>
+<p>To populate the configuration database with users, teams, and components, run the database importer.
+This script reads your configuration file and loads the metadata into the configuration database.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.import_export.importer.main<span class="w"> </span>config<span class="w"> </span>--config-file<span class="w"> </span>/path/to/your/config.yml
+</pre></div>
+</div>
+</li>
+<li><p><strong>Load Analysis Data</strong></p>
+<p>Next, run the importer again with the <code class="docutils literal notranslate"><span class="pre">analysis</span></code> flag to analyze the repository and populate the analysis database.
+This process may take some time depending on the size of the repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>src.import_export.importer.main<span class="w"> </span>analysis<span class="w"> </span>--config-file<span class="w"> </span>/path/to/your/config.yml
+</pre></div>
+</div>
+</li>
+<li><p><strong>Build and Launch</strong></p>
+<p>Run the management script to build the images locally and start the services:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>manage.sh
+./manage.sh<span class="w"> </span>up
+</pre></div>
+</div>
+<p><em>This will build the Python and Node images, set up the Nginx gateway, and start all containers in detached mode.</em></p>
+</li>
+</ol>
+</section>
+<section id="option-2-running-from-docker-registry">
+<h2>Option 2: Running from Docker Registry<a class="headerlink" href="#option-2-running-from-docker-registry" title="Link to this heading"></a></h2>
+<p>Use this method if you want to retrievwe a specific version without handling the source code.</p>
+<ol class="arabic">
+<li><p><strong>Create a Deployment Folder</strong></p>
+<p>You only need the <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> files.</p>
+</li>
+<li><p><strong>Login Docker Registry</strong></p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>login<span class="w"> </span>registry.gitlab.com<span class="w"> </span>-u<span class="w"> </span>&lt;token-username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;token-passwort&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic" start="2">
+<li><p><strong>Pull Images</strong></p>
+<p>If you have no docker-compose file, you can use this template</p>
+<blockquote>
+<div><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">gateway</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx:alpine</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;80:80&quot;</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./nginx.conf:/etc/nginx/nginx.conf:ro</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backend</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ui</span>
+
+<span class="w">  </span><span class="nt">backend</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.gitlab.com/[dein-benutzer]/[projekt]/backend:latest</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./data:/app/dataF</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./exports:/app/export</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH=/app/src</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python -m api.run --analysis-db /app/data/pulseflow.duckdb --config-db /app/data/pulseflow_config.duckdb</span>
+<span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"> </span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;curl&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:8000/api/health&quot;</span><span class="w"> </span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
+<span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10s</span>
+
+<span class="w">  </span><span class="nt">ui</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry.gitlab.com/[dein-benutzer]/[projekt]/ui:latest</span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>and the configuration of nginx.conf</p>
+</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     events {
+     worker_connections 1024;
+     }
+
+     http {
+         include       /etc/nginx/mime.types;
+         default_type  application/octet-stream;
+
+         server {
+             listen 80;
+
+             # 1. Route API requests
+             # This matches anything starting with /api/
+             location /api/ {
+                 # IMPORTANT: If there is a / at the end, “/api/” will be removed.
+                 # So “/api/v1/analyze” becomes “http://backend:8000/v1/analyze”.
+                 proxy_pass http://backend:8000/;
+
+                 proxy_set_header Host $host;
+                 proxy_set_header X-Real-IP $remote_addr;
+                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+             }
+
+             # 2. Route UI requests
+             # Everything else goes to the UI container
+             location / {
+                 proxy_pass http://ui:80;
+                 proxy_set_header Host $host;
+                 proxy_cache_bypass $http_upgrade;
+             }
+         }
+     }
+
+
+
+Update your ``docker-compose.yml`` to point to the registry images (e.g., ``registry.gitlab.com/khrl01/pulseflow/backend:latest``), then run:
+
+.. code-block:: bash
+
+   docker compose pull
+   docker compose up -d
+</pre></div>
+</div>
+</section>
+<section id="accessing-the-application">
+<h2>Accessing the Application<a class="headerlink" href="#accessing-the-application" title="Link to this heading"></a></h2>
+<p>Once the containers are running, the application is accessible via your web browser:</p>
+<ul class="simple">
+<li><p><strong>Frontend UI:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost</span></code> (Port 80)</p></li>
+<li><p><strong>API Documentation:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost/api/docs</span></code> (Swagger UI)</p></li>
+<li><p><strong>Health Check:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost/api/health</span></code></p></li>
+</ul>
+</section>
+<section id="maintenance-database-updates">
+<h2>Maintenance &amp; Database Updates<a class="headerlink" href="#maintenance-database-updates" title="Link to this heading"></a></h2>
+<p>To update the analysis database safely without data corruption:</p>
+<ol class="arabic">
+<li><p>Place the new <code class="docutils literal notranslate"><span class="pre">.duckdb</span></code> file in the <code class="docutils literal notranslate"><span class="pre">data/</span></code> directory.</p></li>
+<li><p>Run the replacement command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>replace<span class="w"> </span>/path/to/new_file.duckdb
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<p>To inspect the system logs if a service fails to start:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>-f
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>404 Errors:</strong> Verify the routing in <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code>.</p></li>
+<li><p><strong>503 Errors:</strong> The backend is starting up or the database is locked. Check <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">ps</span></code> for health status.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pulseflow_config.html">Pulseflow Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_script.html">Management Script Usage</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Pulseflow’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pulseflow_config.html" class="btn btn-neutral float-right" title="Pulseflow Configuration File" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

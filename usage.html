@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard User Guide &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api.html" />
+    <link rel="prev" title="Data Import Guide" href="importer_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dashboard User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#navigation-filtering">Navigation &amp; Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#views">Views</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#table-view">1. Table View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hotspot-view-heatmap">2. Hotspot View (Heatmap)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-city-view">3. Code City View</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#trend-view">4. Trend View</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#drill-down-file-details">Drill-Down: File Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Pulseflow Analyses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Dashboard User Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dashboard-user-guide">
+<span id="usage"></span><h1>Dashboard User Guide<a class="headerlink" href="#dashboard-user-guide" title="Link to this heading"></a></h1>
+<p>The Pulseflow Dashboard is your central hub for exploring the health and evolution of your software project. This guide explains how to navigate the interface and use its features effectively.</p>
+<img alt="Pulseflow Dashboard Overview" class="align-center" src="_images/dashboard_overview.png" />
+<section id="navigation-filtering">
+<h2>Navigation &amp; Filtering<a class="headerlink" href="#navigation-filtering" title="Link to this heading"></a></h2>
+<p>The top bar of the dashboard provides global controls that affect all analysis views.</p>
+<ol class="arabic simple">
+<li><p><strong>Analysis Selector</strong>: Choose the specific metric or analysis you want to perform (e.g., “Hotspots Trends”, “Code Churn”, “Commits”).</p></li>
+<li><p><strong>Module Filter</strong>: Narrow down the analysis to a specific architectural component or module.</p></li>
+<li><dl class="simple">
+<dt><strong>Date Range</strong>:</dt><dd><ul class="simple">
+<li><p><strong>Start/End Date</strong>: Defines the primary time window for the analysis.</p></li>
+<li><p><strong>Baseline Date</strong>: (Visible only for Trend analyses) Defines the start of the comparison period.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Your filter settings (Date Range) are automatically saved to your session, so you don’t lose your context when switching between different analysis types.</p>
+</div>
+</section>
+<section id="views">
+<h2>Views<a class="headerlink" href="#views" title="Link to this heading"></a></h2>
+<p>Pulseflow presents data in four different views, each optimized for a specific kind of insight.</p>
+<section id="table-view">
+<h3>1. Table View<a class="headerlink" href="#table-view" title="Link to this heading"></a></h3>
+<p>The default view. It provides a detailed, sortable list of all files or modules matching your criteria.</p>
+<ul class="simple">
+<li><p><strong>Sort</strong>: Click on any column header to sort by that metric.</p></li>
+<li><p><strong>Quick Actions</strong>:
+*   <strong>Eye Icon</strong>: Opens a quick summary panel on the right.
+*   <strong>External Link Icon</strong>: Opens a full-screen modal with detailed file history and metrics.</p></li>
+</ul>
+</section>
+<section id="hotspot-view-heatmap">
+<h3>2. Hotspot View (Heatmap)<a class="headerlink" href="#hotspot-view-heatmap" title="Link to this heading"></a></h3>
+<p>A visual grid where each cell represents a file.</p>
+<ul class="simple">
+<li><p><strong>Size</strong>: Represents the complexity or size of the file.</p></li>
+<li><p><strong>Color</strong>: Represents the intensity of the metric (e.g., Churn or Hotspot Score). Red indicates critical areas.</p></li>
+<li><p><strong>Interaction</strong>: Hover over a cell to see details; click to drill down.</p></li>
+</ul>
+</section>
+<section id="code-city-view">
+<h3>3. Code City View<a class="headerlink" href="#code-city-view" title="Link to this heading"></a></h3>
+<p>A 3D visualization of your codebase using the “City Metaphor”.</p>
+<ul class="simple">
+<li><p><strong>Districts</strong>: Files are grouped by their modules (districts).</p></li>
+<li><p><strong>Buildings</strong>: Each building is a file.
+*   <strong>Height</strong>: Represents Complexity.
+*   <strong>Width/Footprint</strong>: Represents Lines of Code.
+*   <strong>Color</strong>: Represents the “Health” or “Risk” level.</p></li>
+<li><p><strong>Navigation</strong>: Click and drag to rotate the city; scroll to zoom in/out.</p></li>
+</ul>
+</section>
+<section id="trend-view">
+<h3>4. Trend View<a class="headerlink" href="#trend-view" title="Link to this heading"></a></h3>
+<p>A chart showing the historical evolution of metrics over time.</p>
+<ul class="simple">
+<li><p><strong>Visualizing Progress</strong>: See if your refactoring efforts are paying off (downward trend in complexity) or if technical debt is accumulating (upward trend).</p></li>
+<li><p><strong>Granularity</strong>: Data is aggregated by day or week depending on the selected range.</p></li>
+</ul>
+</section>
+</section>
+<section id="drill-down-file-details">
+<h2>Drill-Down: File Details<a class="headerlink" href="#drill-down-file-details" title="Link to this heading"></a></h2>
+<p>Clicking on any file in the Table, Hotspot, or Code City views opens the <strong>File Detail View</strong>.</p>
+<p>This comprehensive view shows:</p>
+<ul class="simple">
+<li><p><strong>Metadata</strong>: Path, Module, Size.</p></li>
+<li><p><strong>Metric History</strong>: A sparkline chart showing the trend of key metrics for this specific file.</p></li>
+<li><p><strong>Complexity</strong>: Detailed breakdown of Cognitive and Cyclomatic complexity.</p></li>
+<li><p><strong>Activity</strong>: Recent commit history and active contributors.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="importer_guide.html" class="btn btn-neutral float-left" title="Data Import Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

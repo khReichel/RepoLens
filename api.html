@@ -1,0 +1,624 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Reference &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Understanding Pulseflow Analyses" href="analysis.html" />
+    <link rel="prev" title="Dashboard User Guide" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#common-concepts">Common Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#request-format">Request Format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#response-format">Response Format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#lines-of-code-loc">Lines of Code (LOC)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-loc-per-file">Get LOC per File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-loc-per-module">Get LOC per Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-total-loc">Get Total LOC</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#evolution-pulse">Evolution &amp; Pulse</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#change-frequency-files">Change Frequency (Files)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-frequency-modules">Change Frequency (Modules)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-recency-files">Change Recency (Files)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#change-recency-modules">Change Recency (Modules)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#absolute-churn">Absolute Churn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#development-trend">Development Trend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-trend-history">File Trend History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-risk">Quality &amp; Risk</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hotspot-analysis-age-churn">Hotspot Analysis (Age &amp; Churn)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hotspot-analysis-complexity-churn">Hotspot Analysis (Complexity &amp; Churn)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#structure-logic">Structure &amp; Logic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#combined-complexity-files">Combined Complexity (Files)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combined-complexity-modules">Combined Complexity (Modules)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#complexity-trend-history">Complexity Trend History</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#team-knowledge">Team &amp; Knowledge</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-ownership-files">Code Ownership (Files)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-ownership-modules">Code Ownership (Modules)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ownership-by-teams">Module Ownership by Teams</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#top-team-contributors">Top Team Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-modules">Get Modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-analysis-start-date">Get Analysis Start Date</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#application-info">Application Info</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#health-check">Health Check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-info">API Info</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Pulseflow Analyses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<p>This guide is intended for developers who wish to build their own frontend applications or integrations on top of the Pulseflow API.</p>
+<p>The API is built with <strong>FastAPI</strong> and follows RESTful principles. All responses are JSON-formatted.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Base URL for all endpoints is <code class="docutils literal notranslate"><span class="pre">/api/v1</span></code>.</p>
+</div>
+<section id="common-concepts">
+<h2>Common Concepts<a class="headerlink" href="#common-concepts" title="Link to this heading"></a></h2>
+<section id="request-format">
+<h3>Request Format<a class="headerlink" href="#request-format" title="Link to this heading"></a></h3>
+<p>Most analysis endpoints accept <code class="docutils literal notranslate"><span class="pre">POST</span></code> requests to allow for complex filtering parameters in the body.
+Dates should be provided in ISO 8601 format (e.g., <code class="docutils literal notranslate"><span class="pre">2023-01-01T00:00:00</span></code>).</p>
+<p><strong>Standard Filter Parameters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">start_date</span></code> (or <code class="docutils literal notranslate"><span class="pre">from_</span></code>): The beginning of the analysis time window.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end_date</span></code> (or <code class="docutils literal notranslate"><span class="pre">to</span></code>): The end of the analysis time window.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code> (or <code class="docutils literal notranslate"><span class="pre">module</span></code>): Optional. Filter results to a specific architectural component/module.</p></li>
+</ul>
+</section>
+<section id="response-format">
+<h3>Response Format<a class="headerlink" href="#response-format" title="Link to this heading"></a></h3>
+<p>List-based responses follow a consistent structure wrapping the results in an <code class="docutils literal notranslate"><span class="pre">items</span></code> array:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="lines-of-code-loc">
+<h2>Lines of Code (LOC)<a class="headerlink" href="#lines-of-code-loc" title="Link to this heading"></a></h2>
+<p>Endpoints for analyzing the size of the codebase.</p>
+<section id="get-loc-per-file">
+<h3>Get LOC per File<a class="headerlink" href="#get-loc-per-file" title="Link to this heading"></a></h3>
+<p>Returns the Lines of Code count for each file, based on the latest commit within the selected timeframe.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/loc/files</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/main.py&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;loc&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="get-loc-per-module">
+<h3>Get LOC per Module<a class="headerlink" href="#get-loc-per-module" title="Link to this heading"></a></h3>
+<p>Returns the aggregated Lines of Code for each defined module.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/loc/modules</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Get LOC per File</em>.</p></li>
+</ul>
+</section>
+<section id="get-total-loc">
+<h3>Get Total LOC<a class="headerlink" href="#get-total-loc" title="Link to this heading"></a></h3>
+<p>Returns the grand total Lines of Code for the entire project (or filtered selection).</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/loc/total</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Get LOC per File</em>.</p></li>
+</ul>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Total&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;loc&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15420</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="evolution-pulse">
+<h2>Evolution &amp; Pulse<a class="headerlink" href="#evolution-pulse" title="Link to this heading"></a></h2>
+<p>Endpoints for analyzing how the codebase changes over time.</p>
+<section id="change-frequency-files">
+<h3>Change Frequency (Files)<a class="headerlink" href="#change-frequency-files" title="Link to this heading"></a></h3>
+<p>Retrieves commit activity for files, including commit counts, author metrics, and last modification details.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/commits</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;file_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/core/analysis.py&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;commit_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;last_modified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-01T10:00:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;main_contributor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;author_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;last_commit_message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Refactor analysis engine&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="change-frequency-modules">
+<h3>Change Frequency (Modules)<a class="headerlink" href="#change-frequency-modules" title="Link to this heading"></a></h3>
+<p>Retrieves commit activity aggregated by module.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/modules/commits</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Change Frequency (Files)</em>.</p></li>
+</ul>
+</section>
+<section id="change-recency-files">
+<h3>Change Recency (Files)<a class="headerlink" href="#change-recency-files" title="Link to this heading"></a></h3>
+<p>Returns the age of files (time since first and last commit).</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/age</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;from_&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;to&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nbr_items&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;file_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/utils.py&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;first_commit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-01-01T12:00:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;last_commit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-11-15T09:30:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;age_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1048</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;revisions&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="change-recency-modules">
+<h3>Change Recency (Modules)<a class="headerlink" href="#change-recency-modules" title="Link to this heading"></a></h3>
+<p>Returns the age aggregated by module.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/modules/age</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Change Recency (Files)</em>.</p></li>
+</ul>
+</section>
+<section id="absolute-churn">
+<h3>Absolute Churn<a class="headerlink" href="#absolute-churn" title="Link to this heading"></a></h3>
+<p>Returns the absolute churn (added + deleted lines) per file.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/abs_churn</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;from_&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;to&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nbr_items&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="development-trend">
+<h3>Development Trend<a class="headerlink" href="#development-trend" title="Link to this heading"></a></h3>
+<p>Analyzes the evolution of hotspots by comparing a baseline time window with a current time window.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/hotspot_trends</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;baseline&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;from_&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;to&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-06-30T23:59:59&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;current&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;from_&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;to&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="file-trend-history">
+<h3>File Trend History<a class="headerlink" href="#file-trend-history" title="Link to this heading"></a></h3>
+<p>Returns the historical development of metrics for a specific file.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/file_trend</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;file_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/core/service.py&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;bucket_days&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">14</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quality-risk">
+<h2>Quality &amp; Risk<a class="headerlink" href="#quality-risk" title="Link to this heading"></a></h2>
+<section id="hotspot-analysis-age-churn">
+<h3>Hotspot Analysis (Age &amp; Churn)<a class="headerlink" href="#hotspot-analysis-age-churn" title="Link to this heading"></a></h3>
+<p>Identifies “Hotspots” based on the intersection of high churn and file age.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/hotspots/churnage</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;to&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nbr_items&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="hotspot-analysis-complexity-churn">
+<h3>Hotspot Analysis (Complexity &amp; Churn)<a class="headerlink" href="#hotspot-analysis-complexity-churn" title="Link to this heading"></a></h3>
+<p>Identifies hotspots by combining cognitive complexity with churn metrics.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/hotspots/complexity</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;component_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;file_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/complex_logic.py&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;complexity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;churn&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2500</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hotspot_score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="structure-logic">
+<h2>Structure &amp; Logic<a class="headerlink" href="#structure-logic" title="Link to this heading"></a></h2>
+<section id="combined-complexity-files">
+<h3>Combined Complexity (Files)<a class="headerlink" href="#combined-complexity-files" title="Link to this heading"></a></h3>
+<p>Returns complexity metrics (Cyclomatic, Cognitive, Efforts) combined with a trend indicator.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/complexity/combined</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;file_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/main.py&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cognitive&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;cyclomatic&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;loc&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;efforts&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">450.5</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;trend_indicator&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="combined-complexity-modules">
+<h3>Combined Complexity (Modules)<a class="headerlink" href="#combined-complexity-modules" title="Link to this heading"></a></h3>
+<p>Returns aggregated complexity metrics for modules.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/complexity/modules</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Combined Complexity (Files)</em>.</p></li>
+</ul>
+</section>
+<section id="complexity-trend-history">
+<h3>Complexity Trend History<a class="headerlink" href="#complexity-trend-history" title="Link to this heading"></a></h3>
+<p>Returns the historical complexity trend for a specific file or module.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analyze/trends/complexity</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;file_path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/core/service.py&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="team-knowledge">
+<h2>Team &amp; Knowledge<a class="headerlink" href="#team-knowledge" title="Link to this heading"></a></h2>
+<section id="code-ownership-files">
+<h3>Code Ownership (Files)<a class="headerlink" href="#code-ownership-files" title="Link to this heading"></a></h3>
+<p>Returns the number of distinct authors per file and identifies the main contributor.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/contributors/files</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;module_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="code-ownership-modules">
+<h3>Code Ownership (Modules)<a class="headerlink" href="#code-ownership-modules" title="Link to this heading"></a></h3>
+<p>Returns ownership statistics aggregated by module.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/contributors/modules</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Code Ownership (Files)</em>.</p></li>
+</ul>
+</section>
+<section id="module-ownership-by-teams">
+<h3>Module Ownership by Teams<a class="headerlink" href="#module-ownership-by-teams" title="Link to this heading"></a></h3>
+<p>Shows how much of each module is owned by different teams (Team-centric view).</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/alignment/modules</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01T00:00:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-12-31T23:59:59&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;component_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional_module_name&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;team_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Frontend Team&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;module_name_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UI Components&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ratio_1&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;module_name_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Icons&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ratio_2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.10</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;module_name_3&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tests&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ratio_3&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;health_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;healthy&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="top-team-contributors">
+<h3>Top Team Contributors<a class="headerlink" href="#top-team-contributors" title="Link to this heading"></a></h3>
+<p>Shows the top 3 contributing teams for each module (Module-centric view).</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/analysis/alignment/teams</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+<li><p><strong>Request Body:</strong> Same as <em>Module Ownership by Teams</em>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h2>
+<section id="get-modules">
+<h3>Get Modules<a class="headerlink" href="#get-modules" title="Link to this heading"></a></h3>
+<p>Returns a list of all configured modules/components.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/config/modules</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">GET</span></code></p></li>
+</ul>
+</section>
+<section id="get-analysis-start-date">
+<h3>Get Analysis Start Date<a class="headerlink" href="#get-analysis-start-date" title="Link to this heading"></a></h3>
+<p>Returns the configured start date for the current analysis session.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/config/analysis-since</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">GET</span></code></p></li>
+</ul>
+<p><strong>Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;analysis_since&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2020-01-01T00:00:00&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="application-info">
+<h2>Application Info<a class="headerlink" href="#application-info" title="Link to this heading"></a></h2>
+<section id="health-check">
+<h3>Health Check<a class="headerlink" href="#health-check" title="Link to this heading"></a></h3>
+<p>Returns the current health status of the API and database.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/api/health</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">GET</span></code></p></li>
+</ul>
+</section>
+<section id="api-info">
+<h3>API Info<a class="headerlink" href="#api-info" title="Link to this heading"></a></h3>
+<p>Returns metadata about the currently running analysis session.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/info</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">GET</span></code></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="Dashboard User Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="analysis.html" class="btn btn-neutral float-right" title="Understanding Pulseflow Analyses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Management Script Usage &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Data Import Guide" href="importer_guide.html" />
+    <link rel="prev" title="Pulseflow Configuration File" href="pulseflow_config.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#option-1-installation-from-source-gitlab">Option 1: Installation from Source (GitLab)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#option-2-running-from-docker-registry">Option 2: Running from Docker Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#accessing-the-application">Accessing the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#maintenance-database-updates">Maintenance &amp; Database Updates</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="installation.html#troubleshooting">Troubleshooting</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pulseflow_config.html">Pulseflow Configuration File</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Management Script Usage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-commands">Available Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Pulseflow Analyses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="installation.html">Deployment and Installation Guide</a></li>
+      <li class="breadcrumb-item active">Management Script Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/manage_script.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="management-script-usage">
+<span id="manage-script"></span><h1>Management Script Usage<a class="headerlink" href="#management-script-usage" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code> script is a utility for controlling the lifecycle of the Pulseflow Docker containers. It provides simple commands for common operations like starting, stopping, and updating the application.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<p>To use the script, run it from the root of the project with one of the available commands.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span><span class="o">[</span>command<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="available-commands">
+<h2>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading"></a></h2>
+<p>Here is a list of the commands supported by the <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code> script:</p>
+<dl>
+<dt><strong>up</strong></dt><dd><p>Builds the Docker images and starts all services in detached mode.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>up
+</pre></div>
+</div>
+</dd>
+<dt><strong>down</strong></dt><dd><p>Stops and removes all running containers, networks, and volumes defined in the <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>down
+</pre></div>
+</div>
+</dd>
+<dt><strong>import &lt;path&gt;</strong></dt><dd><p>Runs the full data import process for a local repository. This command takes the path to the repository on your host machine, mounts it into the container, and runs both the configuration and analysis import steps.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import<span class="w"> </span>/path/to/your/local/repo
+</pre></div>
+</div>
+</dd>
+<dt><strong>replace &lt;source_dir&gt; &lt;new_basename&gt; &lt;old_basename&gt;</strong></dt><dd><p>Safely replaces the analysis and configuration database files. This command is designed for scenarios where you are migrating from one set of database files to another, potentially with a different naming convention.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>replace<span class="w"> </span>/path/to/new_db_dir<span class="w"> </span>new_pulseflow<span class="w"> </span>old_pulseflow
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>&lt;source_dir&gt;</strong>: The directory containing the new database files (e.g., <code class="docutils literal notranslate"><span class="pre">new_pulseflow.duckdb</span></code> and <code class="docutils literal notranslate"><span class="pre">new_pulseflow_config.duckdb</span></code>).</p></li>
+<li><p><strong>&lt;new_basename&gt;</strong>: The base name of the new database files.</p></li>
+<li><p><strong>&lt;old_basename&gt;</strong>: The base name of the existing database files that will be replaced.</p></li>
+</ul>
+<p>The script performs a transactional replacement by backing up the old files before copying the new ones. It also includes error handling to attempt a rollback if something goes wrong.</p>
+</dd>
+<dt><strong>update</strong></dt><dd><p>Rebuilds the Docker images and restarts all services. This is useful when you have made changes to the source code.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>update
+</pre></div>
+</div>
+</dd>
+<dt><strong>logs</strong></dt><dd><p>Streams the logs from all running containers into a file in the <code class="docutils literal notranslate"><span class="pre">./logs</span></code> directory. The command runs in the background.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>logs
+</pre></div>
+</div>
+</dd>
+<dt><strong>pull-latest</strong></dt><dd><p>Pulls the latest Docker images from the GitLab registry and restarts the services. This is useful for updating to the latest pre-built version.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>pull-latest
+</pre></div>
+</div>
+</dd>
+<dt><strong>debug-path</strong></dt><dd><p>A debugging utility that prints the Python search path (<code class="docutils literal notranslate"><span class="pre">sys.path</span></code>) and lists the contents of the <code class="docutils literal notranslate"><span class="pre">/app/src</span></code> directory inside the <code class="docutils literal notranslate"><span class="pre">importer</span></code> container. This is useful for diagnosing module import errors.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pulseflow_config.html" class="btn btn-neutral float-left" title="Pulseflow Configuration File" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="importer_guide.html" class="btn btn-neutral float-right" title="Data Import Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

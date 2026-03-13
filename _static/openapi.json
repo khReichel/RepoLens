@@ -1,0 +1,2881 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pulseflow API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/analyze/hotspot_trends": {
+      "post": {
+        "summary": "Analyze File Hotspot Trends",
+        "description": "Analyzes hotspot trends based on baseline and current time windows.",
+        "operationId": "analyze_file_hotspot_trends_v1_analyze_hotspot_trends_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/module_hotspot_trends": {
+      "post": {
+        "summary": "Analyze Module Hotspot Trends",
+        "description": "Analyzes hotspot trends for modules based on baseline and current time windows.",
+        "operationId": "analyze_module_hotspot_trends_v1_analyze_module_hotspot_trends_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModuleHotspotTrendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/file_trend": {
+      "post": {
+        "summary": "Analyze File Churn Trend",
+        "description": "Analyzes the trend of a specific file over time.",
+        "operationId": "analyze_file_churn_trend_v1_analyze_file_trend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileTrendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileTrendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/module_trend": {
+      "post": {
+        "summary": "Analyze Module Churn Trend",
+        "description": "Analyzes the trend of modules over time.",
+        "operationId": "analyze_module_churn_trend_v1_analyze_module_trend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleTrendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModuleTrendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/hotspots/churnage": {
+      "post": {
+        "summary": "Hotspots",
+        "operationId": "hotspots_v1_analyze_hotspots_churnage_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HotspotAgeChurnRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HotspotAgeChurnResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/hotspots/complexity": {
+      "post": {
+        "summary": "Get Complexity Trend",
+        "description": "Retrieves the historical complexity trend for a specific file.",
+        "operationId": "get_complexity_trend_v1_analyze_hotspots_complexity_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComplexityTrendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComplexityTrendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/complexity/combined": {
+      "post": {
+        "tags": [
+          "Complexity"
+        ],
+        "summary": "Get Combined Complexity Analysis",
+        "description": "Retrieves the latest complexity metrics for files combined with a trend indicator\ncalculated over the specified date range.",
+        "operationId": "get_combined_complexity_analysis_v1_analysis_complexity_combined_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CombinedComplexityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CombinedComplexityResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/complexity/modules": {
+      "post": {
+        "tags": [
+          "Complexity"
+        ],
+        "summary": "Get Combined Complexity Module Analysis",
+        "description": "Retrieves the latest complexity metrics for modules combined with a trend indicator\ncalculated over the specified date range.",
+        "operationId": "get_combined_complexity_module_analysis_v1_analysis_complexity_modules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CombinedComplexityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CombinedComplexityModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/commits": {
+      "post": {
+        "tags": [
+          "Commits"
+        ],
+        "summary": "Get Commit Analysis",
+        "description": "Retrieves a detailed analysis of commit activity for files, including\ncommit counts, author metrics, and last modification details.",
+        "operationId": "get_commit_analysis_v1_analyze_commits_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommitAnalysisRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitAnalysisResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/modules/commits": {
+      "post": {
+        "tags": [
+          "Commits"
+        ],
+        "summary": "Get Module Commit Analysis",
+        "description": "Retrieves a detailed analysis of commit activity for modules, including\ncommit counts, author metrics, and last modification details.",
+        "operationId": "get_module_commit_analysis_v1_analyze_modules_commits_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommitAnalysisRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitAnalysisModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/contributors/files": {
+      "post": {
+        "tags": [
+          "Contributors"
+        ],
+        "summary": "Get File Contributors Analysis",
+        "description": "Analyzes contributor ownership and concentration at the **file level**.",
+        "operationId": "get_file_contributors_analysis_v1_analysis_contributors_files_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContributorsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileContributorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/contributors/modules": {
+      "post": {
+        "tags": [
+          "Contributors"
+        ],
+        "summary": "Get Module Contributors Analysis",
+        "description": "Analyzes contributor ownership and concentration at the **module level**.",
+        "operationId": "get_module_contributors_analysis_v1_analysis_contributors_modules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContributorsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModuleContributorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/loc/files": {
+      "post": {
+        "tags": [
+          "Lines of Code (LOC)"
+        ],
+        "summary": "Get Loc Per File Analysis",
+        "description": "Analyzes Lines of Code (LOC) at the file level.",
+        "operationId": "get_loc_per_file_analysis_v1_analysis_loc_files_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/loc/modules": {
+      "post": {
+        "tags": [
+          "Lines of Code (LOC)"
+        ],
+        "summary": "Get Loc Per Module Analysis",
+        "description": "Analyzes Lines of Code (LOC) at the module level.",
+        "operationId": "get_loc_per_module_analysis_v1_analysis_loc_modules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/loc/total": {
+      "post": {
+        "tags": [
+          "Lines of Code (LOC)"
+        ],
+        "summary": "Get Total Loc Analysis",
+        "description": "Analyzes the total Lines of Code (LOC) for the project.",
+        "operationId": "get_total_loc_analysis_v1_analysis_loc_total_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/alignment/modules": {
+      "post": {
+        "tags": [
+          "Module-Team Alignment"
+        ],
+        "summary": "Get Module Team Alignment",
+        "description": "Analyzes the alignment between modules and teams.\nCalculates the ownership ratio of each team for each module based on net LOC changes.\n(How much of Module X is owned by Team Y?)",
+        "operationId": "get_module_team_alignment_v1_analysis_alignment_modules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleTeamAlignmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModuleTeamAlignmentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/alignment/teams": {
+      "post": {
+        "tags": [
+          "Module-Team Alignment"
+        ],
+        "summary": "Get Team Module Alignment",
+        "description": "Analyzes the alignment between teams and modules.\nCalculates the effort ratio of modules for each team based on net LOC changes.\n(How much of Team Y's effort goes into Module X?)",
+        "operationId": "get_team_module_alignment_v1_analysis_alignment_teams_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleTeamAlignmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamModuleAlignmentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/abs_churn/files": {
+      "post": {
+        "summary": "Abs Churn Analysis Files",
+        "description": "Analyzes the absolute code churn for files within a given time range.",
+        "operationId": "abs_churn_analysis_files_v1_analyze_abs_churn_files_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AbsChurnRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AbsChurnResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/abs_churn/modules": {
+      "post": {
+        "summary": "Abs Churn Analysis Modules",
+        "description": "Analyzes the absolute code churn for modules within a given time range.",
+        "operationId": "abs_churn_analysis_modules_v1_analyze_abs_churn_modules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AbsChurnRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AbsChurnResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/age": {
+      "post": {
+        "summary": "Age Analysis",
+        "operationId": "age_analysis_v1_analyze_age_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analyze/modules/age": {
+      "post": {
+        "summary": "Age Module Analysis",
+        "operationId": "age_module_analysis_v1_analyze_modules_age_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgeModuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/config/modules": {
+      "get": {
+        "summary": "Config Modules",
+        "operationId": "config_modules_v1_config_modules_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigModulesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/config/analysis-since": {
+      "get": {
+        "summary": "Config Analysis Since",
+        "operationId": "config_analysis_since_v1_config_analysis_since_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info": {
+      "get": {
+        "summary": "Info",
+        "operationId": "info_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health": {
+      "get": {
+        "summary": "Health Check",
+        "operationId": "health_check_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AbsChurnRequest": {
+        "properties": {
+          "from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From"
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To"
+          },
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module"
+          },
+          "nbr_items": {
+            "type": "integer",
+            "title": "Nbr Items",
+            "default": 50
+          }
+        },
+        "type": "object",
+        "title": "AbsChurnRequest"
+      },
+      "AbsChurnResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AbsChurnResponseItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "AbsChurnResponse"
+      },
+      "AbsChurnResponseItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "abs_churn": {
+            "type": "integer",
+            "title": "Abs Churn"
+          },
+          "total_added": {
+            "type": "integer",
+            "title": "Total Added"
+          },
+          "total_deleted": {
+            "type": "integer",
+            "title": "Total Deleted"
+          },
+          "first_change": {
+            "type": "string",
+            "format": "date-time",
+            "title": "First Change"
+          },
+          "last_change": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Change"
+          },
+          "revisions": {
+            "type": "integer",
+            "title": "Revisions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "abs_churn",
+          "total_added",
+          "total_deleted",
+          "first_change",
+          "last_change",
+          "revisions"
+        ],
+        "title": "AbsChurnResponseItem"
+      },
+      "AgeModuleResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AgeModuleResponseItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "AgeModuleResponse"
+      },
+      "AgeModuleResponseItem": {
+        "properties": {
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name"
+          },
+          "first_commit": {
+            "type": "string",
+            "format": "date",
+            "title": "First Commit"
+          },
+          "last_commit": {
+            "type": "string",
+            "format": "date",
+            "title": "Last Commit"
+          },
+          "age_days": {
+            "type": "integer",
+            "title": "Age Days"
+          },
+          "revisions": {
+            "type": "integer",
+            "title": "Revisions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "first_commit",
+          "last_commit",
+          "age_days",
+          "revisions"
+        ],
+        "title": "AgeModuleResponseItem"
+      },
+      "AgeRequest": {
+        "properties": {
+          "from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From"
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To"
+          },
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module"
+          },
+          "nbr_items": {
+            "type": "integer",
+            "title": "Nbr Items",
+            "default": 50
+          }
+        },
+        "type": "object",
+        "title": "AgeRequest"
+      },
+      "AgeResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AgeResponseItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "AgeResponse"
+      },
+      "AgeResponseItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "first_commit": {
+            "type": "string",
+            "format": "date",
+            "title": "First Commit"
+          },
+          "last_commit": {
+            "type": "string",
+            "format": "date",
+            "title": "Last Commit"
+          },
+          "age_days": {
+            "type": "integer",
+            "title": "Age Days"
+          },
+          "revisions": {
+            "type": "integer",
+            "title": "Revisions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "first_commit",
+          "last_commit",
+          "age_days",
+          "revisions"
+        ],
+        "title": "AgeResponseItem"
+      },
+      "AnalysisSettingsResponse": {
+        "properties": {
+          "analysis_since": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis Since"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_since"
+        ],
+        "title": "AnalysisSettingsResponse"
+      },
+      "CombinedComplexityItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "cognitive": {
+            "type": "integer",
+            "title": "Cognitive"
+          },
+          "cyclomatic": {
+            "type": "integer",
+            "title": "Cyclomatic"
+          },
+          "loc": {
+            "type": "integer",
+            "title": "Loc"
+          },
+          "efforts": {
+            "type": "number",
+            "title": "Efforts"
+          },
+          "trend_indicator": {
+            "type": "number",
+            "title": "Trend Indicator"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "cognitive",
+          "cyclomatic",
+          "loc",
+          "efforts",
+          "trend_indicator"
+        ],
+        "title": "CombinedComplexityItem",
+        "description": "Pydantic model for a single item in the combined complexity response."
+      },
+      "CombinedComplexityModuleItem": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "cognitive": {
+            "type": "integer",
+            "title": "Cognitive"
+          },
+          "cyclomatic": {
+            "type": "integer",
+            "title": "Cyclomatic"
+          },
+          "loc": {
+            "type": "integer",
+            "title": "Loc"
+          },
+          "efforts": {
+            "type": "number",
+            "title": "Efforts"
+          },
+          "trend_indicator": {
+            "type": "number",
+            "title": "Trend Indicator"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name",
+          "cognitive",
+          "cyclomatic",
+          "loc",
+          "efforts",
+          "trend_indicator"
+        ],
+        "title": "CombinedComplexityModuleItem",
+        "description": "Pydantic model for a single item in the module-level combined complexity response."
+      },
+      "CombinedComplexityModuleResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CombinedComplexityModuleItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CombinedComplexityModuleResponse",
+        "description": "Pydantic model for the module-level combined complexity response."
+      },
+      "CombinedComplexityRequest": {
+        "properties": {
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Date",
+            "description": "Start date for the trend calculation"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Date",
+            "description": "End date for the trend calculation"
+          },
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter by a specific module name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_date",
+          "end_date"
+        ],
+        "title": "CombinedComplexityRequest",
+        "description": "Pydantic model for the combined complexity analysis request body."
+      },
+      "CombinedComplexityResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CombinedComplexityItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CombinedComplexityResponse",
+        "description": "Pydantic model for the combined complexity analysis response."
+      },
+      "CommitAnalysisItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "commit_count": {
+            "type": "integer",
+            "title": "Commit Count"
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Modified"
+          },
+          "main_contributor": {
+            "type": "string",
+            "title": "Main Contributor"
+          },
+          "author_count": {
+            "type": "integer",
+            "title": "Author Count"
+          },
+          "last_commit_message": {
+            "type": "string",
+            "title": "Last Commit Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "commit_count",
+          "last_modified",
+          "main_contributor",
+          "author_count",
+          "last_commit_message"
+        ],
+        "title": "CommitAnalysisItem",
+        "description": "Pydantic model for a single item in the file-level commit analysis response."
+      },
+      "CommitAnalysisModuleItem": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "commit_count": {
+            "type": "integer",
+            "title": "Commit Count"
+          },
+          "last_modified": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Modified"
+          },
+          "main_contributor": {
+            "type": "string",
+            "title": "Main Contributor"
+          },
+          "author_count": {
+            "type": "integer",
+            "title": "Author Count"
+          },
+          "last_commit_message": {
+            "type": "string",
+            "title": "Last Commit Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name",
+          "commit_count",
+          "last_modified",
+          "main_contributor",
+          "author_count",
+          "last_commit_message"
+        ],
+        "title": "CommitAnalysisModuleItem",
+        "description": "Pydantic model for a single item in the module-level commit analysis response."
+      },
+      "CommitAnalysisModuleResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CommitAnalysisModuleItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CommitAnalysisModuleResponse",
+        "description": "Pydantic model for the module-level commit analysis response."
+      },
+      "CommitAnalysisRequest": {
+        "properties": {
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Filter for commits after this date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "Filter for commits before this date"
+          },
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter by a specific module name"
+          }
+        },
+        "type": "object",
+        "title": "CommitAnalysisRequest",
+        "description": "Pydantic model for the commit analysis request body."
+      },
+      "CommitAnalysisResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CommitAnalysisItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CommitAnalysisResponse",
+        "description": "Pydantic model for the file-level commit analysis response."
+      },
+      "ComplexityTrendItem": {
+        "properties": {
+          "author_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Author Date"
+          },
+          "complexity": {
+            "type": "integer",
+            "title": "Complexity"
+          },
+          "cognitive": {
+            "type": "integer",
+            "title": "Cognitive"
+          },
+          "efforts": {
+            "type": "number",
+            "title": "Efforts"
+          },
+          "loc": {
+            "type": "integer",
+            "title": "Loc"
+          },
+          "commit_churn": {
+            "type": "integer",
+            "title": "Commit Churn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "author_date",
+          "complexity",
+          "cognitive",
+          "efforts",
+          "loc",
+          "commit_churn"
+        ],
+        "title": "ComplexityTrendItem",
+        "description": "Pydantic model for a single data point in the complexity trend."
+      },
+      "ComplexityTrendRequest": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path",
+            "description": "The full path of the file to analyze"
+          },
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter by module name"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Analysis start date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "Analysis end date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path"
+        ],
+        "title": "ComplexityTrendRequest",
+        "description": "Pydantic model for the complexity trend analysis request body."
+      },
+      "ComplexityTrendResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ComplexityTrendItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ComplexityTrendResponse",
+        "description": "Pydantic model for the complexity trend analysis response."
+      },
+      "ConfigModulesResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ConfigModulesResponseItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ConfigModulesResponse"
+      },
+      "ConfigModulesResponseItem": {
+        "properties": {
+          "component_name": {
+            "type": "string",
+            "title": "Component Name"
+          },
+          "path_prefix": {
+            "type": "string",
+            "title": "Path Prefix"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "component_name",
+          "path_prefix",
+          "display_name"
+        ],
+        "title": "ConfigModulesResponseItem"
+      },
+      "ContributorsRequest": {
+        "properties": {
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Filter for commits after this date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "Filter for commits before this date"
+          },
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter by a specific module name"
+          }
+        },
+        "type": "object",
+        "title": "ContributorsRequest",
+        "description": "Pydantic model for the contributor analysis request body."
+      },
+      "FileContributorItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "total_contributors": {
+            "type": "integer",
+            "title": "Total Contributors"
+          },
+          "main_contributor": {
+            "type": "string",
+            "title": "Main Contributor"
+          },
+          "main_contributor_percentage": {
+            "type": "number",
+            "title": "Main Contributor Percentage"
+          },
+          "secondary_contributor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary Contributor"
+          },
+          "secondary_contributor_percentage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary Contributor Percentage"
+          },
+          "total_commits": {
+            "type": "integer",
+            "title": "Total Commits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "total_contributors",
+          "main_contributor",
+          "main_contributor_percentage",
+          "total_commits"
+        ],
+        "title": "FileContributorItem",
+        "description": "Pydantic model for a single item in the file-level contributor response."
+      },
+      "FileContributorResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FileContributorItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "FileContributorResponse",
+        "description": "Pydantic model for the file-level contributor analysis response."
+      },
+      "FileTrendItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "metric": {
+            "type": "string",
+            "title": "Metric"
+          },
+          "from_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "From Date"
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "To Date"
+          },
+          "bucket_days": {
+            "type": "integer",
+            "title": "Bucket Days"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/FileTrendSeriesPoint"
+            },
+            "type": "array",
+            "title": "Series"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "metric",
+          "from_date",
+          "to_date",
+          "bucket_days",
+          "series"
+        ],
+        "title": "FileTrendItem"
+      },
+      "FileTrendRequest": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Date"
+          },
+          "bucket_days": {
+            "type": "integer",
+            "title": "Bucket Days",
+            "default": 14
+          },
+          "metric": {
+            "type": "string",
+            "title": "Metric",
+            "default": "churn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "start_date",
+          "end_date"
+        ],
+        "title": "FileTrendRequest"
+      },
+      "FileTrendResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FileTrendItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "FileTrendResponse"
+      },
+      "FileTrendSeriesPoint": {
+        "properties": {
+          "t": {
+            "type": "string",
+            "format": "date-time",
+            "title": "T"
+          },
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "t",
+          "value"
+        ],
+        "title": "FileTrendSeriesPoint"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HotspotAgeChurnRequest": {
+        "properties": {
+          "from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From"
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To"
+          },
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module"
+          },
+          "nbr_items": {
+            "type": "integer",
+            "title": "Nbr Items",
+            "default": 50
+          }
+        },
+        "type": "object",
+        "title": "HotspotAgeChurnRequest"
+      },
+      "HotspotAgeChurnResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/HotspotAgeChurnResponseItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "HotspotAgeChurnResponse"
+      },
+      "HotspotAgeChurnResponseItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "structural_score": {
+            "type": "number",
+            "title": "Structural Score"
+          },
+          "activity_score": {
+            "type": "number",
+            "title": "Activity Score"
+          },
+          "churn": {
+            "type": "integer",
+            "title": "Churn"
+          },
+          "age_days": {
+            "type": "integer",
+            "title": "Age Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "structural_score",
+          "activity_score",
+          "churn",
+          "age_days"
+        ],
+        "title": "HotspotAgeChurnResponseItem"
+      },
+      "HotspotComplexityItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "weighted_abs_churn": {
+            "type": "number",
+            "title": "Weighted Abs Churn"
+          },
+          "revisions": {
+            "type": "integer",
+            "title": "Revisions"
+          },
+          "cyclomatic": {
+            "type": "integer",
+            "title": "Cyclomatic"
+          },
+          "cognitive": {
+            "type": "integer",
+            "title": "Cognitive"
+          },
+          "efforts": {
+            "type": "number",
+            "title": "Efforts"
+          },
+          "loc": {
+            "type": "integer",
+            "title": "Loc"
+          },
+          "hotspot_score": {
+            "type": "number",
+            "title": "Hotspot Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "weighted_abs_churn",
+          "revisions",
+          "cyclomatic",
+          "cognitive",
+          "efforts",
+          "loc",
+          "hotspot_score"
+        ],
+        "title": "HotspotComplexityItem",
+        "description": "Pydantic model for a single item in the hotspot complexity analysis response."
+      },
+      "HotspotComplexityRequest": {
+        "properties": {
+          "component_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Name",
+            "description": "Filter by component name"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Analysis start date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "Analysis end date"
+          }
+        },
+        "type": "object",
+        "title": "HotspotComplexityRequest",
+        "description": "Pydantic model for the hotspot complexity analysis request body."
+      },
+      "LocItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "loc": {
+            "type": "integer",
+            "title": "Loc"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "loc"
+        ],
+        "title": "LocItem",
+        "description": "Pydantic model for a single item in a LOC analysis response."
+      },
+      "LocRequest": {
+        "properties": {
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Filter for commits after this date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "Filter for commits before this date"
+          },
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter by a specific module name"
+          }
+        },
+        "type": "object",
+        "title": "LocRequest",
+        "description": "Pydantic model for the LOC analysis request body."
+      },
+      "LocResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/LocItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "LocResponse",
+        "description": "Pydantic model for file, module, and total LOC analysis."
+      },
+      "ModuleContributorItem": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "total_contributors": {
+            "type": "integer",
+            "title": "Total Contributors"
+          },
+          "total_files": {
+            "type": "integer",
+            "title": "Total Files"
+          },
+          "total_commits": {
+            "type": "integer",
+            "title": "Total Commits"
+          },
+          "main_contributor": {
+            "type": "string",
+            "title": "Main Contributor"
+          },
+          "main_contributor_percentage": {
+            "type": "number",
+            "title": "Main Contributor Percentage"
+          },
+          "secondary_contributor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary Contributor"
+          },
+          "secondary_contributor_percentage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary Contributor Percentage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name",
+          "total_contributors",
+          "total_files",
+          "total_commits",
+          "main_contributor",
+          "main_contributor_percentage"
+        ],
+        "title": "ModuleContributorItem",
+        "description": "Pydantic model for a single item in the module-level contributor response."
+      },
+      "ModuleContributorResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleContributorItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ModuleContributorResponse",
+        "description": "Pydantic model for the module-level contributor analysis response."
+      },
+      "ModuleHotspotTrendItem": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "churn_baseline": {
+            "type": "integer",
+            "title": "Churn Baseline"
+          },
+          "churn_current": {
+            "type": "integer",
+            "title": "Churn Current"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/Scores"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name",
+          "churn_baseline",
+          "churn_current",
+          "scores"
+        ],
+        "title": "ModuleHotspotTrendItem"
+      },
+      "ModuleHotspotTrendResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleHotspotTrendItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ModuleHotspotTrendResponse"
+      },
+      "ModuleTeamAlignmentItem": {
+        "properties": {
+          "team_name": {
+            "type": "string",
+            "title": "Team Name"
+          },
+          "module_name_1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name 1"
+          },
+          "ratio_1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ratio 1"
+          },
+          "module_name_2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name 2"
+          },
+          "ratio_2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ratio 2"
+          },
+          "module_name_3": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name 3"
+          },
+          "ratio_3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ratio 3"
+          },
+          "health_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Health Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "team_name"
+        ],
+        "title": "ModuleTeamAlignmentItem",
+        "description": "Response item for a single team-module alignment result showing top 3 modules."
+      },
+      "ModuleTeamAlignmentRequest": {
+        "properties": {
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start date for the analysis period"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End date for the analysis period"
+          },
+          "component_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Name",
+            "description": "Filter by a specific component name"
+          }
+        },
+        "type": "object",
+        "title": "ModuleTeamAlignmentRequest",
+        "description": "Request model for module-team alignment analysis."
+      },
+      "ModuleTeamAlignmentResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleTeamAlignmentItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ModuleTeamAlignmentResponse",
+        "description": "Response model containing a list of alignment results."
+      },
+      "ModuleTrendItem": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "metric": {
+            "type": "string",
+            "title": "Metric"
+          },
+          "from_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "From Date"
+          },
+          "to_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "To Date"
+          },
+          "bucket_days": {
+            "type": "integer",
+            "title": "Bucket Days"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleTrendSeriesPoint"
+            },
+            "type": "array",
+            "title": "Series"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name",
+          "metric",
+          "from_date",
+          "to_date",
+          "bucket_days",
+          "series"
+        ],
+        "title": "ModuleTrendItem"
+      },
+      "ModuleTrendRequest": {
+        "properties": {
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Date"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Date"
+          },
+          "bucket_days": {
+            "type": "integer",
+            "title": "Bucket Days",
+            "default": 14
+          },
+          "metric": {
+            "type": "string",
+            "title": "Metric",
+            "default": "churn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_date",
+          "end_date"
+        ],
+        "title": "ModuleTrendRequest"
+      },
+      "ModuleTrendResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleTrendItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ModuleTrendResponse"
+      },
+      "ModuleTrendSeriesPoint": {
+        "properties": {
+          "t": {
+            "type": "string",
+            "format": "date-time",
+            "title": "T"
+          },
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "t",
+          "value"
+        ],
+        "title": "ModuleTrendSeriesPoint"
+      },
+      "ScoreDetail": {
+        "properties": {
+          "baseline": {
+            "type": "number",
+            "title": "Baseline"
+          },
+          "current": {
+            "type": "number",
+            "title": "Current"
+          },
+          "delta": {
+            "type": "number",
+            "title": "Delta"
+          },
+          "delta_norm": {
+            "type": "number",
+            "title": "Delta Norm"
+          },
+          "norm": {
+            "type": "number",
+            "title": "Norm"
+          },
+          "trend": {
+            "type": "string",
+            "title": "Trend"
+          }
+        },
+        "type": "object",
+        "required": [
+          "baseline",
+          "current",
+          "delta",
+          "delta_norm",
+          "norm",
+          "trend"
+        ],
+        "title": "ScoreDetail"
+      },
+      "Scores": {
+        "properties": {
+          "structural": {
+            "$ref": "#/components/schemas/ScoreDetail"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/ScoreDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "structural",
+          "activity"
+        ],
+        "title": "Scores"
+      },
+      "TeamModuleAlignmentItem": {
+        "properties": {
+          "component_name": {
+            "type": "string",
+            "title": "Component Name"
+          },
+          "team_name_1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team Name 1"
+          },
+          "ratio_1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ratio 1"
+          },
+          "team_name_2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team Name 2"
+          },
+          "ratio_2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ratio 2"
+          },
+          "team_name_3": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team Name 3"
+          },
+          "ratio_3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ratio 3"
+          },
+          "health_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Health Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "component_name"
+        ],
+        "title": "TeamModuleAlignmentItem",
+        "description": "Response item for a single team-module alignment result showing top 3 teams."
+      },
+      "TeamModuleAlignmentResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TeamModuleAlignmentItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "TeamModuleAlignmentResponse",
+        "description": "Response model containing a list of team alignment results."
+      },
+      "TimeWindow": {
+        "properties": {
+          "from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From"
+          },
+          "to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To"
+          }
+        },
+        "type": "object",
+        "title": "TimeWindow"
+      },
+      "TrendItem": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "churn_baseline": {
+            "type": "integer",
+            "title": "Churn Baseline"
+          },
+          "churn_current": {
+            "type": "integer",
+            "title": "Churn Current"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/Scores"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path",
+          "churn_baseline",
+          "churn_current",
+          "scores"
+        ],
+        "title": "TrendItem"
+      },
+      "TrendRequest": {
+        "properties": {
+          "baseline": {
+            "$ref": "#/components/schemas/TimeWindow"
+          },
+          "current": {
+            "$ref": "#/components/schemas/TimeWindow"
+          },
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module"
+          },
+          "nbr_items": {
+            "type": "integer",
+            "title": "Nbr Items",
+            "default": 50
+          }
+        },
+        "type": "object",
+        "required": [
+          "baseline",
+          "current"
+        ],
+        "title": "TrendRequest"
+      },
+      "TrendResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TrendItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "TrendResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

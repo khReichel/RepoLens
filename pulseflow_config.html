@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulseflow Configuration File &mdash; pulseflow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Management Script Usage" href="manage_script.html" />
+    <link rel="prev" title="Deployment and Installation Guide" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pulseflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#option-1-installation-from-source-gitlab">Option 1: Installation from Source (GitLab)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#option-2-running-from-docker-registry">Option 2: Running from Docker Registry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#accessing-the-application">Accessing the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#maintenance-database-updates">Maintenance &amp; Database Updates</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="installation.html#troubleshooting">Troubleshooting</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pulseflow Configuration File</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#project-section">Project Section</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analysis-section">Analysis Section</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#users-and-teams">Users and Teams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#team-memberships">Team Memberships</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="manage_script.html">Management Script Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Pulseflow Analyses</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pulseflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="installation.html">Deployment and Installation Guide</a></li>
+      <li class="breadcrumb-item active">Pulseflow Configuration File</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pulseflow_config.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pulseflow-configuration-file">
+<span id="pulseflow-config"></span><h1>Pulseflow Configuration File<a class="headerlink" href="#pulseflow-configuration-file" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">pulseflow_config.yaml</span></code> file is the central place to configure the analysis performed by Pulseflow. It defines the project settings, what to include and exclude from the analysis, and how to map users to teams.</p>
+<p>This document describes the structure and purpose of each section in the configuration file.</p>
+<section id="project-section">
+<h2>Project Section<a class="headerlink" href="#project-section" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">project</span></code> section contains general settings for the project and the analysis.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mongodb&quot;</span>
+<span class="w">  </span><span class="nt">db_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./data_tmp&quot;</span>
+<span class="w">  </span><span class="nt">db_basename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pulseflow&quot;</span>
+<span class="w">  </span><span class="nt">repo_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/user/projects/mongo&quot;</span>
+<span class="w">  </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;master&quot;</span>
+<span class="w">  </span><span class="nt">analysis_since</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-01&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>name</strong>: A string representing the name of the project.</p></li>
+<li><p><strong>db_path</strong>: The file system path where the database files will be stored.</p></li>
+<li><p><strong>db_basename</strong>: The base name for the generated database files (e.g., <code class="docutils literal notranslate"><span class="pre">pulseflow.duckdb</span></code>).</p></li>
+<li><p><strong>repo_path</strong>: The absolute or relative path to the Git repository that you want to analyze.</p></li>
+<li><p><strong>branch</strong>: The specific branch of the repository to be analyzed.</p></li>
+<li><p><strong>analysis_since</strong>: The start date for the analysis in <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code> format. Commits older than this date will be ignored.</p></li>
+</ul>
+</section>
+<section id="analysis-section">
+<h2>Analysis Section<a class="headerlink" href="#analysis-section" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">analysis</span></code> section defines the scope of the code analysis, including which parts of the codebase to analyze and which to ignore.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">analysis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">component_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;client&quot;</span>
+<span class="w">      </span><span class="nt">path_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;src/mongo/client/&quot;</span>
+<span class="w">      </span><span class="nt">display_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Client&quot;</span>
+<span class="w">    </span><span class="c1"># ... other components</span>
+
+<span class="w">  </span><span class="nt">excluded_prefixes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;bazel/&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;buildfarm/&quot;</span>
+<span class="w">    </span><span class="c1"># ... other prefixes</span>
+
+<span class="w">  </span><span class="nt">excluded_extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;.json&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;.md&quot;</span>
+<span class="w">    </span><span class="c1"># ... other extensions</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>components</strong>: A list of objects, each representing a logical component of the software.</p>
+<ul>
+<li><p><strong>component_name</strong>: A unique identifier for the component.</p></li>
+<li><p><strong>path_prefix</strong>: The directory path that uniquely identifies the files belonging to this component.</p></li>
+<li><p><strong>display_name</strong>: A user-friendly name for the component that will be used in the UI.</p></li>
+</ul>
+</li>
+<li><p><strong>excluded_prefixes</strong>: A list of directory paths to be excluded from the analysis. Any file or directory starting with one of these prefixes will be ignored.</p></li>
+<li><p><strong>excluded_extensions</strong>: A list of file extensions to be excluded from the analysis. Files with these extensions will be ignored.</p></li>
+</ul>
+</section>
+<section id="users-and-teams">
+<h2>Users and Teams<a class="headerlink" href="#users-and-teams" title="Link to this heading"></a></h2>
+<p>This part of the configuration allows you to define users and group them into teams. This is useful for attributing code changes and for team-level analysis.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">users</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;jsteemann&quot;</span>
+<span class="w">    </span><span class="nt">aliases</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;jsteemann&quot;</span>
+<span class="w">  </span><span class="c1"># ... other users</span>
+
+<span class="nt">teams</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TeamF&quot;</span>
+<span class="w">    </span><span class="nt">members</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;jsteemann&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;allisoneaston&quot;</span>
+<span class="w">  </span><span class="c1"># ... other teams</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>users</strong>: A list of user objects.</p>
+<ul>
+<li><p><strong>name</strong>: The canonical name of the user.</p></li>
+<li><p><strong>aliases</strong>: A list of aliases (e.g., different usernames for different systems) that should be mapped to this user.</p></li>
+</ul>
+</li>
+<li><p><strong>teams</strong>: A list of team objects.</p>
+<ul>
+<li><p><strong>name</strong>: The name of the team.</p></li>
+<li><p><strong>members</strong>: A list of user names (as defined in the <code class="docutils literal notranslate"><span class="pre">users</span></code> section) that belong to this team. This creates implicit team memberships that are valid from the <code class="docutils literal notranslate"><span class="pre">analysis_since</span></code> date onwards with no end date.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="team-memberships">
+<h2>Team Memberships<a class="headerlink" href="#team-memberships" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">team_memberships</span></code> section provides a way to track temporal membership of users in teams. This is useful for historical analysis, understanding how team composition changed over time, and correlating team changes with code metrics.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">team_memberships</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">columns</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">developer</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">team</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">valid_from</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">valid_to</span>
+
+<span class="w">  </span><span class="nt">format</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">valid_from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;YYYY-MM-DD</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">ISO8601</span><span class="nv"> </span><span class="s">datetime</span><span class="nv"> </span><span class="s">(e.g.</span><span class="nv"> </span><span class="s">2024-01-01</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">2024-01-01T00:00:00Z)&quot;</span>
+<span class="w">    </span><span class="nt">valid_to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nullable;</span><span class="nv"> </span><span class="s">same</span><span class="nv"> </span><span class="s">format</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">valid_from;</span><span class="nv"> </span><span class="s">omit</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">set</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">null</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">active</span><span class="nv"> </span><span class="s">membership&quot;</span>
+
+<span class="w">  </span><span class="nt">entries</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">developer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;jsteemann&quot;</span>
+<span class="w">      </span><span class="nt">team</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TeamF&quot;</span>
+<span class="w">      </span><span class="nt">valid_from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2024-01-01&quot;</span>
+<span class="w">      </span><span class="nt">valid_to</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">developer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;allisoneaston&quot;</span>
+<span class="w">      </span><span class="nt">team</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TeamF&quot;</span>
+<span class="w">      </span><span class="nt">valid_from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2023-06-01&quot;</span>
+<span class="w">      </span><span class="nt">valid_to</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2024-12-31&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>team_memberships</strong>: Configuration for tracking when users belonged to teams.</p>
+<ul>
+<li><p><strong>columns</strong>: Informational field documenting the expected data structure. Not used during import but helpful for understanding the schema.</p></li>
+<li><p><strong>format</strong>: Format specifications and notes for the date fields used in memberships.</p>
+<ul>
+<li><p><strong>valid_from</strong>: The start date of the membership. Must be a valid date in <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code> format or ISO 8601 datetime format.</p></li>
+<li><p><strong>valid_to</strong>: The end date of the membership. Optional; can be omitted or set to <code class="docutils literal notranslate"><span class="pre">null</span></code> to indicate an ongoing membership (i.e., the user is currently a member). Must use the same format as <code class="docutils literal notranslate"><span class="pre">valid_from</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>entries</strong>: A list of membership records, each specifying a time-bounded relationship between a developer and a team.</p>
+<ul>
+<li><p><strong>developer</strong>: The name or alias of the user (as defined in the <code class="docutils literal notranslate"><span class="pre">users</span></code> section). Aliases are automatically resolved to the corresponding user.</p></li>
+<li><p><strong>team</strong>: The name of the team (as defined in the <code class="docutils literal notranslate"><span class="pre">teams</span></code> section). If a team in a membership entry does not exist in the <code class="docutils literal notranslate"><span class="pre">teams</span></code> section, it will be created automatically.</p></li>
+<li><p><strong>valid_from</strong>: The date when the user joined the team.</p></li>
+<li><p><strong>valid_to</strong>: The date when the user left the team. Set to <code class="docutils literal notranslate"><span class="pre">null</span></code> or omit to indicate ongoing membership.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>Important</strong>: The relationship between users and teams is defined exclusively through the <code class="docutils literal notranslate"><span class="pre">team_memberships</span></code> table. The <code class="docutils literal notranslate"><span class="pre">teams</span></code> table contains only the team identifiers and names. To query which users belong to a team, always join <code class="docutils literal notranslate"><span class="pre">teams</span></code> with <code class="docutils literal notranslate"><span class="pre">team_memberships</span></code> on the <code class="docutils literal notranslate"><span class="pre">team_id</span></code> field.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Deployment and Installation Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="manage_script.html" class="btn btn-neutral float-right" title="Management Script Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, karl-heinz reichel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

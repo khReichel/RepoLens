@@ -1,0 +1,40 @@
+.. pulseflow documentation master file, created by
+   sphinx-quickstart on Sat Dec 20 19:01:57 2025.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Pulseflow's documentation!
+=====================================
+
+**PulseFlow** is an advanced repository analytics tool that extracts and interprets version control metadata (e.g., from Git) to uncover software evolution patterns, code quality risks, and team interaction dynamics.
+
+By analyzing commit histories, change frequencies, and developer contributions, PulseFlow identifies hotspots—code areas with high modification activity that may indicate maintenance bottlenecks or architectural weaknesses.
+
+The application integrates historical code metrics with behavioral analysis to reveal trends such as tightly coupled files, ownership dispersion, and code churn. These insights enable teams to make data-driven decisions about refactoring priorities, technical debt management, and team collaboration strategies.
+
+PulseFlow provides a modular architecture for analysis pipelines, supporting customizable metrics, visual output formats, and integration with CI/CD workflows. Its flexible data model allows correlation with external systems, making it suitable for continuous code health monitoring and large-scale repository intelligence.
+
+Check out the :doc:`usage` section for further information, including how to
+:ref:`install <installation>` the project.
+
+.. note::
+
+   This project is under active development
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   installation
+   importer_guide
+   usage
+   api
+   analysis
+
+License
+=======
+
+Pulseflow is released under the MIT License.
+
+.. include:: ../../LICENSE
+   :literal:
