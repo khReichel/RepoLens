@@ -38,27 +38,29 @@ Pulseflow provides a multi-dimensional view of your software project across **Fi
 
 ##  Quick Start
 
-Get Pulseflow running locally via Docker in under 5 minutes:
+Get Pulseflow running locally using our pre-built Docker containers.
+
+*Prerequisite: Ensure you have Docker and Docker Compose installed.*
 
 ```bash
-# 1. Download the deployment configuration
-# (Assuming you provide a docker-compose.yml and manage.sh for users)
-mkdir pulseflow-deployment && cd pulseflow-deployment
-# Download necessary files...
+# 1. Download the latest container images
+docker compose pull
 
 # 2. Setup your configuration
-# Create your config file based on the provided template
-cp examples/pulseflow_config.yaml ./pulseflow_config.yaml
+# Navigate to the config folder and create your config file based on the example
+cd config
+cp pulseflow_config_example.yaml pulseflow_config.yaml
+cd ..
 
-# Edit pulseflow_config.yaml to point to the repository you want to analyze.
-# You can use a symlink in the project root for easier access:
+# 3. Mount your target repository
+# Create a symlink to the Git repository you want to analyze so it's accessible to the container
 ln -s /path/to/your/target/repo ./repo
 
-# 3. Import Data
-# This will analyze your repository and build the DuckDB databases
+# 4. Import and Analyze Data
+# Run the initial importer to build the analysis database
 ./manage.sh import ./repo
 
-# 4. Start the Application
+# 5. Start the Application
 ./manage.sh up
 ```
 
