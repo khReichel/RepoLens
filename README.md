@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="ui/pulseflowui/public/pulseflow.svg" alt="Pulseflow Logo" width="200"/>
+  <img src="artefacts/pulseflow.png" alt="Pulseflow Logo" width="200"/>
 
   # Pulseflow
 
