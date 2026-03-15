@@ -15,12 +15,12 @@ services:
 
   # --- PulseFlow Backend ---
   backend:
-    image: ghcr.io/khReichel/pulseflow-backend:latest
+    image: ghcr.io/khreichel/pulseflow-backend:latest
     container_name: pulseflow-backend
     restart: unless-stopped
     environment:
       - PULSEFLOW_PORT=8000
-      - CONFIG_PATH=/app/config/config.yaml
+      - PULSEFLOW_CONFIG=/app/config/config.yaml
     volumes:
       - ./config:/app/config:ro
       - ./data:/app/data
@@ -30,7 +30,7 @@ services:
 
   # --- PulseFlow UI ---
   ui:
-    image: ghcr.io/khReichel/pulseflow-ui:latest
+    image: ghcr.io/khreichel/pulseflow-ui:latest
     container_name: pulseflow-ui
     restart: unless-stopped
     # Kein "ports" Mapping nötig, da Nginx intern auf Port 80 zugreift

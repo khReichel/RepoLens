@@ -1,0 +1,139 @@
+project:
+  name: "mongodb"
+  db_path: "/app/data"
+  db_update_path: "/app/data/update_data"
+  db_basename: "pulseflow"
+  # The path below must be accessible on the host and correctly mapped in docker-compose
+  repo_path: "/repo"
+  branch: "master"
+  analysis_since: "2025-01-01"
+
+
+
+analysis:
+  components:
+    - component_name: "client"
+      path_prefix: "src/mongo/client/"
+      display_name: "Client"
+    - component_name: "base"
+      path_prefix: "src/mongo/base/"
+      display_name: "Base"
+    - component_name: "shell"
+      path_prefix: "src/mongo/shell/"
+      display_name: "Shell"
+    - component_name: "bson"
+      path_prefix: "src/mongo/bson/"
+      display_name: "Bson"
+    - component_name: "crypto"
+      path_prefix: "src/mongo/crypto/"
+      display_name: "Crypto"
+    - component_name: "db"
+      path_prefix: "src/mongo/db/"
+      display_name: "Db"
+    - component_name: "dbtests"
+      path_prefix: "src/mongo/dbtests/"
+      display_name: "DbTests"
+    - component_name: "executor"
+      path_prefix: "src/mongo/executor/"
+      display_name: "Executor"
+
+  excluded_prefixes:
+    - "bazel/"
+    - "buildfarm/"
+    - "buildscripts/"
+    - "debian/"
+    - "distrc/"
+    - "docs/"
+    - "etc/"
+    - "evergreen/"
+    - "jstests/"
+    - "modules_poc/"
+    - "rpm/"
+    - "tools/"
+    - "x509/"
+    - "src/third_party/"
+    - ".github/"
+
+  excluded_extensions:
+    - ".json"
+    - ".md"
+    - ".txt"
+    - ".log"
+    - ".bazel"
+    - ".idl"
+    - ".tpl"
+    - ".toml"
+    - ".bazelrc"
+    - ".yml"
+    - ".gitignore"
+    - ".in"
+    - ".prettierignore"
+    - ".inl"
+    - ".tidy_config"
+    - ".sh"
+    - ".lock"
+    - ".bazeliskrc"
+    - ".conf"
+    - ".code_workspace"
+
+  users:
+    - name: "jsteemann"
+      aliases:
+        - "jsteemann"
+
+    - name: "allisoneaston"
+      aliases:
+        - "allisoneaston"
+    - name: "dmoody265"
+      aliases:
+        - "dmoody265"
+    - name: "sean.lyons"
+      aliases:
+        - "sean.lyons"
+
+
+  teams:
+    - name : "TeamF"
+      members:
+        - "jsteemann"
+        - "allisoneaston"
+    - name : "TeamG"
+      members:
+        - "dmoody265"
+        - "sean.lyons"
+
+
+
+  # team_memberships: Optional, configurable mapping of the `team_memberships` database table.
+  # Purpose: Shows the time periods during which a developer belonged to a team –
+  #        this is configuration data (e.g., for historical visualizations).
+  # Schema/Expectations:
+  # - developer: Name as in `users.name` (or an alias, depending on the implementation)
+  # - team: Team name as in `teams.name`
+  # - valid_from: ISO-8601 date or date-time (e.g., “2024-01-01” or “2024-01-01T00:00:00Z”)
+  # - valid_to: optional; null or omitted means “until today” / still active
+
+  team_memberships:
+    # columns: informative; not necessarily evaluated, but documents the mapping
+    columns:
+      - developer
+      - team
+      - valid_from
+      - valid_to
+
+    # Format-Hint:
+    format:
+      valid_from: "YYYY-MM-DD or ISO8601 datetime (e.g. 2024-01-01 or 2024-01-01T00:00:00Z)"
+      valid_to: "nullable; same format as valid_from; omit or set to null for active membership"
+
+    # sample entries
+    entries:
+      - developer: "jsteemann"
+        team: "TeamF"
+        valid_from: "2024-01-01"
+        valid_to: null
+
+      - developer: "allisoneaston"
+        team: "TeamF"
+        valid_from: "2023-06-01"
+        valid_to: "2024-12-31"
