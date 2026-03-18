@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="artefacts/repolens.png" alt="RepoLens Logo" width="200"/>
+  <img src="artefacts/repoLens.png" alt="RepoLens Logo" width="200"/>
 
 # RepoLens
 
@@ -19,11 +19,9 @@
 **RepoLens**  is an advanced repository analytics platform that extracts and interprets version control metadata to uncover software evolution patterns, code quality risks, and team interaction dynamics.
 By bridging the gap between raw Git history and actionable insights, Pulseflow empowers engineering teams to manage technical debt proactively, optimize their architecture, and improve collaboration.
 
-It uses pre-built Docker images and a configurable workflow to provide actionable insights **without requiring users to build images locally**.
----
+It uses pre-built Docker images and a configurable workflow to provide actionable insights without requiring users to build images locally.
 
 ## Key Features
---
 
 RepoLens provides a multi-dimensional view of your software project across **Files**, **Modules**, and **Teams**:
 
@@ -120,9 +118,7 @@ Stop containers:
 docker compose logs -f
 ```
 
----
 ![RepoLens Workflow](artefacts/repolens_workflow.png)
----
 
 ## Architecture
 
