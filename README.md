@@ -1,26 +1,31 @@
+# RepoLens README
+
 <div align="center">
 
-  <img src="artefacts/pulseflow.png" alt="Pulseflow Logo" width="200"/>
+  <img src="artefacts/repolens.png" alt="RepoLens Logo" width="200"/>
 
-  # Pulseflow
+# RepoLens
 
-  **From Code to Clarity: Understand Your Project's Pulse**
+**From Code to Clarity: Understand Your Project's Pulse**
 
-  [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://khreichel.github.io/Pulseflow/)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://github.com/ibrl/RepoLens/wiki)
 
 </div>
 
 ---
 
-**Pulseflow** is an advanced repository analytics platform that extracts and interprets version control metadata to uncover software evolution patterns, code quality risks, and team interaction dynamics.
+## Overview
 
+**RepoLens**  is an advanced repository analytics platform that extracts and interprets version control metadata to uncover software evolution patterns, code quality risks, and team interaction dynamics.
 By bridging the gap between raw Git history and actionable insights, Pulseflow empowers engineering teams to manage technical debt proactively, optimize their architecture, and improve collaboration.
 
+It uses pre-built Docker images and a configurable workflow to provide actionable insights **without requiring users to build images locally**.
 ---
 
-##  Key Features
+## Key Features
+--
 
-Pulseflow provides a multi-dimensional view of your software project across **Files**, **Modules**, and **Teams**:
+RepoLens provides a multi-dimensional view of your software project across **Files**, **Modules**, and **Teams**:
 
 ###  Evolution & Pulse
 * **Hotspot Trends:** Identifies files and modules that are becoming increasingly problematic ("Rising") or stabilizing ("Cooling") by comparing historical baselines with current activity.
@@ -36,76 +41,135 @@ Pulseflow provides a multi-dimensional view of your software project across **Fi
 
 ---
 
-##  Quick Start
+## Quick Start
 
-Get Pulseflow running locally using our pre-built Docker containers.
+### 1. Prepare Configuration
 
-*Prerequisite: Ensure you have Docker and Docker Compose installed.*
+RepoLens uses a **`config.yaml`** file in the `config/` directory. Example:
+
+```yaml
+project:
+  name: "myproject"
+  db_path: "/app/data"
+  db_update_path: "/app/data/update_data"
+  db_basename: "repolens"
+  repo_path: "/repo"
+```
+
+> Paths defined in the config are automatically mapped to the containers. Users do **not** need to change any file system paths manually.
+
+---
+
+### 2. Start RepoLens Runtime
 
 ```bash
-# 1. Download the latest container images
-docker compose pull
-
-# 2. Setup your configuration
-# Navigate to the config folder and create your config file based on the example
-cd config
-cp pulseflow_config_example.yaml pulseflow_config.yaml
-cd ..
-
-# 3. Mount your target repository
-# Create a symlink to the Git repository you want to analyze so it's accessible to the container
-ln -s /path/to/your/target/repo ./repo
-
-# 4. Import and Analyze Data
-# Run the initial importer to build the analysis database
-./manage.sh import ./repo
-
-# 5. Start the Application
 ./manage.sh up
 ```
 
-Now open your browser at **`http://localhost`** to explore your dashboard.
+This will start:
+
+* `backend` (API and analysis engine)
+* `ui` (frontend dashboard)
+* `gateway` (Nginx for web access)
+
+Stop containers:
+
+```bash
+./manage.sh down
+```
 
 ---
 
-##  Architecture
+### 3. Import Repository Data (Staging)
 
-Pulseflow is designed for speed and simplicity, utilizing a modern, containerized stack:
+```bash
+./manage.sh import /path/to/local/repo
+```
 
-* **Backend:** A fast, asynchronous REST API built with **Python & FastAPI**.
-* **Storage:** **DuckDB** serves as an embedded analytical database, providing blazing-fast queries over complex version control data without the overhead of a dedicated database server.
-* **Frontend:** A highly responsive Single Page Application built with **React, Vite, Tailwind CSS, and Radix UI**, featuring interactive charts (Recharts) and 3D visualizations.
-* **Importer:** A robust CLI tool utilizing `gitpython` and `rust-code-analysis` to parse repository history and calculate metrics efficiently.
+* Imports repository data **into the staging database** (`db_update_path`).
+* No live data is modified yet.
+* If no path is provided, the `repo_path` from `config.yaml` is used.
 
 ---
 
-##  Comprehensive Documentation
+### 4. Refresh Runtime Database
 
-For detailed guides on configuration, API usage, and interpreting the metrics, please visit our official documentation:
+```bash
+./manage.sh refresh
+```
 
-**[Pulseflow Documentation (GitHub Pages)](https://khreichel.github.io/Pulseflow/)**
+* Atomically swaps the staging database into the runtime database (`db_path`).
+* Stops the backend container briefly to allow the swap.
+* Creates a timestamped backup of the previous runtime database.
+* Restarts the backend container automatically.
 
-**Quick Links:**
-* [Understanding Pulseflow Analyses](https://khreichel.github.io/Pulseflow/analysis.html): Deep dive into what each metric means.
-* [Configuration Guide](https://khreichel.github.io/Pulseflow/pulseflow_config.html): How to set up teams, exclude files, and map your architecture.
-* [API Reference](https://khreichel.github.io/Pulseflow/api.html): Build your own tools on top of the Pulseflow REST API.
+---
+
+### 5. Update Docker Images
+
+```bash
+./manage.sh pull    # Pull latest images
+./manage.sh update  # Pull latest images and restart containers
+```
+
+---
+
+### 6. Optional: View Logs
+
+```bash
+docker compose logs -f
+```
+
+---
+![RepoLens Workflow](artefacts/repolens_workflow.png)
+---
+
+## Architecture
+
+* **Backend:** FastAPI + Python for metrics and analysis.
+* **Storage:** DuckDB, embedded, high-performance analytical DB.
+* **UI:** React + Tailwind CSS, served through Nginx gateway.
+* **Importer:** CLI tool inside container, processes Git history and populates staging DB.
+
+---
+
+## Recommended Workflow
+
+1. `import` → Import repository into staging.
+2. `refresh` → Swap staging DB into runtime atomically.
+3. `update` → Pull latest container images and restart runtime.
+4. Repeat steps 1–3 daily or as needed.
+
+---
+
+## Workflow Diagram
+
+![RepoLens Workflow](/mnt/data/a_flowchart_diagram_titled_repolens_workflow_fro.png)
+
+---
+
+## Notes
+
+* All paths are read from `config.yaml` and mapped correctly in Docker Compose.
+* The staging workflow ensures **zero downtime** for the backend during updates.
+* Backups are automatically created before every refresh.
 
 ---
 
 ## Feedback, Bugs & Feature Requests
 
-Pulseflow is actively evolving, and your feedback is highly appreciated!
+RepoLens is actively evolving, and your feedback is highly appreciated!
 
 If you encounter any issues, discover a bug, or have a great idea for a new analysis feature, please let us know. We welcome all feedback to make this tool better for everyone.
 
- **[Open an Issue on our GitHub Tracker](https://github.com/khreichel/Pulseflow/issues)**
+ **[Open an Issue on our GitHub Tracker](https://github.com/khreichel/RepoLens/issues)**
 
 When reporting bugs, please provide as much context as possible (steps to reproduce, logs, or error messages). For feature requests, describe the use case and how it would benefit your workflow.
 
 ---
 ##  Terms of Use & Disclaimer
 
-Pulseflow is distributed as free-to-use Docker containers. You are welcome to deploy and use the provided images for your own projects.
+RepoLens is distributed as free-to-use Docker containers. You are welcome to deploy and use the provided images for your own projects.
 
 **Disclaimer of Warranty:**
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. USE AT YOUR OWN RISK.
