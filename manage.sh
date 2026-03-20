@@ -1,7 +1,31 @@
 #!/bin/bash
 
+# Ensure UID/GID are available for docker-compose
+export HOST_UID=$(id -u)
+export HOST_GID=$(id -g)
+
+# Ensure volume directories exist and belong to the current user
+ensure_volume_dir() {
+    local dir="$1"
+
+    if [ ! -d "$dir" ]; then
+        echo "Creating volume directory: $dir"
+        mkdir -p "$dir"
+    fi
+
+    # Fix ownership recursively
+    local owner_uid
+    owner_uid=$(stat -c %u "$dir")
+
+    if [ "$owner_uid" != "$HOST_UID" ]; then
+        echo "Fixing ownership for $dir"
+        chown -R "$HOST_UID:$HOST_GID" "$dir"
+    fi
+}
+
+
 # Configuration
-CONFIG_FILE="pulseflow_config.yaml"
+CONFIG_FILE="config/config.yaml"
 
 # 1. Attempt to get the actual bridge gateway IP
 DETECTED_GATEWAY=$(docker network inspect bridge --format='{{(index .IPAM.Config 0).Gateway}}' 2>/dev/null)
@@ -17,171 +41,170 @@ fi
 echo "--- Network Setup: Mapping host.docker.internal to $DOCKER_GATEWAY ---"
 
 # --- Helper Functions ---
-# Function to check if a command exists
-command_exists() {
-  command -v "$1" >/dev/null 2>&1
+
+read_yaml_key() {
+    local key="$1"
+    grep -E "^[[:space:]]*$key:" "$CONFIG_FILE" \
+        | sed -E 's/^[^:]+:[[:space:]]*"?([^"#]+)"?.*/\1/'
 }
+
 
 case "$1" in
   # 1. Start everything
   up)
+      ensure_volume_dir "./data"
+      ensure_volume_dir "./exports"
+      ensure_volume_dir "./repo"
     MODE="${2:-prod}"
     case "$MODE" in
       dev)
-        echo "build development image"
+        echo "Starting development environment..."
         docker compose -f docker-compose.dev.yml up -d --build
         ;;
       prod)
-        echo "build production image"
+        echo "Starting production environment..."
         docker compose -f docker-compose.yml up -d --build
         ;;
       *)
-        echo "build production image"
+        echo "Starting production environment..."
         docker compose -f docker-compose.yml up -d --build
         ;;
     esac
     ;;
-  # New command to shut down containers
+
+  # Shut down containers
   down)
     echo "Stopping and removing containers..."
     docker compose down
     echo "All services have been shut down."
     ;;
 
-  replace)
-    # Validate arguments
-    if [ -z "${2:-}" ] || [ -z "${3:-}" ] || [ -z "${4:-}" ]; then
-      echo "Usage: ./manage.sh replace <source_dir> <new_basename> <old_basename>"
-      exit 1
-    fi
+  # 2. Refresh: Atomic swap from staging to production
+  refresh)
+    echo "--- Refreshing RepoLens database from staging ---"
+    ensure_volume_dir "./data"
+    # Read values from YAML
+    DB_PATH=$(read_yaml_key "db_path")
+    DB_UPDATE_PATH=$(read_yaml_key "db_update_path")
+    DB_BASENAME=$(read_yaml_key "db_basename")
 
-    SOURCE_DIR="$2"
-    NEW_BASE="$3"
-    OLD_BASE="$4"
-    SCRIPT_DIR=$(dirname "$0")
-
-    TARGET_DIR="${SCRIPT_DIR}/data"
-
-    CONTAINER="backend"
-
-    # Derived filenames
-    NEW_ANALYSIS="${NEW_BASE}.duckdb"
-    NEW_CONFIG="${NEW_BASE}_config.duckdb"
-
-    OLD_ANALYSIS="${OLD_BASE}.duckdb"
-    OLD_CONFIG="${OLD_BASE}_config.duckdb"
-
-    # Check new files exist
-    if [[ ! -f "${SOURCE_DIR}/${NEW_ANALYSIS}" ]] || [[ ! -f "${SOURCE_DIR}/${NEW_CONFIG}" ]]; then
-        echo "Error: Source directory must contain:"
-        echo "  ${NEW_ANALYSIS}"
-        echo "  ${NEW_CONFIG}"
+    # Validate
+    if [ -z "$DB_PATH" ] || [ -z "$DB_UPDATE_PATH" ] || [ -z "$DB_BASENAME" ]; then
+        echo "Error: Could not read required keys from $CONFIG_FILE"
+        echo "Required keys: db_path, db_update_path, db_basename"
         exit 1
     fi
 
-    # Backup directory
-    BACKUP_DIR="${TARGET_DIR}/backup_$(date +%Y%m%d_%H%M%S)"
-    echo "Backup directory: $BACKUP_DIR"
-    mkdir -p "$BACKUP_DIR"
+    echo "DB_PATH: $DB_PATH"
+    echo "DB_UPDATE_PATH: $DB_UPDATE_PATH"
+    echo "DB_BASENAME: $DB_BASENAME"
 
-    rollback() {
-        echo "Executing rollback..."
-        mv -f "${BACKUP_DIR}/${OLD_ANALYSIS}" "${TARGET_DIR}/" 2>/dev/null || true
-        mv -f "${BACKUP_DIR}/${OLD_CONFIG}" "${TARGET_DIR}/" 2>/dev/null || true
-        docker compose start "$CONTAINER"
-        echo "Rollback finished."
-    }
-    trap rollback ERR
+    # Convert container paths to host paths
+    HOST_DB_PATH=${DB_PATH/\/app\//./}
+    HOST_UPDATE_PATH=${DB_UPDATE_PATH/\/app\//./}
 
-    echo "Stopping backend..."
-    docker compose stop "$CONTAINER"
+    STAGING_ANALYSIS="${HOST_UPDATE_PATH}/${DB_BASENAME}.duckdb"
+    STAGING_CONFIG="${HOST_UPDATE_PATH}/${DB_BASENAME}_config.duckdb"
 
-    echo "Backup of the old files..."
-    mv "${TARGET_DIR}/${OLD_ANALYSIS}" "$BACKUP_DIR/" 2>/dev/null || true
-    mv "${TARGET_DIR}/${OLD_CONFIG}" "$BACKUP_DIR/" 2>/dev/null || true
-
-    echo "Copy new files..."
-    cp "${SOURCE_DIR}/${NEW_ANALYSIS}" "${TARGET_DIR}/${OLD_ANALYSIS}"
-    cp "${SOURCE_DIR}/${NEW_CONFIG}" "${TARGET_DIR}/${OLD_CONFIG}"
-
-    echo "Starting backend..."
-    docker compose start "$CONTAINER"
-
-    echo "Success! Databases have been replaced."
-    ;;
-
-  # 3. Run the full import and analysis process
-  import)
-    if [ -z "$2" ]; then
-      echo "Error: Please provide the path to the repository on your host machine."
-      echo "Usage: ./manage.sh import /path/to/your/repo"
-      exit 1
+    if [[ ! -f "$STAGING_ANALYSIS" ]] || [[ ! -f "$STAGING_CONFIG" ]]; then
+        echo "Error: Staging database not found at '$HOST_UPDATE_PATH'"
+        echo "Expected: $STAGING_ANALYSIS and $STAGING_CONFIG"
+        exit 1
     fi
 
-    echo "Running full import and analysis process for repository at $2..."
+    echo "Stopping backend..."
+    docker compose stop backend
 
-    # Set the environment variable for docker-compose to use.
-    export REPO_PATH_HOST=$2
+    # Backup
+    BACKUP_DIR="${HOST_DB_PATH}/backup_$(date +%Y%m%d_%H%M%S)"
+    echo "Creating backup in $BACKUP_DIR..."
+    mkdir -p "$BACKUP_DIR"
+    cp "${HOST_DB_PATH}/${DB_BASENAME}.duckdb" "$BACKUP_DIR/" 2>/dev/null || true
+    cp "${HOST_DB_PATH}/${DB_BASENAME}_config.duckdb" "$BACKUP_DIR/" 2>/dev/null || true
 
-    # Define the command to run inside the container.
-    # This includes adding the repo to git's safe directories before running the import.
-    CMD="git config --global --add safe.directory /repo && python -m import_export.database_importer"
+    # Swap
+    echo "Copying staging files to production..."
+    cp "$STAGING_ANALYSIS" "${HOST_DB_PATH}/${DB_BASENAME}.duckdb"
+    cp "$STAGING_CONFIG" "${HOST_DB_PATH}/${DB_BASENAME}_config.duckdb"
 
-    # First, import the configuration.
-    docker compose run --rm -e PYTHONPATH=/app/src importer sh -c "$CMD config --config-file /app/config/config.yaml"
-    # Then, run the analysis.
-    docker compose run --rm -e PYTHONPATH=/app/src importer sh -c "$CMD analysis --config-file /app/config/config.yaml"
+    echo "Starting backend..."
+    docker compose up -d backend
 
-    # Unset the variable for cleanliness
+    echo "--- Refresh completed ---"
+    ;;
+
+  # 3. Import: Run full import and analysis
+  import)
+      ensure_volume_dir "./data"
+      ensure_volume_dir "./exports"
+      ensure_volume_dir "./repo"
+      REPO_DIR=""
+
+      if [ -z "$2" ]; then
+          REPO_DIR=$(read_yaml_key "repo_path")
+
+          if [ -z "$REPO_DIR" ]; then
+              echo "Error: Could not read 'repo_path' from $CONFIG_FILE"
+              exit 1
+          fi
+
+          echo "Using repository path from config: $REPO_DIR"
+      else
+          REPO_DIR=$(realpath "$2")
+      fi
+
+      if [ ! -d "$REPO_DIR" ]; then
+          echo "Error: Repository directory does not exist: $REPO_DIR"
+          exit 1
+      fi
+
+    echo "Running import for repository at $REPO_DIR..."
+    export REPO_PATH_HOST="$REPO_DIR"
+
+    docker compose run --rm importer config --config-file /app/config/config.yaml
+    docker compose run --rm importer analysis --config-file /app/config/config.yaml
+
     unset REPO_PATH_HOST
-
     echo "Import and analysis complete."
     ;;
 
-  # Debug command to print Python's sys.path
-  debug-path)
-    echo "Debugging Python path in the 'importer' container..."
-    docker compose run --rm -e PYTHONPATH=/app/src importer python -c "import sys; import os; print('--- Python Search Path (sys.path) ---'); [print(p) for p in sys.path]; print('\n--- Contents of /app/src ---'); os.system('ls -l /app/src')"
+  # 4. Maintenance Commands
+  pull-latest)
+    echo "Pulling latest images from GitHub..."
+    docker login ghcr.io
+    docker compose pull
+    docker compose up -d
+    echo "Update complete."
     ;;
 
   update)
-      echo “Rebuild images and start containers...”
-      # --build forces the images to be rebuilt
-      # --remove-orphans deletes containers that are no longer in docker-compose.yml
-      docker compose up -d --build --remove-orphans
-      echo "Update completed."
-      ;;
+    echo "Rebuilding and restarting containers..."
+    docker compose up -d --build --remove-orphans
+    echo "Update complete."
+    ;;
 
   logs)
-      echo “Logs are being written to the ./logs/ folder...”
-      # ‘nohup’ allows the command to continue running in the background
-      # ‘split’ ensures that the files do not become infinitely large
-      docker compose logs -f -t > ./logs/combined_$(date +%Y%m%d).log 2>&1 &
-      echo "Log-Streaming im Hintergrund gestartet."
-      ;;
+    echo "Streaming logs to ./logs/combined_$(date +%Y%m%d).log ..."
+    mkdir -p ./logs
+    docker compose logs -f -t > ./logs/combined_$(date +%Y%m%d).log 2>&1 &
+    echo "Log streaming started in background."
+    ;;
 
-  pull-latest)
-      echo "Load latest images from github ..."
-      docker compose pull
-      docker compose up -d
-      echo "Update completed."
-      ;;
-
+  debug-path)
+    docker compose run --rm -e PYTHONPATH=/app/src importer python -c "import sys; import os; print('--- Python Search Path ---'); [print(p) for p in sys.path]; print('\n--- /app/src content ---'); os.system('ls -l /app/src')"
+    ;;
 
   *)
-      echo "Commands:"
-      echo "  ./manage.sh up                                   - Build and start all services"
-      echo "  ./manage.sh down                                 - Stop and remove all services"
-      echo "  ./manage.sh import <path>                        - Run the full import and analysis for a local repository"
-      echo "  ./manage.sh replace <src> <new_base> <old_base>  - Safely replace database files"
-      echo "       <src>       = Directory with new files"
-      echo "       <new_base>  = Base name of the new files (e.g., pulseflow)"
-      echo "       <old_base>  = Base name of the previous files"
-      echo "  ./manage.sh logs                                 - Stream container logs to a file"
-      echo "  ./manage.sh pull-latest                          - Pull latest images from registry and restart"
-      echo "  ./manage.sh update                               - Rebuild images and restart containers"
-      echo "  ./manage.sh debug-path                           - Print Python's search path inside the importer container"
-      exit 1
-      ;;
-
+    echo "Usage: ./manage.sh <command>"
+    echo "Commands:"
+    echo "  up [prod|dev]          - Start services (default: prod)"
+    echo "  down                   - Stop and remove services"
+    echo "  import [path]          - Run import/analysis (uses config path if omitted)"
+    echo "  refresh                - Move staging DB to production"
+    echo "  pull-latest            - Pull images from registry and restart"
+    echo "  update                 - Rebuild and restart containers"
+    echo "  logs                   - Stream logs to background file"
+    echo "  debug-path             - Check container Python environment"
+    exit 1
+    ;;
 esac

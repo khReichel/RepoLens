@@ -1,61 +1,65 @@
+name: repolens
 services:
-  # --- Gateway (Nginx) ---
+  # The Gateway (Nginx) routes traffic: /api/ -> Backend, everything else -> UI
   gateway:
     image: nginx:alpine
-    container_name: pulseflow-gateway
     ports:
-      - "80:80"  # Die einzige Tür nach draußen
+      - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - backend
       - ui
     networks:
-      - pulseflow-network
+      - repolens-network
 
-  # --- PulseFlow Backend ---
+  # --- RepoLens Backend ---
   backend:
-    image: ghcr.io/khreichel/pulseflow-backend:latest
-    container_name: pulseflow-backend
+    image: ghcr.io/khreichel/repolens-backend:latest
+    container_name: repolens-backend
     restart: unless-stopped
-    environment:
-      - PULSEFLOW_PORT=8000
-      - PULSEFLOW_CONFIG=/app/config/config.yaml
+    user: "${HOST_UID}:${HOST_GID}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./config:/app/config:ro
       - ./data:/app/data
       - ./exports:/app/export
+    environment:
+      - REPOLENS_CONFIG=/app/config/config.yaml
     networks:
-      - pulseflow-network
+      - repolens-network
 
-  # --- PulseFlow UI ---
+  # --- RepoLens UI ---
   ui:
-    image: ghcr.io/khreichel/pulseflow-ui:latest
-    container_name: pulseflow-ui
+    image: ghcr.io/khreichel/repolens-ui:latest
+    container_name: repolens-ui
     restart: unless-stopped
-    # Kein "ports" Mapping nötig, da Nginx intern auf Port 80 zugreift
     networks:
-      - pulseflow-network
+      - repolens-network
 
-  # --- PulseFlow Importer (Run on demand: docker compose run importer) ---
+  # --- RepoLens Importer (Run on demand: docker compose run importer) ---
   importer:
-    image: ghcr.io/khreichel/pulseflow-backend:latest
-    container_name: pulseflow-importer
+    image: ghcr.io/khreichel/repolens-backend:latest
+    container_name: repolens-importer
+    user: "${HOST_UID}:${HOST_GID}"
+
     profiles:
       - tools
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./config:/app/config:ro
       - ./data:/app/data
       - ./exports:/app/export
       - ./repo:/repo:ro
     environment:
-      - PULSEFLOW_CONFIG=/app/config/config.yaml
-    entrypoint: [ "python", "src/import_export/database_importer.py" ]
+      - HOME=/tmp
+      - REPOLENS_CONFIG=/app/config/config.yaml
+    entrypoint: ["python", "/app/src/importer.py"]
     networks:
-      - pulseflow-network
+      - repolens-network
 
 networks:
-  pulseflow-network:
+  repolens-network:
     driver: bridge
-
-    
