@@ -1,152 +1,82 @@
-# RepoLens README
-
 <div align="center">
 
   <img src="artefacts/repoLens.png" alt="RepoLens Logo" width="200"/>
 
-# RepoLens
+  # RepoLens
 
-**From Code to Clarity: Understand Your Project's Pulse**
+  **From Code to Clarity: Master Your Software Evolution & Team Dynamics.**
 
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://github.com/ibrl/RepoLens/wiki)
 
+  [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg)](https://github.com/ibrl/RepoLens/wiki)
+    ![Docker](https://img.shields.io/badge/Platform-Docker-blue)
 </div>
 
 ---
 
 ## Overview
 
-**RepoLens**  is an advanced repository analytics platform that extracts and interprets version control metadata to uncover software evolution patterns, code quality risks, and team interaction dynamics.
-By bridging the gap between raw Git history and actionable insights, Pulseflow empowers engineering teams to manage technical debt proactively, optimize their architecture, and improve collaboration.
+**RepoLens** is an advanced repository analytics platform that extracts and interprets version control metadata to uncover software evolution patterns, code quality risks, and team interaction dynamics.
 
-It uses pre-built Docker images and a configurable workflow to provide actionable insights without requiring users to build images locally.
+By bridging the gap between raw Git history and actionable insights, RepoLens empowers engineering teams to manage technical debt proactively, optimize their architecture, and improve collaboration.
+
+---
 
 ## Key Features
 
 RepoLens provides a multi-dimensional view of your software project across **Files**, **Modules**, and **Teams**:
 
-###  Evolution & Pulse
-* **Hotspot Trends:** Identifies files and modules that are becoming increasingly problematic ("Rising") or stabilizing ("Cooling") by comparing historical baselines with current activity.
+### Evolution & Pulse
+* **Change Frequency:** Understand where development effort is concentrated by tracking commit density over time.
+* **Development Trend:** Compare historical baselines with current activity to see if components are "Spiking," "Cooling," or "Stable."
 * **Activity Recency:** Quickly spot abandoned legacy code versus areas of intense recent development.
-* **Code Churn:** Analyze the raw volume of changes (added/deleted lines) to find unstable components.
+* **Absolute Churn:** Analyze the raw volume of changes (added/deleted lines) to find highly unstable components.
 
-###  Structure & Logic
-* **Combined Complexity:** A holistic view combining *Cognitive Complexity*, *Cyclomatic Complexity*, and structural *Effort* to pinpoint exactly where code is hardest to maintain.
+### Quality & Risk
+* **Hotspot Analysis:** Identify critical problem areas by combining Code Churn (activity) with File Age (longevity of changes). Pinpoint your biggest sources of technical debt.
+* **Module Hotspot Trends:** See which architectural components are heating up or cooling down from a risk perspective.
 
-###  Team & Knowledge (Conway's Law in Action)
-* **Code Ownership & Fragmentation:** Identify knowledge silos (single points of failure/Bus Factor) and fragmented code (too many developers touching the same file).
-* **Module-Team Alignment:** Visualize which teams effectively "own" which architectural components, helping to align software architecture with team topology.
+### Structure & Logic
+* **Combined Complexity:** A holistic view combining *Cyclomatic Complexity* (branching), *Cognitive Complexity* (readability), and structural *Effort* to pinpoint exactly where code is hardest to maintain.
+* **Complexity Trends:** Track if recent development is making your code more complex (accumulating debt) or simpler (successful refactoring).
 
----
+### Team & Knowledge (Conway's Law in Action)
+* **Code Ownership:** Identify primary knowledge carriers and single points of failure (Bus Factor) for any given file or module.
+* **Knowledge Fragmentation:** Discover components modified by too many distinct developers, indicating a lack of ownership or communication overhead.
+* **Module Ownership by Teams:** Visualize which teams effectively "own" which architectural components.
+* **Top Team Contributors:** Identify which teams are actively driving the development of specific modules to align architecture with team topology.
 
-## Quick Start
+### Base Metrics
+* **Lines of Code (LOC):** Track physical size to identify massive "God Objects" violating the Single Responsibility Principle.
 
-### 1. Prepare Configuration
-
-RepoLens uses a **`config.yaml`** file in the `config/` directory. Example:
-
-```yaml
-project:
-  name: "myproject"
-  db_path: "/app/data"
-  db_update_path: "/app/data/update_data"
-  db_basename: "repolens"
-  repo_path: "/repo"
-```
-
-> Paths defined in the config are automatically mapped to the containers. Users do **not** need to change any file system paths manually.
 
 ---
 
-### 2. Start RepoLens Runtime
+##  Quick Start
 
-```bash
-./manage.sh up
-```
+RepoLens is distributed as a set of pre-built Docker containers, making it easy to deploy without needing to build from source.
 
-This will start:
+1. **Download the Release:** Get the latest `docker-compose.yml`, `manage.sh`, and configuration templates from our releases page.
+2. **Configure:** Edit the `config/config.yaml` to point to your repository and define your modules.
+3. **Analyze:** Run `./manage.sh import` to analyze your repository history.
+4. **Refresh:** Run `./manage.sh refresh` to bring analysis in place.
+5. **Launch:** Run `./manage.sh up` to start the dashboard.
 
-* `backend` (API and analysis engine)
-* `ui` (frontend dashboard)
-* `gateway` (Nginx for web access)
-
-Stop containers:
-
-```bash
-./manage.sh down
-```
+Open your browser at **`http://localhost`** to explore your data.
 
 ---
 
-### 3. Import Repository Data (Staging)
+## Dashboard Preview
+<div align="center">
 
-```bash
-./manage.sh import /path/to/local/repo
-```
+  <img src="artefacts/repolens_view.png" alt="RepoLens Dashboard" width="100%"/>
+</div>
 
-* Imports repository data **into the staging database** (`db_update_path`).
-* No live data is modified yet.
-* If no path is provided, the `repo_path` from `config.yaml` is used.
 
----
+## Comprehensive Documentation
 
-### 4. Refresh Runtime Database
+For detailed guides on deploying RepoLens, configuring your analysis, managing the database lifecycle (including zero-downtime updates), and interpreting the metrics, please visit our official documentation:
 
-```bash
-./manage.sh refresh
-```
-
-* Atomically swaps the staging database into the runtime database (`db_path`).
-* Stops the backend container briefly to allow the swap.
-* Creates a timestamped backup of the previous runtime database.
-* Restarts the backend container automatically.
-
----
-
-### 5. Update Docker Images
-
-```bash
-./manage.sh pull    # Pull latest images
-./manage.sh update  # Pull latest images and restart containers
-```
-
----
-
-### 6. Optional: View Logs
-
-```bash
-docker compose logs -f
-```
-
-## Architecture
-
-* **Backend:** FastAPI + Python for metrics and analysis.
-* **Storage:** DuckDB, embedded, high-performance analytical DB.
-* **UI:** React + Tailwind CSS, served through Nginx gateway.
-* **Importer:** CLI tool inside container, processes Git history and populates staging DB.
-
----
-
-## Recommended Workflow
-
-1. `import` → Import repository into staging.
-2. `refresh` → Swap staging DB into runtime atomically.
-3. `update` → Pull latest container images and restart runtime.
-4. Repeat steps 1–3 daily or as needed.
-
----
-
-## Workflow Diagram
-
-![RepoLens Workflow](artefacts/repolens_workflow.png)
-
----
-
-## Notes
-
-* All paths are read from `config.yaml` and mapped correctly in Docker Compose.
-* The staging workflow ensures **zero downtime** for the backend during updates.
-* Backups are automatically created before every refresh.
+👉 **[RepoLens Official Documentation](https://github.com/ibrl/RepoLens/wiki)**
 
 ---
 
@@ -156,11 +86,12 @@ RepoLens is actively evolving, and your feedback is highly appreciated!
 
 If you encounter any issues, discover a bug, or have a great idea for a new analysis feature, please let us know. We welcome all feedback to make this tool better for everyone.
 
- **[Open an Issue on our GitHub Tracker](https://github.com/khreichel/RepoLens/issues)**
+👉 **[Open an Issue on our GitHub Tracker](https://github.com/khreichel/RepoLens/issues)**
 
 When reporting bugs, please provide as much context as possible (steps to reproduce, logs, or error messages). For feature requests, describe the use case and how it would benefit your workflow.
 
 ---
+
 ##  Terms of Use & Disclaimer
 
 RepoLens is distributed as free-to-use Docker containers. You are welcome to deploy and use the provided images for your own projects.
