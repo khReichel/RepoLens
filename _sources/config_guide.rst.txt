@@ -1,9 +1,9 @@
-.. _repolens_config:
+.. _config_guide:
 
-RepoLens Configuration File
+Calyntro Configuration File
 ============================
 
-The ``config.yaml`` file is the central place to configure the analysis performed by RepoLens. It defines the project settings, what to include and exclude from the analysis, and how to map users to teams.
+The ``config.yaml`` file is the central place to configure the analysis performed by Calyntro. It defines the project settings, what to include and exclude from the analysis, and how to map users to teams.
 
 This document describes the structure and purpose of each section in the configuration file.
 
@@ -17,14 +17,14 @@ The ``project`` section contains general settings for the project and the analys
    project:
      name: "mongodb"
      db_path: "./data_tmp"
-     db_basename: "repolens"
+     db_basename: "calyntro"
      repo_path: "/home/user/projects/mongo"
      branch: "master"
      analysis_since: "2025-01-01"
 
 *   **name**: A string representing the name of the project.
 *   **db_path**: The file system path where the database files will be stored.
-*   **db_basename**: The base name for the generated database files (e.g., ``repolens.duckdb``).
+*   **db_basename**: The base name for the generated database files (e.g., ``calyntro.duckdb``).
 *   **repo_path**: The absolute or relative path to the Git repository that you want to analyze.
 *   **branch**: The specific branch of the repository to be analyzed.
 *   **analysis_since**: The start date for the analysis in ``YYYY-MM-DD`` format. Commits older than this date will be ignored.
@@ -140,5 +140,3 @@ The ``team_memberships`` section provides a way to track temporal membership of 
 
 
 **Important**: The relationship between users and teams is defined exclusively through the ``team_memberships`` table. The ``teams`` table contains only the team identifiers and names. To query which users belong to a team, always join ``teams`` with ``team_memberships`` on the ``team_id`` field.
-
-

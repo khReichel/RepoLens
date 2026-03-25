@@ -1,16 +1,16 @@
 .. _analysis:
 
-Understanding RepoLens Analyses
+Understanding Calyntro Analyses
 ================================
 
-RepoLens offers a comprehensive suite of analyses to help you understand the health, evolution, and risks within your codebase. Each analysis provides a unique lens, from identifying high-activity areas to pinpointing technical debt and knowledge bottlenecks.
+Calyntro offers a comprehensive suite of analyses to help you understand the health, evolution, and risks within your codebase. Each analysis provides a unique lens, from identifying high-activity areas to pinpointing technical debt and knowledge bottlenecks.
 
 As a **Lead Developer** or **Software Architect**, you can use these metrics to guide your refactoring efforts, balance team workloads, and mitigate risks before they lead to production issues.
 
 Analysis Scopes
 ---------------
 
-RepoLens allows you to view metrics at different levels of granularity, depending on the questions you are trying to answer:
+Calyntro allows you to view metrics at different levels of granularity, depending on the questions you are trying to answer:
 
 *   **File Level**: Focuses on individual source code files. Ideal for identifying specific "hotspots" or complex files that need immediate refactoring.
 *   **Module Level**: Aggregates data by logical components or directories. Useful for seeing which parts of the system are growing fastest or where architectural complexity is accumulating.
@@ -93,7 +93,7 @@ Complexity
 
 Complexity Trend
 ^^^^^^^^^^^^^^^^
-*   **What it Measures**: Complexity isn't just a snapshot; RepoLens tracks how **Cognitive Complexity** changes between two points in time.
+*   **What it Measures**: Complexity isn't just a snapshot; Calyntro tracks how **Cognitive Complexity** changes between two points in time.
 *   **Calculation**: It compares the complexity at the start and end of your selected timeframe.
 
     *   A **relative increase** in cognitive complexity suggests that new features are being added in a way that makes the code harder to understand.

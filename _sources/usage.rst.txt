@@ -3,10 +3,10 @@
 Dashboard User Guide
 ====================
 
-The RepoLens Dashboard is your central hub for exploring the health and evolution of your software project. This guide explains how to navigate the interface and use its features effectively.
+The Calyntro Dashboard is your central hub for exploring the health and evolution of your software project. This guide explains how to navigate the interface and use its features effectively.
 
 .. image:: /_static/dashboard_overview.png
-   :alt: RepoLens Dashboard Overview
+   :alt: Calyntro Dashboard Overview
    :align: center
 
 Navigation & Filtering
@@ -26,7 +26,7 @@ The top bar of the dashboard provides global controls that affect all analysis v
 Views
 -----
 
-RepoLens currently provides a detailed table view for exploring your code analysis results.
+Calyntro currently provides a detailed table view for exploring your code analysis results.
 
 1. Table View
 ^^^^^^^^^^^^^

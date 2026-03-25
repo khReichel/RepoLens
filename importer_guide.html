@@ -6,13 +6,13 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Import &amp; Update Guide &mdash; repolens 0.1.0 documentation</title>
+  <title>Setup &amp; Update Guide &mdash; calyntro 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-    <link rel="canonical" href="https://khreichel.github.io/RepoLens/importer_guide.html" />
+    <link rel="canonical" href="https://khreichel.github.io/Calyntro/importer_guide.html" />
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
@@ -34,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            repolens
+            calyntro
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,16 +46,27 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Import &amp; Update Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#initial-data-import">Initial Data Import</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#incremental-update-workflow-zero-downtime">Incremental Update Workflow (Zero Downtime)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup &amp; Update Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#initial-setup">Initial Setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#download-container-images">1. Download Container Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-configuration">2. Prepare Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mount-target-repository">3. Mount Target Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-initial-import">4. Run Initial Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#move-database-to-runtime">5. Move Database to Runtime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#start-calyntro">6. Start Calyntro</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#update-process-operation">Update Process (Operation)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#incremental-import">1. Incremental Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#refresh-live-database">2. Refresh Live Database</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding RepoLens Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Calyntro Analyses</a></li>
 </ul>
 
         </div>
@@ -64,7 +75,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">repolens</a>
+          <a href="index.html">calyntro</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -72,7 +83,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Data Import &amp; Update Guide</li>
+      <li class="breadcrumb-item active">Setup &amp; Update Guide</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/importer_guide.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -82,72 +93,81 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="data-import-update-guide">
-<span id="importer-guide"></span><h1>Data Import &amp; Update Guide<a class="headerlink" href="#data-import-update-guide" title="Link to this heading"></a></h1>
-<p>This guide explains how to import data into RepoLens and how to run updates while the application is actively serving users.</p>
-<p>The import process is responsible for two key tasks:</p>
-<ol class="arabic simple">
-<li><p><strong>Configuration Sync</strong>: Loading your project settings, component definitions, and team structures from your <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> into the configuration database.</p></li>
-<li><p><strong>Analysis Import</strong>: Scanning your Git repository, calculating metrics (like complexity and churn), and populating the analysis database.</p></li>
-</ol>
-<p>In RepoLens, all data extraction and updating is handled exclusively via Docker containers using the <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code> script.</p>
-<section id="initial-data-import">
-<h2>Initial Data Import<a class="headerlink" href="#initial-data-import" title="Link to this heading"></a></h2>
-<p>To run the initial import for a repository, use the <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code> script. This command mounts your local repository into the Docker container, runs the configuration sync, and then performs the full analysis.</p>
-<p><strong>Command:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import<span class="w"> </span>/absolute/path/to/your/repository
-</pre></div>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Instead of passing the absolute path every time, you can create a symlink named <code class="docutils literal notranslate"><span class="pre">repo</span></code> in the RepoLens root directory pointing to your target repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span>/path/to/target/repo<span class="w"> </span>./repo
-</pre></div>
-</div>
-<p>If you do this, you can simply run <code class="docutils literal notranslate"><span class="pre">./manage.sh</span> <span class="pre">import</span> <span class="pre">./repo</span></code>.</p>
-</div>
+  <section id="setup-update-guide">
+<span id="importer-guide"></span><h1>Setup &amp; Update Guide<a class="headerlink" href="#setup-update-guide" title="Link to this heading"></a></h1>
+<p>This guide explains how to perform the initial setup of Calyntro and how to update your analysis data during regular operation.</p>
+<p>Calyntro uses a staging workflow for data imports. New data is first imported into an “update” database. Once the import is complete, this database is safely swapped into the live environment. This ensures that the dashboard remains available and responsive while heavy analysis tasks run in the background.</p>
 <p><strong>Prerequisites:</strong></p>
 <ul class="simple">
-<li><p>Docker must be running.</p></li>
-<li><p>You must have a valid <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> in your project’s <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder.</p></li>
+<li><p><strong>Docker</strong> &amp; <strong>Docker Compose</strong> must be installed and running.</p></li>
+<li><p><strong>Python</strong> is required on your host machine to execute the management scripts.</p></li>
 </ul>
-</section>
-<section id="incremental-update-workflow-zero-downtime">
-<h2>Incremental Update Workflow (Zero Downtime)<a class="headerlink" href="#incremental-update-workflow-zero-downtime" title="Link to this heading"></a></h2>
-<p>RepoLens is designed to support background updates without requiring you to shut down the frontend or the backend API.</p>
-<p>The importer operates incrementally: it checks which commits are already present in the database and only analyzes new commits. To ensure this process is fast and doesn’t lock the live database, RepoLens uses two separate database paths defined in your <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">project.db_path</span></code>: The directory where the <em>live</em> databases used by the backend reside (e.g., <code class="docutils literal notranslate"><span class="pre">/app/data</span></code>).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">project.db_update_path</span></code>: The directory where the importer writes new data (e.g., <code class="docutils literal notranslate"><span class="pre">/app/data/update_data</span></code>).</p></li>
-</ul>
-<p><strong>The Update Process:</strong></p>
-<ol class="arabic">
-<li><p><strong>Prepare the Update Directory</strong>
-For the incremental import to work efficiently, the importer needs to know the current state. Therefore, the live databases should be copied into the update directory before starting the import.</p>
-<p><em>Note: If you are using the default configuration paths provided by RepoLens, this directory structure and file separation is handled automatically.</em></p>
-</li>
-<li><p><strong>Run the Importer</strong>
-Run the import command just like the initial import. The script will detect the existing databases in the <code class="docutils literal notranslate"><span class="pre">db_update_path</span></code>, identify new commits in the repository, and append the new analysis data.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import<span class="w"> </span>/absolute/path/to/your/repository
+<hr class="docutils" />
+<section id="initial-setup">
+<h2>Initial Setup<a class="headerlink" href="#initial-setup" title="Link to this heading"></a></h2>
+<p>Follow these steps to initialize Calyntro for the first time.</p>
+<section id="download-container-images">
+<h3>1. Download Container Images<a class="headerlink" href="#download-container-images" title="Link to this heading"></a></h3>
+<p>First, pull the latest pre-built Calyntro images from the registry:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>pull
 </pre></div>
 </div>
-</li>
-<li><p><strong>Refresh the Live Database</strong>
-Once the importer has finished running in the background and the databases in the <code class="docutils literal notranslate"><span class="pre">db_update_path</span></code> are fully updated, you need to swap them with the live databases.</p>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">refresh</span></code> command to perform an automated swap. This will briefly pause the backend, back up the old databases, move the new ones from the staging area to the production area, and restart the backend.</p>
+</section>
+<section id="prepare-configuration">
+<h3>2. Prepare Configuration<a class="headerlink" href="#prepare-configuration" title="Link to this heading"></a></h3>
+<p>Navigate to the <code class="docutils literal notranslate"><span class="pre">config</span></code> directory and set up your <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file. You can usually start by copying an example template provided in the release.</p>
+<p>Ensure you configure your modules, teams, and exclusions correctly. For detailed information on all configuration options, please refer to the <a class="reference internal" href="config_guide.html#config-guide"><span class="std std-ref">Configuration Guide</span></a>.</p>
+</section>
+<section id="mount-target-repository">
+<h3>3. Mount Target Repository<a class="headerlink" href="#mount-target-repository" title="Link to this heading"></a></h3>
+<p>Calyntro needs access to the Git repository you want to analyze. The easiest way to provide this is to create a symbolic link named <code class="docutils literal notranslate"><span class="pre">repo</span></code> in the Calyntro root directory that points to your local repository folder.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span>/path/to/your/target/repository<span class="w"> </span>./repo
+</pre></div>
+</div>
+</section>
+<section id="run-initial-import">
+<h3>4. Run Initial Import<a class="headerlink" href="#run-initial-import" title="Link to this heading"></a></h3>
+<p>Now, start the importer to analyze the Git history and build the initial staging database.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import<span class="w"> </span>repo
+</pre></div>
+</div>
+<p><em>Depending on the size of your repository, this step may take some time.</em></p>
+</section>
+<section id="move-database-to-runtime">
+<h3>5. Move Database to Runtime<a class="headerlink" href="#move-database-to-runtime" title="Link to this heading"></a></h3>
+<p>Once the import is complete, the data resides in the staging area. Use the refresh command to move the database to its final location where the backend can read it.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>refresh
 </pre></div>
 </div>
-<p><em>Note: This command requires the ``yq`` utility to be installed on your host machine to parse the configuration file.</em></p>
-</li>
-</ol>
-<p>By following this workflow, your users can continue analyzing the existing data on the dashboard while the heavy lifting of parsing new commits happens transparently in the background.</p>
 </section>
-<section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><strong>Database Locks</strong>: If you attempt to update the live database directly without using the <code class="docutils literal notranslate"><span class="pre">update_data</span></code> directory, you may encounter SQLite/DuckDB file lock errors because the backend API is actively reading from it. Always use the separate update path.</p></li>
-</ul>
+<section id="start-calyntro">
+<h3>6. Start Calyntro<a class="headerlink" href="#start-calyntro" title="Link to this heading"></a></h3>
+<p>Finally, launch the Calyntro backend, frontend, and gateway services.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>up
+</pre></div>
+</div>
+<p>You can now open your browser at <code class="docutils literal notranslate"><span class="pre">http://localhost</span></code> to explore your dashboard.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="update-process-operation">
+<h2>Update Process (Operation)<a class="headerlink" href="#update-process-operation" title="Link to this heading"></a></h2>
+<p>Once Calyntro is running, you will want to periodically update the analysis with the newest commits. The update process is designed to be non-blocking.</p>
+<section id="incremental-import">
+<h3>1. Incremental Import<a class="headerlink" href="#incremental-import" title="Link to this heading"></a></h3>
+<p>Run the import command. The script will automatically detect the existing data, copy the current live database into the staging area, and only analyze the <em>new</em> commits.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import
+</pre></div>
+</div>
+</section>
+<section id="refresh-live-database">
+<h3>2. Refresh Live Database<a class="headerlink" href="#refresh-live-database" title="Link to this heading"></a></h3>
+<p>When the import finishes, execute the refresh command to atomically swap the newly updated staging database with the live database.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>refresh
+</pre></div>
+</div>
+<p>This script handles the backup of your old data, gracefully pauses the backend for a split second to release file locks, swaps the files, and resumes the service. Your users will barely notice the update.</p>
+</section>
 </section>
 </section>
 

@@ -1,10 +1,10 @@
 {
-    "analysis": 0.034,
-    "api": 0.042,
-    "importer_guide": 0.01,
+    "analysis": 0.035,
+    "api": 0.043,
+    "config_guide": 0.014,
+    "importer_guide": 0.009,
     "index": 0.005,
-    "installation": 0.013,
-    "manage_script": 0.025,
-    "repolens_config": 0.014,
-    "usage": 0.006
+    "installation": 0.005,
+    "manage_script": 0.026,
+    "usage": 0.007
 }

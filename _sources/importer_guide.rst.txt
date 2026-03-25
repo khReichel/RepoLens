@@ -1,80 +1,103 @@
 .. _importer_guide:
 
-Data Import & Update Guide
-==========================
+Setup & Update Guide
+====================
 
-This guide explains how to import data into RepoLens and how to run updates while the application is actively serving users.
+This guide explains how to perform the initial setup of Calyntro and how to update your analysis data during regular operation.
 
-The import process is responsible for two key tasks:
-
-1.  **Configuration Sync**: Loading your project settings, component definitions, and team structures from your ``config.yaml`` into the configuration database.
-2.  **Analysis Import**: Scanning your Git repository, calculating metrics (like complexity and churn), and populating the analysis database.
-
-In RepoLens, all data extraction and updating is handled exclusively via Docker containers using the ``manage.sh`` script.
-
-Initial Data Import
--------------------
-
-To run the initial import for a repository, use the ``manage.sh`` script. This command mounts your local repository into the Docker container, runs the configuration sync, and then performs the full analysis.
-
-**Command:**
-
-.. code-block:: bash
-
-   ./manage.sh import /absolute/path/to/your/repository
-
-.. tip::
-   Instead of passing the absolute path every time, you can create a symlink named ``repo`` in the RepoLens root directory pointing to your target repository:
-   
-   .. code-block:: bash
-   
-      ln -s /path/to/target/repo ./repo
-
-   If you do this, you can simply run ``./manage.sh import ./repo``.
+Calyntro uses a staging workflow for data imports. New data is first imported into an "update" database. Once the import is complete, this database is safely swapped into the live environment. This ensures that the dashboard remains available and responsive while heavy analysis tasks run in the background.
 
 **Prerequisites:**
 
-*   Docker must be running.
-*   You must have a valid ``config.yaml`` in your project's ``config/`` folder.
+*   **Docker** & **Docker Compose** must be installed and running.
+*   **Python** is required on your host machine to execute the management scripts.
 
-Incremental Update Workflow (Zero Downtime)
--------------------------------------------
+-------------------
 
-RepoLens is designed to support background updates without requiring you to shut down the frontend or the backend API.
+Initial Setup
+-------------
 
-The importer operates incrementally: it checks which commits are already present in the database and only analyzes new commits. To ensure this process is fast and doesn't lock the live database, RepoLens uses two separate database paths defined in your ``config.yaml``:
+Follow these steps to initialize Calyntro for the first time.
 
-*   ``project.db_path``: The directory where the *live* databases used by the backend reside (e.g., ``/app/data``).
-*   ``project.db_update_path``: The directory where the importer writes new data (e.g., ``/app/data/update_data``).
+1. Download Container Images
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**The Update Process:**
+First, pull the latest pre-built Calyntro images from the registry:
 
-1. **Prepare the Update Directory**
-   For the incremental import to work efficiently, the importer needs to know the current state. Therefore, the live databases should be copied into the update directory before starting the import.
+.. code-block:: bash
 
-   *Note: If you are using the default configuration paths provided by RepoLens, this directory structure and file separation is handled automatically.*
+   docker compose pull
 
-2. **Run the Importer**
-   Run the import command just like the initial import. The script will detect the existing databases in the ``db_update_path``, identify new commits in the repository, and append the new analysis data.
+2. Prepare Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-   .. code-block:: bash
+Navigate to the ``config`` directory and set up your ``config.yaml`` file. You can usually start by copying an example template provided in the release.
 
-      ./manage.sh import /absolute/path/to/your/repository
+Ensure you configure your modules, teams, and exclusions correctly. For detailed information on all configuration options, please refer to the :ref:`Configuration Guide <config_guide>`.
 
-3. **Refresh the Live Database**
-   Once the importer has finished running in the background and the databases in the ``db_update_path`` are fully updated, you need to swap them with the live databases.
+3. Mount Target Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   Use the ``refresh`` command to perform an automated swap. This will briefly pause the backend, back up the old databases, move the new ones from the staging area to the production area, and restart the backend.
+Calyntro needs access to the Git repository you want to analyze. The easiest way to provide this is to create a symbolic link named ``repo`` in the Calyntro root directory that points to your local repository folder.
 
-   .. code-block:: bash
+.. code-block:: bash
 
-      ./manage.sh refresh
+   ln -s /path/to/your/target/repository ./repo
 
-   *Note: This command requires the ``yq`` utility to be installed on your host machine to parse the configuration file.*
+4. Run Initial Import
+~~~~~~~~~~~~~~~~~~~~~
 
-By following this workflow, your users can continue analyzing the existing data on the dashboard while the heavy lifting of parsing new commits happens transparently in the background.
+Now, start the importer to analyze the Git history and build the initial staging database.
 
-Troubleshooting
----------------
+.. code-block:: bash
 
-*   **Database Locks**: If you attempt to update the live database directly without using the ``update_data`` directory, you may encounter SQLite/DuckDB file lock errors because the backend API is actively reading from it. Always use the separate update path.
+   ./manage.sh import repo
+
+*Depending on the size of your repository, this step may take some time.*
+
+5. Move Database to Runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once the import is complete, the data resides in the staging area. Use the refresh command to move the database to its final location where the backend can read it.
+
+.. code-block:: bash
+
+   ./manage.sh refresh
+
+6. Start Calyntro
+~~~~~~~~~~~~~~~~~
+
+Finally, launch the Calyntro backend, frontend, and gateway services.
+
+.. code-block:: bash
+
+   ./manage.sh up
+
+You can now open your browser at ``http://localhost`` to explore your dashboard.
+
+-------------------
+
+Update Process (Operation)
+--------------------------
+
+Once Calyntro is running, you will want to periodically update the analysis with the newest commits. The update process is designed to be non-blocking.
+
+1. Incremental Import
+~~~~~~~~~~~~~~~~~~~~~
+
+Run the import command. The script will automatically detect the existing data, copy the current live database into the staging area, and only analyze the *new* commits.
+
+.. code-block:: bash
+
+   ./manage.sh import
+
+2. Refresh Live Database
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When the import finishes, execute the refresh command to atomically swap the newly updated staging database with the live database.
+
+.. code-block:: bash
+
+   ./manage.sh refresh
+
+This script handles the backup of your old data, gracefully pauses the backend for a split second to release file locks, swaps the files, and resumes the service. Your users will barely notice the update.

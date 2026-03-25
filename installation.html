@@ -6,13 +6,13 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Deployment and Installation Guide &mdash; repolens 0.1.0 documentation</title>
+  <title>Installation Guide &mdash; calyntro 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-    <link rel="canonical" href="https://khreichel.github.io/RepoLens/installation.html" />
+    <link rel="canonical" href="https://khreichel.github.io/Calyntro/installation.html" />
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="RepoLens Configuration File" href="repolens_config.html" />
-    <link rel="prev" title="Welcome to RepoLens’s documentation!" href="index.html" /> 
+    <link rel="next" title="Calyntro Configuration File" href="config_guide.html" />
+    <link rel="prev" title="Welcome to Calyntro’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            repolens
+            calyntro
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,20 +46,20 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment and Installation Guide</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installation-via-docker-registry">Installation via Docker Registry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#maintenance-troubleshooting">Maintenance &amp; Troubleshooting</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="repolens_config.html">RepoLens Configuration File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-the-deployment-files">Getting the Deployment Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next Steps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="config_guide.html">Calyntro Configuration File</a></li>
 <li class="toctree-l3"><a class="reference internal" href="manage_script.html">Management Script Usage</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import &amp; Update Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Setup &amp; Update Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding RepoLens Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Understanding Calyntro Analyses</a></li>
 </ul>
 
         </div>
@@ -68,7 +68,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">repolens</a>
+          <a href="index.html">calyntro</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -76,7 +76,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Deployment and Installation Guide</li>
+      <li class="breadcrumb-item active">Installation Guide</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,15 +86,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="deployment-and-installation-guide">
-<span id="deployment-guide"></span><h1>Deployment and Installation Guide<a class="headerlink" href="#deployment-and-installation-guide" title="Link to this heading"></a></h1>
-<p>This guide provides instructions on how to set up and run the RepoLens application using Docker images from the public registry.</p>
-<p>RepoLens is composed of three main services:</p>
-<ul class="simple">
-<li><p>a <strong>React.js</strong> frontend</p></li>
-<li><p>a Python <strong>FastAPI</strong> backend and</p></li>
-<li><p>an <strong>Nginx</strong> gateway.</p></li>
-</ul>
+  <section id="installation-guide">
+<span id="deployment-guide"></span><h1>Installation Guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h1>
+<p>This guide provides instructions on how to get the necessary files to deploy the Calyntro application. Calyntro is distributed as pre-built Docker images, so you do not need to build the software from source.</p>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <p>Before starting, ensure you have the following installed on your system:</p>
@@ -104,82 +98,27 @@
 <li><p><strong>Git</strong> (to download the deployment scripts)</p></li>
 </ul>
 </section>
-<section id="installation-via-docker-registry">
-<h2>Installation via Docker Registry<a class="headerlink" href="#installation-via-docker-registry" title="Link to this heading"></a></h2>
-<p>The primary way to install RepoLens is by pulling pre-built images from the GitHub Container Registry. Follow these steps to get your instance running:</p>
-<ol class="arabic">
-<li><p><strong>Download the RepoLens Repository</strong></p>
-<p>Clone the repository from GitHub to get the necessary deployment files (<code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code>, and <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code>).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/khReichel/RepoLens.git
-<span class="nb">cd</span><span class="w"> </span>RepoLens
+<section id="getting-the-deployment-files">
+<h2>Getting the Deployment Files<a class="headerlink" href="#getting-the-deployment-files" title="Link to this heading"></a></h2>
+<p>To run Calyntro, you need the orchestration configuration and management scripts. The easiest way to get these is by cloning the Calyntro repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/khReichel/Calyntro.git
+<span class="nb">cd</span><span class="w"> </span>Calyntro
 </pre></div>
 </div>
-</li>
-<li><p><strong>Configure RepoLens</strong></p>
-<p>An example configuration is provided in the <code class="docutils literal notranslate"><span class="pre">config</span></code> folder. Copy and modify it to suit your project needs. Documentation for all configuration parameters can be found in the provided <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> or in <a class="reference internal" href="repolens_config.html#repolens-config"><span class="std std-ref">RepoLens Configuration File</span></a>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>config
-cp<span class="w"> </span>config/config_example.yaml<span class="w"> </span>config/config.yaml
-<span class="c1"># Edit config/config.yaml with your preferred editor</span>
-</pre></div>
-</div>
-<p><em>Note: Ensure that the ``repo_path`` in ``config.yaml`` points to ``/repo`` inside the container, and that your local repository is correctly mapped in ``docker-compose.yml``. The generated DuckDB files will be stored in the ``data/`` folder by default.</em></p>
-</li>
-<li><p><strong>Link your Repository (Optional)</strong></p>
-<p>To make it easier for the Docker containers to find the repository you want to analyze, create a symlink named <code class="docutils literal notranslate"><span class="pre">repo</span></code> in the RepoLens root directory.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span>/path/to/your/local/git-repo<span class="w"> </span>./repo
-</pre></div>
-</div>
-<p><em>Note: If you use this symlink, ensure that the ``REPO_PATH_HOST`` environment variable is not set to a different path, or simply use the default mapping provided in ``docker-compose.yml``.</em></p>
-</li>
-<li><p><strong>Pull Docker Images</strong></p>
-<p>Fetch the latest images from the registry:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>pull
-</pre></div>
-</div>
-</li>
-<li><p><strong>Start the Services</strong></p>
-<p>Launch RepoLens in detached mode:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-</pre></div>
-</div>
-</li>
-<li><p><strong>Import Configuration and Analysis Data</strong></p>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code> script to import your project configuration and perform the initial repository analysis. You need to provide the absolute path to the local Git repository you want to analyze.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>manage.sh
-./manage.sh<span class="w"> </span>import<span class="w"> </span>/path/to/your/local/repo
-</pre></div>
-</div>
-<p><em>Note: After the import is complete, the generated DuckDB database files will be located in the ``data/update_data/`` directory (or as defined by ``db_update_path`` in your ``config.yaml``).</em></p>
-</li>
-<li><p><strong>Refresh Database (Mandatory for Initial Setup)</strong></p>
-<p>Since you are starting with a fresh installation, you have no pre-analyzed databases. Therefore, you must move the newly generated databases from the update directory to the active production directory.
-Use the <code class="docutils literal notranslate"><span class="pre">refresh</span></code> command, which automatically stops the backend, backs up any existing files, swaps the new ones from the staging area, and restarts the service.</p>
-<p><em>Note: This command requires the ``yq`` utility to be installed on your host machine.</em></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>refresh
-</pre></div>
-</div>
-</li>
-<li><p><strong>Check Application URL</strong></p>
-<p>Once the containers are running and data is imported, access the application:</p>
-<ul class="simple">
-<li><p><strong>Frontend UI:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost</span></code> (Port 80)</p></li>
-<li><p><strong>API Documentation:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost/api/docs</span></code> (Swagger UI)</p></li>
-<li><p><strong>Health Check:</strong> <code class="docutils literal notranslate"><span class="pre">http://localhost/api/health</span></code></p></li>
-</ul>
-</li>
-</ol>
+<p>This repository contains:
+* <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>: The configuration defining the backend, frontend, and gateway containers.
+* <code class="docutils literal notranslate"><span class="pre">manage.sh</span></code>: The main utility script used for starting, stopping, and updating the application.
+* <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code>: The routing configuration for the web gateway.
+* <code class="docutils literal notranslate"><span class="pre">config/</span></code>: A directory containing an example configuration file.</p>
 </section>
-<section id="maintenance-troubleshooting">
-<h2>Maintenance &amp; Troubleshooting<a class="headerlink" href="#maintenance-troubleshooting" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><strong>Logs:</strong> To inspect service logs, run <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">logs</span> <span class="pre">-f</span></code>.</p></li>
-<li><p><strong>Updating:</strong> To update to the latest version, run <code class="docutils literal notranslate"><span class="pre">./manage.sh</span> <span class="pre">pull-latest</span></code>.</p></li>
-<li><p><strong>Stopping:</strong> To stop all services, run <code class="docutils literal notranslate"><span class="pre">./manage.sh</span> <span class="pre">down</span></code>.</p></li>
-</ul>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<p>Once you have downloaded the deployment files, you are ready to configure the application, pull the container images, and run your first repository analysis.</p>
+<p>Please proceed to the <a class="reference internal" href="importer_guide.html#importer-guide"><span class="std std-ref">Setup &amp; Update Guide</span></a> for the step-by-step instructions on initializing and running Calyntro.</p>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Configuration Guides:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="repolens_config.html">RepoLens Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_guide.html">Calyntro Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manage_script.html">Management Script Usage</a></li>
 </ul>
 </div>
@@ -190,8 +129,8 @@ Use the <code class="docutils literal notranslate"><span class="pre">refresh</sp
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to RepoLens’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="repolens_config.html" class="btn btn-neutral float-right" title="RepoLens Configuration File" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Calyntro’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="config_guide.html" class="btn btn-neutral float-right" title="Calyntro Configuration File" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

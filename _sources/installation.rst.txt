@@ -1,15 +1,9 @@
 .. _deployment_guide:
 
-Deployment and Installation Guide
-=================================
+Installation Guide
+==================
 
-This guide provides instructions on how to set up and run the RepoLens application using Docker images from the public registry. 
-
-RepoLens is composed of three main services:
-
-* a **React.js** frontend
-* a Python **FastAPI** backend and
-* an **Nginx** gateway.
+This guide provides instructions on how to get the necessary files to deploy the Calyntro application. Calyntro is distributed as pre-built Docker images, so you do not need to build the software from source.
 
 Prerequisites
 -------------
@@ -20,98 +14,32 @@ Before starting, ensure you have the following installed on your system:
 * **Docker Compose** (version 2.0 or higher)
 * **Git** (to download the deployment scripts)
 
-Installation via Docker Registry
---------------------------------
+Getting the Deployment Files
+----------------------------
 
-The primary way to install RepoLens is by pulling pre-built images from the GitHub Container Registry. Follow these steps to get your instance running:
+To run Calyntro, you need the orchestration configuration and management scripts. The easiest way to get these is by cloning the Calyntro repository.
 
-1. **Download the RepoLens Repository**
-   
-   Clone the repository from GitHub to get the necessary deployment files (``docker-compose.yml``, ``manage.sh``, and ``nginx.conf``).
+.. code-block:: bash
 
-   .. code-block:: bash
+   git clone https://github.com/khReichel/Calyntro.git
+   cd Calyntro
 
-      git clone https://github.com/khReichel/RepoLens.git
-      cd RepoLens
+This repository contains:
+* ``docker-compose.yml``: The configuration defining the backend, frontend, and gateway containers.
+* ``manage.sh``: The main utility script used for starting, stopping, and updating the application.
+* ``nginx.conf``: The routing configuration for the web gateway.
+* ``config/``: A directory containing an example configuration file.
 
-2. **Configure RepoLens**
+Next Steps
+----------
 
-   An example configuration is provided in the ``config`` folder. Copy and modify it to suit your project needs. Documentation for all configuration parameters can be found in the provided ``config.yaml`` or in :ref:`repolens_config`.
+Once you have downloaded the deployment files, you are ready to configure the application, pull the container images, and run your first repository analysis.
 
-   .. code-block:: bash
-
-      mkdir -p config
-      cp config/config_example.yaml config/config.yaml
-      # Edit config/config.yaml with your preferred editor
-
-   *Note: Ensure that the ``repo_path`` in ``config.yaml`` points to ``/repo`` inside the container, and that your local repository is correctly mapped in ``docker-compose.yml``. The generated DuckDB files will be stored in the ``data/`` folder by default.*
-
-3. **Link your Repository (Optional)**
-
-   To make it easier for the Docker containers to find the repository you want to analyze, create a symlink named ``repo`` in the RepoLens root directory.
-
-   .. code-block:: bash
-
-      ln -s /path/to/your/local/git-repo ./repo
-
-   *Note: If you use this symlink, ensure that the ``REPO_PATH_HOST`` environment variable is not set to a different path, or simply use the default mapping provided in ``docker-compose.yml``.*
-
-4. **Pull Docker Images**
-
-   Fetch the latest images from the registry:
-
-   .. code-block:: bash
-
-      docker compose pull
-
-5. **Start the Services**
-
-   Launch RepoLens in detached mode:
-
-   .. code-block:: bash
-
-      docker compose up -d
-
-6. **Import Configuration and Analysis Data**
-
-   Use the ``manage.sh`` script to import your project configuration and perform the initial repository analysis. You need to provide the absolute path to the local Git repository you want to analyze.
-
-   .. code-block:: bash
-
-      chmod +x manage.sh
-      ./manage.sh import /path/to/your/local/repo
-
-   *Note: After the import is complete, the generated DuckDB database files will be located in the ``data/update_data/`` directory (or as defined by ``db_update_path`` in your ``config.yaml``).*
-
-7. **Refresh Database (Mandatory for Initial Setup)**
-
-   Since you are starting with a fresh installation, you have no pre-analyzed databases. Therefore, you must move the newly generated databases from the update directory to the active production directory. 
-   Use the ``refresh`` command, which automatically stops the backend, backs up any existing files, swaps the new ones from the staging area, and restarts the service.
-
-   *Note: This command requires the ``yq`` utility to be installed on your host machine.*
-
-   .. code-block:: bash
-
-      ./manage.sh refresh
-
-8. **Check Application URL**
-
-   Once the containers are running and data is imported, access the application:
-
-   * **Frontend UI:** ``http://localhost`` (Port 80)
-   * **API Documentation:** ``http://localhost/api/docs`` (Swagger UI)
-   * **Health Check:** ``http://localhost/api/health``
-
-Maintenance & Troubleshooting
------------------------------
-
-* **Logs:** To inspect service logs, run ``docker compose logs -f``.
-* **Updating:** To update to the latest version, run ``./manage.sh pull-latest``.
-* **Stopping:** To stop all services, run ``./manage.sh down``.
+Please proceed to the :ref:`Setup & Update Guide <importer_guide>` for the step-by-step instructions on initializing and running Calyntro.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Guides:
+   :caption: Configuration Guides:
 
-   repolens_config
+   config_guide
    manage_script

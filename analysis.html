@@ -6,13 +6,13 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Understanding RepoLens Analyses &mdash; repolens 0.1.0 documentation</title>
+  <title>Understanding Calyntro Analyses &mdash; calyntro 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-    <link rel="canonical" href="https://khreichel.github.io/RepoLens/analysis.html" />
+    <link rel="canonical" href="https://khreichel.github.io/Calyntro/analysis.html" />
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="_static/documentation_options.js?v=01f34227"></script>
@@ -33,7 +33,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            repolens
+            calyntro
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -45,11 +45,11 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Deployment and Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Data Import &amp; Update Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="importer_guide.html">Setup &amp; Update Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Dashboard User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Understanding RepoLens Analyses</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Understanding Calyntro Analyses</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#analysis-scopes">Analysis Scopes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#evolution-pulse-activity">Evolution &amp; Pulse (Activity)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#change-frequency-commits">Change Frequency (Commits)</a></li>
@@ -89,7 +89,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">repolens</a>
+          <a href="index.html">calyntro</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -97,7 +97,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Understanding RepoLens Analyses</li>
+      <li class="breadcrumb-item active">Understanding Calyntro Analyses</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/analysis.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -107,13 +107,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="understanding-repolens-analyses">
-<span id="analysis"></span><h1>Understanding RepoLens Analyses<a class="headerlink" href="#understanding-repolens-analyses" title="Link to this heading"></a></h1>
-<p>RepoLens offers a comprehensive suite of analyses to help you understand the health, evolution, and risks within your codebase. Each analysis provides a unique lens, from identifying high-activity areas to pinpointing technical debt and knowledge bottlenecks.</p>
+  <section id="understanding-calyntro-analyses">
+<span id="analysis"></span><h1>Understanding Calyntro Analyses<a class="headerlink" href="#understanding-calyntro-analyses" title="Link to this heading"></a></h1>
+<p>Calyntro offers a comprehensive suite of analyses to help you understand the health, evolution, and risks within your codebase. Each analysis provides a unique lens, from identifying high-activity areas to pinpointing technical debt and knowledge bottlenecks.</p>
 <p>As a <strong>Lead Developer</strong> or <strong>Software Architect</strong>, you can use these metrics to guide your refactoring efforts, balance team workloads, and mitigate risks before they lead to production issues.</p>
 <section id="analysis-scopes">
 <h2>Analysis Scopes<a class="headerlink" href="#analysis-scopes" title="Link to this heading"></a></h2>
-<p>RepoLens allows you to view metrics at different levels of granularity, depending on the questions you are trying to answer:</p>
+<p>Calyntro allows you to view metrics at different levels of granularity, depending on the questions you are trying to answer:</p>
 <ul class="simple">
 <li><p><strong>File Level</strong>: Focuses on individual source code files. Ideal for identifying specific “hotspots” or complex files that need immediate refactoring.</p></li>
 <li><p><strong>Module Level</strong>: Aggregates data by logical components or directories. Useful for seeing which parts of the system are growing fastest or where architectural complexity is accumulating.</p></li>
@@ -213,7 +213,7 @@
 <section id="complexity-trend">
 <h3>Complexity Trend<a class="headerlink" href="#complexity-trend" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p><strong>What it Measures</strong>: Complexity isn’t just a snapshot; RepoLens tracks how <strong>Cognitive Complexity</strong> changes between two points in time.</p></li>
+<li><p><strong>What it Measures</strong>: Complexity isn’t just a snapshot; Calyntro tracks how <strong>Cognitive Complexity</strong> changes between two points in time.</p></li>
 <li><p><strong>Calculation</strong>: It compares the complexity at the start and end of your selected timeframe.</p>
 <ul>
 <li><p>A <strong>relative increase</strong> in cognitive complexity suggests that new features are being added in a way that makes the code harder to understand.</p></li>

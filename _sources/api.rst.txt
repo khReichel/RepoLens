@@ -1,7 +1,7 @@
 API Reference
 =============
 
-This guide is intended for developers who wish to build their own frontend applications or integrations on top of the RepoLens API.
+This guide is intended for developers who wish to build their own frontend applications or integrations on top of the Calyntro API.
 
 The API is built with **FastAPI** and follows RESTful principles. All responses are JSON-formatted.
 

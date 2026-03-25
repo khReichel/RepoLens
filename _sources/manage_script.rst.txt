@@ -3,7 +3,7 @@
 Management Script Usage
 =======================
 
-The ``manage.sh`` script is a utility for controlling the lifecycle of the RepoLens Docker containers. It provides simple commands for common operations like starting, stopping, and updating the application.
+The ``manage.sh`` script is a utility for controlling the lifecycle of the Calyntro Docker containers. It provides simple commands for common operations like starting, stopping, and updating the application.
 
 Usage
 -----
@@ -36,9 +36,9 @@ Here is a list of the commands supported by the ``manage.sh`` script:
 **import [path]**
    Runs the full data import process for a local repository. This command takes the path to the repository on your host machine, mounts it into the container, and runs both the configuration and analysis import steps.
 
-   If the path is omitted, the script attempts to read the ``repo_path`` from ``repolens_config.yaml`` (requires ``yq``).
+   If the path is omitted, the script attempts to read the ``repo_path`` from ``calyntro_config.yaml`` (requires ``yq``).
 
-   *Note: After the import is complete, the generated DuckDB database files will be located in the ``data/update_data/`` directory (or as defined by ``db_update_path`` in your ``config.yaml``). Reference the ``config.yaml`` or :ref:`repolens_config` for more details.*
+   *Note: After the import is complete, the generated DuckDB database files will be located in the ``data/update_data/`` directory (or as defined by ``db_update_path`` in your ``config.yaml``). Reference the ``config.yaml`` or :ref:`calyntro_config` for more details.*
 
    .. code-block:: bash
 
