@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calyntro — See the risks in your codebase before your team does</title>
+  <title>Calyntro — Repository Intelligence for Engineering Leaders</title>
   <meta name="description" content="Calyntro analyses Git history, complexity metrics, and team ownership to give CTOs and Engineering Managers a clear view of hotspots, knowledge silos, and architectural drift." />
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://calyntro.com/" />
-  <meta property="og:title"       content="Calyntro — See the risks in your codebase before your team does" />
+  <meta property="og:title"       content="Calyntro — Repository Intelligence for Engineering Leaders" />
   <meta property="og:description" content="Repository intelligence for Engineering Leaders. We help you see where knowledge risk lives in your codebase — before someone leaves." />
   <meta property="og:image"       content="https://calyntro.com/calyntro_og.png" />
   <meta property="og:site_name"   content="Calyntro" />
   <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Calyntro — See the risks in your codebase before your team does" />
+  <meta name="twitter:title"       content="Calyntro — Repository Intelligence for Engineering Leaders" />
   <meta name="twitter:description" content="Repository intelligence for Engineering Leaders. We help you see where knowledge risk lives in your codebase — before someone leaves." />
   <meta name="twitter:image"       content="https://calyntro.com/calyntro_og.png" />
   <link rel="icon" type="image/png" href="calyntro.png" />
@@ -51,7 +51,6 @@
     html { font-size: 16px; scroll-behavior: smooth; }
     body { font-family: var(--font); background: var(--bg); color: var(--text-primary); line-height: 1.65; -webkit-font-smoothing: antialiased; }
 
-    /* Subtle grid bg */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -108,8 +107,19 @@
     .feat-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--r-sm); display: inline-block; margin-bottom: 14px; }
     .feat-tag-teal  { background: var(--teal-dim); color: var(--teal); border: 0.5px solid var(--teal-border); }
     .feat-tag-amber { background: var(--amber-bg); color: var(--amber); border: 0.5px solid rgba(239,159,39,0.3); }
+    .feat-tag-purple { background: rgba(139,92,246,0.12); color: #a78bfa; border: 0.5px solid rgba(139,92,246,0.3); }
     .section-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); font-weight: 500; margin-bottom: 8px; }
     .section-title { font-size: 28px; font-weight: 400; line-height: 1.25; margin-bottom: 28px; }
+
+    /* Version badge */
+    .version-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #0D1F1E;
+      background: var(--teal);
+      padding: 3px 10px; border-radius: var(--r-pill);
+      margin-right: 8px;
+    }
 
     /* Hero */
     .hero { padding: 88px 32px 72px; border-bottom: 0.5px solid var(--border); position: relative; overflow: hidden; }
@@ -120,14 +130,14 @@
       pointer-events: none;
     }
     .hero-inner { max-width: var(--max-w); margin: 0 auto; position: relative; z-index: 1; }
-    .hero-eyebrow { margin-bottom: 28px; }
+    .hero-eyebrow { margin-bottom: 28px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .hero h1 { font-size: clamp(36px, 5vw, 52px); line-height: 1.08; font-weight: 400; letter-spacing: -0.025em; margin-bottom: 22px; max-width: 640px; }
     .hero h1 em { font-style: italic; color: var(--teal); }
     .hero-sub { font-size: 17px; color: var(--text-secondary); max-width: 540px; margin-bottom: 32px; font-weight: 300; line-height: 1.75; }
     .hero-cta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
 
     /* Stat strip */
-    .stat-strip { display: flex; border: 0.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; max-width: 540px; margin-top: 36px; background: var(--bg-card); }
+    .stat-strip { display: flex; border: 0.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; max-width: 580px; margin-top: 36px; background: var(--bg-card); }
     .stat-item { flex: 1; padding: 16px 20px; border-right: 0.5px solid var(--border); }
     .stat-item:last-child { border-right: none; }
     .stat-num { font-size: 20px; font-weight: 500; line-height: 1; margin-bottom: 4px; color: var(--teal); }
@@ -154,6 +164,16 @@
     .bridge { display: flex; align-items: flex-start; gap: 10px; padding: 14px 18px; background: var(--success-bg); border: 0.5px solid var(--teal-border); border-radius: var(--r-md); font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
     .bridge strong { color: var(--teal); }
 
+    /* Differentiator strip */
+    .diff-strip { padding: 40px 32px; border-bottom: 0.5px solid var(--border); position: relative; z-index: 1; background: rgba(27,191,176,0.03); }
+    .diff-inner { max-width: var(--max-w); margin: 0 auto; }
+    .diff-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 0.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+    @media (max-width: 720px) { .diff-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 420px) { .diff-grid { grid-template-columns: 1fr; } }
+    .diff-item { background: var(--bg); padding: 20px 22px; }
+    .diff-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px; }
+    .diff-text { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
     /* Feature blocks */
     .feature-block { padding: 72px 32px; border-bottom: 0.5px solid var(--border); position: relative; z-index: 1; }
     .feat-inner { max-width: var(--max-w); margin: 0 auto; }
@@ -165,6 +185,22 @@
     .feat-metric-name { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--teal); margin-bottom: 6px; }
     .feat-metric-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
 
+    /* Coupling diagram */
+    .coupling-visual { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 24px; margin-bottom: 28px; }
+    .coupling-title { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px; }
+    .coupling-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 13px; }
+    .coupling-row:last-child { margin-bottom: 0; }
+    .coupling-modules { display: flex; align-items: center; gap: 8px; min-width: 220px; }
+    .coupling-mod { background: rgba(27,191,176,0.1); border: 0.5px solid var(--teal-border); border-radius: var(--r-sm); padding: 4px 10px; font-size: 12px; color: var(--teal); font-family: var(--mono); }
+    .coupling-mod-danger { background: var(--danger-bg); border-color: rgba(226,75,74,0.3); color: var(--danger); }
+    .coupling-arrow { color: var(--text-tertiary); font-size: 11px; }
+    .coupling-pct { font-size: 13px; font-weight: 500; min-width: 48px; }
+    .coupling-pct-high { color: var(--danger); }
+    .coupling-pct-mid  { color: var(--amber); }
+    .coupling-pct-low  { color: var(--teal); }
+    .coupling-teams { font-size: 11px; color: var(--text-tertiary); }
+    .coupling-teams strong { color: var(--text-secondary); }
+
     /* How it works */
     .how-section { padding: 72px 32px; border-bottom: 0.5px solid var(--border); position: relative; z-index: 1; }
     .steps { display: flex; flex-direction: column; }
@@ -173,6 +209,20 @@
     .step-num { font-size: 28px; font-weight: 300; color: var(--teal); opacity: 0.5; min-width: 32px; line-height: 1.2; padding-top: 2px; }
     .step-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
     .step-body  { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+    .step-deliverable { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .step-tag { font-size: 11px; color: var(--teal); background: var(--teal-dim); border: 0.5px solid var(--teal-border); padding: 3px 10px; border-radius: var(--r-pill); }
+
+    /* Toolstack section */
+    .toolstack-section { padding: 56px 32px; border-bottom: 0.5px solid var(--border); position: relative; z-index: 1; background: rgba(255,255,255,0.01); }
+    .toolstack-inner { max-width: var(--max-w); margin: 0 auto; }
+    .toolstack-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 24px; }
+    @media (max-width: 640px) { .toolstack-grid { grid-template-columns: 1fr; } }
+    .toolstack-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 20px; }
+    .toolstack-tool { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .toolstack-role { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--teal); margin-bottom: 8px; }
+    .toolstack-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .toolstack-card.highlight { border-color: var(--teal-border); background: var(--teal-dim); }
+    .toolstack-card.highlight .toolstack-tool { color: var(--teal); }
 
     /* CTA */
     .cta-section { padding: 96px 32px; text-align: center; position: relative; z-index: 1; }
@@ -238,151 +288,52 @@
     .footer-links a { font-size: 12px; color: var(--text-tertiary); text-decoration: none; transition: color 0.15s; }
     .footer-links a:hover { color: var(--text-secondary); }
 
-    /* ===== IMPRESSUM MODAL ===== */
+    /* Impressum Modal */
     .impressum-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(5, 14, 13, 0.85);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
       z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       padding: 24px;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.2s ease;
     }
-    .impressum-overlay.is-open {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .impressum-overlay.is-open { opacity: 1; pointer-events: all; }
     .impressum-modal {
       background: #0f2423;
       border: 0.5px solid var(--border-mid);
       border-radius: 16px;
-      max-width: 560px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
+      max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto;
       box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(27,191,176,0.08);
       transform: translateY(12px);
       transition: transform 0.2s ease;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(27,191,176,0.2) transparent;
+      scrollbar-width: thin; scrollbar-color: rgba(27,191,176,0.2) transparent;
     }
-    .impressum-overlay.is-open .impressum-modal {
-      transform: translateY(0);
-    }
+    .impressum-overlay.is-open .impressum-modal { transform: translateY(0); }
     .impressum-modal::-webkit-scrollbar { width: 4px; }
     .impressum-modal::-webkit-scrollbar-track { background: transparent; }
     .impressum-modal::-webkit-scrollbar-thumb { background: rgba(27,191,176,0.2); border-radius: 2px; }
+    .impressum-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 28px 20px; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: #0f2423; z-index: 1; }
+    .impressum-header-left { display: flex; flex-direction: column; gap: 4px; }
+    .impressum-eyebrow { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
+    .impressum-title { font-size: 18px; font-weight: 500; color: var(--text-primary); }
+    .impressum-close { width: 32px; height: 32px; border-radius: var(--r-md); background: rgba(255,255,255,0.05); border: 0.5px solid var(--border); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; transition: background 0.15s, color 0.15s; flex-shrink: 0; }
+    .impressum-close:hover { background: rgba(255,255,255,0.09); color: var(--text-primary); }
+    .impressum-body { padding: 24px 28px 28px; }
+    .imp-section { margin-bottom: 24px; }
+    .imp-section:last-child { margin-bottom: 0; }
+    .imp-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid rgba(27,191,176,0.15); }
+    .imp-row { display: flex; gap: 12px; margin-bottom: 5px; font-size: 13px; line-height: 1.6; }
+    .imp-key { color: var(--text-tertiary); min-width: 140px; flex-shrink: 0; }
+    .imp-val { color: var(--text-secondary); }
+    .imp-val a { color: var(--teal); text-decoration: none; }
+    .imp-val a:hover { text-decoration: underline; }
+    .imp-note { font-size: 12px; color: var(--text-tertiary); line-height: 1.65; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; margin-top: 6px; }
+    .imp-divider { height: 0.5px; background: var(--border); margin: 20px 0; }
 
-    .impressum-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 28px 20px;
-      border-bottom: 0.5px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: #0f2423;
-      z-index: 1;
-    }
-    .impressum-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .impressum-eyebrow {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--teal);
-    }
-    .impressum-title {
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .impressum-close {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--r-md);
-      background: rgba(255,255,255,0.05);
-      border: 0.5px solid var(--border);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      line-height: 1;
-      transition: background 0.15s, color 0.15s;
-      flex-shrink: 0;
-    }
-    .impressum-close:hover {
-      background: rgba(255,255,255,0.09);
-      color: var(--text-primary);
-    }
-    .impressum-body {
-      padding: 24px 28px 28px;
-    }
-    .imp-section {
-      margin-bottom: 24px;
-    }
-    .imp-section:last-child {
-      margin-bottom: 0;
-    }
-    .imp-section-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 8px;
-      padding-bottom: 6px;
-      border-bottom: 0.5px solid rgba(27,191,176,0.15);
-    }
-    .imp-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 5px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-    .imp-key {
-      color: var(--text-tertiary);
-      min-width: 140px;
-      flex-shrink: 0;
-    }
-    .imp-val {
-      color: var(--text-secondary);
-    }
-    .imp-val a {
-      color: var(--teal);
-      text-decoration: none;
-    }
-    .imp-val a:hover {
-      text-decoration: underline;
-    }
-    .imp-note {
-      font-size: 12px;
-      color: var(--text-tertiary);
-      line-height: 1.65;
-      background: var(--bg-card);
-      border: 0.5px solid var(--border);
-      border-radius: var(--r-md);
-      padding: 12px 14px;
-      margin-top: 6px;
-    }
-    .imp-divider {
-      height: 0.5px;
-      background: var(--border);
-      margin: 20px 0;
-    }
+    /* Container helper */
+    .container { max-width: var(--max-w); margin: 0 auto; }
   </style>
 </head>
 <body>
@@ -391,7 +342,7 @@
   <nav>
     <div class="nav-inner">
       <a href="#" class="nav-logo">
-        <img src="data:image/png;base64,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" alt="Calyntro" />
+        <img src="calyntro.png" alt="Calyntro" />
         Calyntro
       </a>
       <ul class="nav-links">
@@ -408,10 +359,11 @@
     <div class="hero-glow"></div>
     <div class="hero-inner">
       <div class="hero-eyebrow">
+        <span class="version-badge">1.0</span>
         <span class="eyebrow">Repository Intelligence for Engineering Leaders</span>
       </div>
-      <h1>See the risks in your codebase <em>before your team does</em></h1>
-      <p class="hero-sub">Calyntro analyses Git history, complexity metrics, and team ownership to give CTOs and Engineering Managers a clear view of Knowledge Silos, Absolute Churn, and architectural drift — at File, Module, and Team level.</p>
+      <h1>Make team and architecture decisions <em>on evidence, not instinct</em></h1>
+      <p class="hero-sub">Calyntro turns your Git history into a strategic map of knowledge risk, team coupling, and architectural drift — giving CTOs and Engineering Managers the quantitative foundation their decisions have been missing.</p>
       <div class="hero-cta">
         <a href="#contact" class="btn btn-primary">Get in touch →</a>
         <a href="https://calyntro.com/blog" class="btn btn-outline">Read the blog</a>
@@ -426,6 +378,7 @@
       <div class="stat-strip">
         <div class="stat-item"><div class="stat-num">3 scopes</div><div class="stat-label">File · Module · Team</div></div>
         <div class="stat-item"><div class="stat-num">Git-native</div><div class="stat-label">No agents, no instrumentation</div></div>
+        <div class="stat-item"><div class="stat-num">Open API</div><div class="stat-label">Every metric accessible via REST</div></div>
         <div class="stat-item"><div class="stat-num">Your data</div><div class="stat-label">Stays in your infrastructure</div></div>
       </div>
     </div>
@@ -435,37 +388,62 @@
   <section class="pain-section" id="problems">
     <div class="container">
       <div class="section-label">The Problem</div>
-      <h2 class="section-title">Engineering decisions are made blind — every day</h2>
+      <h2 class="section-title">Engineering leaders are making structural decisions blind</h2>
       <div class="pain-grid">
         <div class="pain-card">
           <div class="pain-icon">!</div>
-          <div class="pain-title">Knowledge walks out the door</div>
-          <div class="pain-body">When a key engineer leaves, their understanding of critical modules leaves with them. In professionally maintained codebases, a single developer often holds exclusive knowledge of hundreds of files — you only discover the gap when something breaks.</div>
+          <div class="pain-title">Team boundaries don't match code ownership</div>
+          <div class="pain-body">Features require coordination across teams because the work follows hidden knowledge boundaries, not org chart lines. Every cross-team dependency is coordination overhead — and it compounds silently over years.</div>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">!</div>
+          <div class="pain-title">Knowledge walks out the door unnoticed</div>
+          <div class="pain-body">When a key engineer leaves, their understanding of critical modules leaves with them. In professionally maintained codebases, a single developer often holds exclusive knowledge of hundreds of files — the gap only surfaces when something breaks.</div>
         </div>
         <div class="pain-card">
           <div class="pain-icon">!</div>
           <div class="pain-title">Technical debt is invisible until it hurts</div>
-          <div class="pain-body">High churn + rising complexity = the next incident. Without objective metrics, these files stay off the radar until they cause missed sprints or outages.</div>
-        </div>
-        <div class="pain-card">
-          <div class="pain-icon">!</div>
-          <div class="pain-title">Teams drift off their modules</div>
-          <div class="pain-body">Effort scatters across the codebase. Without ownership visibility, you can't tell if a team is focused — or spread thin across systems they shouldn't be touching.</div>
+          <div class="pain-body">High churn plus rising complexity equals the next incident. Without objective metrics, these files stay off the radar until they cause missed sprints, build-time explosions, or production outages.</div>
         </div>
       </div>
       <div class="bridge">
         <span style="flex-shrink:0;font-weight:500;margin-top:1px;color:var(--teal);">→</span>
-        Calyntro translates your Git history into an always-current risk map — surfacing hotspots, knowledge silos by module and person, and complexity trends <strong>before they escalate</strong>.
+        Calyntro translates your Git history into an always-current risk and ownership map — surfacing hotspots, knowledge silos, and team coupling <strong>before they escalate into incidents or reorganisations gone wrong</strong>.
       </div>
     </div>
   </section>
 
-  <!-- Feature 1 -->
+  <!-- Differentiator strip -->
+  <section class="diff-strip">
+    <div class="diff-inner">
+      <div class="section-label" style="margin-bottom:16px;">Why Calyntro</div>
+      <div class="diff-grid">
+        <div class="diff-item">
+          <div class="diff-label">Temporal Ownership</div>
+          <div class="diff-text">Tracks who owned code <em>when it was written</em>, not just recent activity. Captures the knowledge that org charts miss entirely.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-label">Fully Open API</div>
+          <div class="diff-text">Every metric Calyntro calculates is accessible via REST. Build your own Grafana dashboard. Nothing locked in a proprietary format.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-label">No Per-Author Pricing</div>
+          <div class="diff-text">Costs stay flat as your team grows. Decisions are made by architects — not 60 developers who never open the tool.</div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-label">Data Sovereignty</div>
+          <div class="diff-text">Self-hosted means your code never leaves your infrastructure. No firewall exceptions. No third-party data processing agreements.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Hotspot -->
   <section class="feature-block" id="features">
     <div class="feat-inner">
       <span class="feat-tag feat-tag-teal">Operational Excellence</span>
       <h3 class="feat-headline">Spot your next incident before it happens</h3>
-      <p class="feat-sub">The Hotspot Heatmap combines five dimensions simultaneously — complexity, change frequency, silo risk, absolute churn, and file age — colour-coded across all modules. Critical areas are impossible to miss.</p>
+      <p class="feat-sub">The Hotspot Heatmap combines five dimensions simultaneously — complexity, change frequency, silo risk, absolute churn, and file age — colour-coded across all modules. Critical areas are impossible to miss, and the data is quantitative: exportable, reportable, and actionable.</p>
       <div class="feat-metrics">
         <div class="feat-metric"><div class="feat-metric-name">Hotspot Analysis</div><div class="feat-metric-desc">Five dimensions in one view: Complexity, Change Frequency, Silo Risk, Absolute Churn, and File Age — heatmap-coloured from low to critical.</div></div>
         <div class="feat-metric"><div class="feat-metric-name">Absolute Churn</div><div class="feat-metric-desc">Lines added + deleted reveal files being heavily reworked — a leading indicator of unclear requirements or architectural problems.</div></div>
@@ -483,7 +461,7 @@
     </div>
   </section>
 
-  <!-- Feature 2 -->
+  <!-- Feature 2: Scatter + Code Map -->
   <section class="feature-block">
     <div class="feat-inner">
       <span class="feat-tag feat-tag-teal">Strategic Planning &amp; Stability</span>
@@ -509,7 +487,7 @@
     </div>
   </section>
 
-  <!-- Feature 3 -->
+  <!-- Feature 3: Knowledge Risk -->
   <section class="feature-block">
     <div class="feat-inner">
       <span class="feat-tag feat-tag-amber">Knowledge Risk</span>
@@ -531,31 +509,131 @@
     </div>
   </section>
 
+  <!-- Feature 4: Change Coupling + Team Alignment (NEW) -->
+  <section class="feature-block">
+    <div class="feat-inner">
+      <span class="feat-tag feat-tag-purple">Team Structure</span>
+      <h3 class="feat-headline">Optimise your team structure using the evidence in your commits</h3>
+      <p class="feat-sub">Change Coupling reveals which modules are modified together in the same commits — even when no explicit dependency exists. Cross that with ownership data and your current team structure, and you can quantify exactly where team boundaries generate coordination overhead.</p>
+
+      <div class="coupling-visual">
+        <div class="coupling-title">Change Coupling — Module Level · Cross-team dependencies</div>
+        <div class="coupling-row">
+          <div class="coupling-modules">
+            <span class="coupling-mod coupling-mod-danger">auth</span>
+            <span class="coupling-arrow">↔</span>
+            <span class="coupling-mod coupling-mod-danger">session</span>
+          </div>
+          <span class="coupling-pct coupling-pct-high">73%</span>
+          <span class="coupling-teams">commits shared · owners: <strong>Team A</strong> + <strong>Team B</strong></span>
+        </div>
+        <div class="coupling-row">
+          <div class="coupling-modules">
+            <span class="coupling-mod">payment</span>
+            <span class="coupling-arrow">↔</span>
+            <span class="coupling-mod">billing-api</span>
+          </div>
+          <span class="coupling-pct coupling-pct-mid">51%</span>
+          <span class="coupling-teams">commits shared · owners: <strong>Team C</strong> + <strong>Team C</strong></span>
+        </div>
+        <div class="coupling-row">
+          <div class="coupling-modules">
+            <span class="coupling-mod">reporting</span>
+            <span class="coupling-arrow">↔</span>
+            <span class="coupling-mod">analytics</span>
+          </div>
+          <span class="coupling-pct coupling-pct-low">18%</span>
+          <span class="coupling-teams">commits shared · owners: <strong>Team D</strong> + <strong>Team D</strong></span>
+        </div>
+      </div>
+
+      <div class="feat-metrics">
+        <div class="feat-metric"><div class="feat-metric-name">Change Coupling</div><div class="feat-metric-desc">Modules modified together in the same commits — quantified as a percentage. A hidden dependency that static analysis cannot see because it emerges from behaviour, not code structure.</div></div>
+        <div class="feat-metric"><div class="feat-metric-name">Cross-Team Coupling Risk</div><div class="feat-metric-desc">When coupled modules belong to different teams, every shared commit is a coordination event. This view makes the overhead measurable — and the team restructuring case concrete.</div></div>
+        <div class="feat-metric"><div class="feat-metric-name">Team Alignment</div><div class="feat-metric-desc">Maps which teams effectively own which modules based on commit history. Reveals drift between the intended architecture and where development effort actually lands.</div></div>
+        <div class="feat-metric"><div class="feat-metric-name">Teamschnitt Support</div><div class="feat-metric-desc">Combines coupling, ownership, and team data into a quantitative basis for restructuring decisions. The analysis that previously took days of manual work — automated.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toolstack positioning -->
+  <section class="toolstack-section">
+    <div class="toolstack-inner">
+      <div class="section-label">How Calyntro fits your toolstack</div>
+      <h2 class="section-title" style="font-size:22px;margin-bottom:8px;">Complementary, not competitive</h2>
+      <p style="font-size:14px;color:var(--text-secondary);max-width:520px;line-height:1.7;">Static analysis tools tell you where your code has problems today. Calyntro tells you whether your team is structured to fix them — and who still understands the code well enough to do it.</p>
+      <div class="toolstack-grid">
+        <div class="toolstack-card">
+          <div class="toolstack-tool">SonarQube / Teamscale</div>
+          <div class="toolstack-role">Code Quality</div>
+          <div class="toolstack-desc">Static analysis, test coverage, technical debt in new code. Answers: <em>"Is the code good today?"</em></div>
+        </div>
+        <div class="toolstack-card highlight">
+          <div class="toolstack-tool">Calyntro</div>
+          <div class="toolstack-role">Team &amp; Architecture Intelligence</div>
+          <div class="toolstack-desc">Ownership, coupling, knowledge risk, team alignment. Answers: <em>"Can our team maintain and evolve it?"</em></div>
+        </div>
+        <div class="toolstack-card">
+          <div class="toolstack-tool">Jira / Linear</div>
+          <div class="toolstack-role">Work Tracking</div>
+          <div class="toolstack-desc">Sprint progress, issue tracking, delivery velocity. Answers: <em>"What is the team working on?"</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- How it works -->
   <section class="how-section" id="how-it-works">
     <div class="container">
       <div class="section-label">How we work</div>
-      <h2 class="section-title">From first conversation to actionable insight</h2>
+      <h2 class="section-title">From first conversation to decision-ready insight</h2>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
           <div>
-            <div class="step-title">We talk about your codebase</div>
-            <div class="step-body">A short conversation about your team structure, current pain points, and what decisions you're trying to make. No forms, no demos — just a direct discussion about where you are today.</div>
+            <div class="step-title">We talk about your team structure and pain points</div>
+            <div class="step-body">A direct conversation about where coordination breaks down, which decisions are currently driven by instinct rather than data, and what your team topology should look like. No forms, no sales cycle — just an honest discussion about where you are.</div>
+            <div class="step-deliverable">
+              <span class="step-tag">Team structure review</span>
+              <span class="step-tag">Pain point mapping</span>
+            </div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div>
-            <div class="step-title">We run the analysis</div>
-            <div class="step-body">Calyntro analyses your Git history — complexity trends, knowledge silos, churn patterns, and ownership concentration. Your code never leaves your infrastructure. We work with aggregated metrics only.</div>
+            <div class="step-title">We run the analysis — on your infrastructure</div>
+            <div class="step-body">Calyntro analyses your Git history: complexity trends, knowledge silos, change coupling patterns, and ownership concentration across modules and teams. Your code never leaves your infrastructure. We work with aggregated metrics only.</div>
+            <div class="step-deliverable">
+              <span class="step-tag">Hotspot analysis</span>
+              <span class="step-tag">Silo risk map</span>
+              <span class="step-tag">Change coupling</span>
+              <span class="step-tag">Team alignment</span>
+            </div>
           </div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
           <div>
-            <div class="step-title">We walk through the findings together</div>
-            <div class="step-body">Not a dashboard hand-off — a structured review of what the data shows, what it means for your team, and where to focus first. Concrete, prioritised, and tied to your roadmap.</div>
+            <div class="step-title">We walk through the findings — with concrete recommendations</div>
+            <div class="step-body">Not a dashboard hand-off. A structured review of what the data shows, what it means for your team boundaries and architecture, and where to focus first. Findings are quantitative, exportable, and ready for management reporting.</div>
+            <div class="step-deliverable">
+              <span class="step-tag">Prioritised findings</span>
+              <span class="step-tag">Team restructuring options</span>
+              <span class="step-tag">Management-ready output</span>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-title">Ongoing monitoring — on your terms</div>
+            <div class="step-body">Regular analysis cadence to track whether interventions are working: is the silo ratio improving? Are coupling scores between teams decreasing? Are complexity trends stabilising after a refactoring sprint? The data tells you — without waiting for the next incident.</div>
+            <div class="step-deliverable">
+              <span class="step-tag">Trend monitoring</span>
+              <span class="step-tag">Intervention tracking</span>
+              <span class="step-tag">REST API access</span>
+            </div>
           </div>
         </div>
       </div>
@@ -567,7 +645,7 @@
     <div class="cta-glow"></div>
     <div class="cta-inner">
       <h2 class="cta-title">Your Git history already holds the answers</h2>
-      <p class="cta-body">Calyntro surfaces them. Get in touch to discuss what a codebase analysis would look like for your team.</p>
+      <p class="cta-body">Calyntro surfaces them. Get in touch to discuss what a codebase and team-structure analysis would look like for your organisation.</p>
       <div class="cta-btns">
         <a href="#contact" class="btn btn-primary">Get in touch →</a>
         <a href="https://calyntro.com/blog" class="btn btn-outline">Read the blog</a>
@@ -575,7 +653,8 @@
       <div class="trust-badges">
         <span class="trust-badge">Your data stays in your infrastructure</span>
         <span class="trust-badge">Git-native · no agents required</span>
-        <span class="trust-badge">File · Module · Team scope</span>
+        <span class="trust-badge">Open REST API · no lock-in</span>
+        <span class="trust-badge">No per-author pricing</span>
       </div>
     </div>
   </section>
@@ -586,10 +665,11 @@
       <div class="contact-inner">
         <div class="contact-left">
           <div class="section-label">Get in touch</div>
-          <h2 class="contact-title">Questions? Let's talk.</h2>
-          <p class="contact-body">Whether you want to discuss a codebase analysis for your team, have a question about what Calyntro measures, or just want to explore what's possible — we read every message.</p>
+          <h2 class="contact-title">Let's talk about your codebase.</h2>
+          <p class="contact-body">Whether you're evaluating a move away from your current tooling, want to make a data-driven case for team restructuring, or simply want to understand where your knowledge risk lives — we read every message.</p>
           <div class="contact-hints">
-            <div class="contact-hint"><span class="contact-hint-icon">→</span>Codebase risk analysis for your team</div>
+            <div class="contact-hint"><span class="contact-hint-icon">→</span>Codebase and team-structure risk analysis</div>
+            <div class="contact-hint"><span class="contact-hint-icon">→</span>Replacing or complementing existing tooling</div>
             <div class="contact-hint"><span class="contact-hint-icon">→</span>Questions about methodology and metrics</div>
             <div class="contact-hint"><span class="contact-hint-icon">→</span>Ongoing advisory and monitoring</div>
           </div>
@@ -610,6 +690,8 @@
               <label class="form-label" for="cf-subject">What's this about?</label>
               <select class="form-input form-select" id="cf-subject" name="subject">
                 <option value="" disabled selected>Select a topic</option>
+                <option value="team-analysis">Team structure &amp; coupling analysis</option>
+                <option value="tooling">Replacing or complementing existing tooling</option>
                 <option value="analysis">Codebase risk analysis</option>
                 <option value="methodology">Questions about methodology</option>
                 <option value="advisory">Ongoing advisory</option>
@@ -618,7 +700,7 @@
             </div>
             <div class="form-group">
               <label class="form-label" for="cf-message">Message</label>
-              <textarea class="form-input form-textarea" id="cf-message" name="message" placeholder="Tell us what you're working on or what you'd like to know..." required></textarea>
+              <textarea class="form-input form-textarea" id="cf-message" name="message" placeholder="Tell us what you're working on, what decisions you're trying to make, or what's keeping you up at night..." required></textarea>
             </div>
             <div class="form-footer">
               <button type="submit" class="btn btn-primary contact-submit" id="cf-submit">Send message →</button>
@@ -639,7 +721,7 @@
   <footer>
     <div class="footer-inner">
       <a href="#" class="footer-logo">
-        <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACnAKADASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAYHBAgBAwUCCf/EAEAQAAEDAwIEAggCCAQHAQAAAAEAAgMEBREGIQcSMUFRYQgTFCIyQnGRUoEVI2JygpKhsSRzssEXNEOi0uHw8f/EABsBAQADAAMBAAAAAAAAAAAAAAAEBQYBAwcC/8QAMREAAQMCAggFBAIDAAAAAAAAAQACAwQRBSEGEiIxQVFh0XGBkaGxEyPh8DLBFEJy/9oADAMBAAIRAxEAPwDTJEREREREREREREREREU50nwo1xqMMlp7Q+ipn7iorj6luMZBAI5yD4hpC+mMc82aLrpmqIoG60rg0dTZQZFf9l9HNxjjfeNSYeR+sipafYHye47/AMqktN6PujIyPWVd4m/fqGAH7MCmNw6oPCyppdJsOYbB9/AFatotqZ+AWiJMhn6Ui82VQP8AdpXm3H0ddOSREW+9XWnl7Om9XK37BrT/AFXJw2ccF1t0qw5xzcR5drrWhFcOovR+1XRc8lnraG7Rj4WFxgld+TvdH86rC/2G82Cs9kvVsqqCbflbNGWhwG2Wno4eYyFFkgki/m2yt6XEKaqH2Xg/PpvXmoiLqUxERERERERERERERERFMuGvDm/a4q80TPZrfG7lmrZW+43xDR87sdhsMjJGQpFwS4VVGrqmO8XmKSGwxu2GeV1W4HBa3uGA9XfkN8lu09soaS20MVDQU8VNTxN5Y442hrWjwAHRWdHQGXbfkPlZXG9I20ZMNPm/ieA7n448lENA8L9J6RZFNS0Laq4MAJrKn35Obxb2Z/CAcdSVNwPDAXKbdlfRxtjFmiy89qKmWofryuLj1XC5TvsgX2uhOqdU6pthEXGxWLdbZb7tRPornRU9ZTP+KKeMPYfPB2yssIMLggEWK+muLTrA2KoPiLwDp5WzV2jJTDIAXewTPyx3kx53afJ2Rk9QFQV2t1dabjNbrlSy0tXA7lkikbgg/wC4I3B6Ebhb8f3UI4uaQ0tqTT81RqGSKgdTRkx3EkNdB9T8zc/KeudsEgqpq8OYQXR5H2/C1+EaTzRuEVTtA5X4/n58Vpmi7KlkcVTLHFM2eNryGStaQHgHYgHcZ811qiXoSIiIiIiIiKe8FtAy641Hipa9looyH1cgOC/PSMHxODk9gD3xmFW6jqbjcKego4jNU1MrYoox1c9xwB9yt1+G+lqXSGkaOzUwYZGN56iVox62U/E//YZ6AAdlOoKX677u3BZ/SHFf8CDVjO27d05nt1XvUVLT0VHDR0sTIYIGNjjYwYa1oGAAB0AG2F3dkHRcrSgWXlpJJuUTIXGRgkkYCqjinxms+l5J7XZ2Mul3jcWPYCRDA4fjcOpB+Vu+xBLSF1yzMibrPNlIpKKesk+nC25+PHkrVkljjaXPe1oAySewUXuXEXQ9vJFTqe2czTgiOdshH5NyVqNq7WWpNVVD5bzdJ5oy7mbTtcWws8OVg2/Pr5qPqpkxY32G+q2VNoa2155M+Q7nstzIOLXDyZ/I3U1KCfxskaPuW4UksuobFemk2m70NdgZcIKhry36gHb81oevuGSSGVssUjo5GHLXNOCD4gr4bi0l9poXfLobTkfbkcD1sey/QHYjOUWpOg+NOrNPyxw3Od16oBs6Opd+uA8WydSf3ubywrW1Px50tTaaFXYzNW3KZmIqV8bo/Uux/wBU9MD9knOMAj4hPjxGF7bk2ss5U6NV0EoY1usDuI3efL4U715rSxaNtZrbxVcjn5EEDBmSZw7NH2yTgDIydwtUOJfEK+a5r+euk9nt8by6noo3e4zsC4/O7HzHxOAAcLwtTX666ju8t1vFW+pqZNsnYMb2a0dGtGegXmKoq658+Qyatpg+AQ0AD37UnPl4d9/wiIigrQIiIiIiIiK5/RW0yLjqmr1FUR80NsjDIMg4MrwQSOxw3II/baVs5/dV/wCj7Y/0JwvtgdGGTVzTWyHOeb1m7D/IGfZWAFqKGL6UIHE5ryXH6w1Vc918hsjy/Nymy5KLxNc36DTOlLjfKgczaSAvDd/fcThjdumXFoz2ypTnBouVUxxukeGNFyTYeaq30h+J8tljfpWwTujuUrAauoYcOp2EZDWns9wOc9gcjcgt1oWTc66quVxqbjWymWpqZXSyvPzOcck/crGWVqah079Y+S9ewvDY8PgEbN/E8z+7kREUdWSIi5wURcIiIiIiIiIiIiIiIiL6jY6SRsbBlziAB4kr5WfpxrX6htrHY5XVcQOfDnC5GZXDjYXW9Voo4bfa6WgpxiGmhbDH+60YH9AsrZcM+AY8MLlbICwsvDi4uOseK5VI+lnem0+mLdY45HNlrKn1zwDsY4wdj/E5p/h8ldy1H9JW8suvE+ogic10dvgjpctdkF273fmC8tP7qg4lJqQEc8loNGKb69e1x3NBP9D3KrNEU84S8Nrprq4+sPPSWeF2Kir5dyfwR56u8+jep7A52ON0jg1ouV6ZUVEVNGZZTZoUb0ppm+apuHsNjt8tXKN3kYayMeLnHZvTud+yvnRvo+WqngiqNUXCatqNnPp6Z3q4R4tLvid9Ryq3dK6dtGmbRFbLNRR01PHv7vxPd3c49XOPifp0AC9ZX1PhsbBeTM+y88xLSmonJbT7Dfc9vL1UIoOFGgKNuItM0b/Obml/1krJq+G2hKqExSaVtTR0JigEZ+7cFS2R7I2F8jg1oGSSdgFCb1xX0BaZfVVGpKWV+MgUzXT/AJZjBAPkSpT2U8Y2gB6KnhqMRqHfbc9x6FxUZ1NwC0fcIXvtEtXZ5+XDPVyGaLPi5ryXH8nBULxA4e6l0VNm60nPROfyRVsJ5onnsCerT12cATg4yBlbBf8AHrQXrOT1tyx+P2Tb/Vn+i9hnEjhnqWilt9RfrZLBMzllhrmuhY4HsfWNAP3UCaCklGw4ArRUWIYzREfXjc9nUEn17rThFY3GXh/TaXmiven6ptbp2ufywyNkD/UvOTycwPvDAOHeRB3GTXKppI3Ru1XLcU1THUxiSM5H9seqIiL4XeiIiIi7qKY09ZBOOsUjX/Y5XSiIv0AheyWJskZDmOGWnxC+/JVPw04raWj4d2x9/vNPR1lLEKaaJzi6R3IA0O5RlxyAD07lR7XfpA0cTJKTSNE6pkOR7ZUtLIx5tZ8Tvz5foVqDWwtYHFy8kbgNbJO6JkZyJFzkPXsrD4u69odE6clnEscl1naWUVOTkuf+Mj8Lep8endab1dRPV1U1VUyulnme6SSRxyXuJySfMkrLutxu2obw+tr6ievr6l+C4jmc4no1oHQdgAMDoFb/AAs4F19fJDdNYsdRUYIc2hDsSyjr75B9weXxdfhVPLJLXSWaMh+5rbUdPSaP0xdM/aO/megH7zKinB7hjcdbV7KuqZJS2OJ+JqjoZSOrI/E+J6D64B20tFtobRbILbbaaOmpYGBkUbBgNH/3369V20VLTUNJFSUcEcFPEwMjjjaGta0dAAOgXcrmlpG07ct/NYjF8YlxKS7smjcP7PVcqG8TOIVj0PbzJWSe0V8jSaaijcOeTtk/hbn5j4HAJ2Xl8YOJ9t0VQupaUsq71Kz9TT52jB+eTHRvl1d2wMkam3q6V96utRdLpVPqqyofzySP6k+HgABsANgAAFHra8RbDP5fCscD0edW2mnyj4c3fjr6c1INd8QdTaxqHG6Vzo6QnLKOAlkLcdMtz7x83ZKiaIqB73PN3G5Xo0MMcDAyNoAHAIiIvldq7m1VS2jfRtqJhTPeJHwh55HPAIDi3pkAkZ8yulERLIiIiIpzwy0bZtasmtx1A62Xxry6CCSEPjqI+XflOQQ4EHI323AODiDL7gllgnZPBI+KWNwcx7HEOa4HIII6EL6YQHXcLhdM7HvjIjdqngd/srUuXATXFMSaV9rrhnYRTlpI8ffaB/VeS7gxxHDiP0AzA+b22AA/d6nHDLjxJTMhtus43yxtw1txiblw85GDr+83fb4SclXvYL9Z79b211nuNPWwOx78T88pIzhw6tPkcHyVvDSUs+bXHwWOrcZxfDzaZjSOdjY+YK1XpeCPEKaQMfbKaAH5n1cZH/aSplpj0dqp0jZNSXyNjAd4aFpJI/feBg/wlbEBw8Vz2zlSmYZA03NyqibSrEJG2bZvgO5Ki2jNAaU0niSz2qKOp5cGpkPPKfH3nZIz3AwPJSnshc0d1EdX8SNHaX52XK8wOqWh3+Fp/wBbLkfKWt+E+HNyjzUy8cLeACpLVNbJxe7zJUuJAGScKoeMnGGj02yay6ekiq7zuySQYdHSnvzfiePw9j8XTlNX8SeNV/1J6yhsxks9tOWnkf8Ar5Rn5nD4R5N8SCSFBb1pPUdltNHdrpaKmloq0Zgle3Y+GR1aSNwHYJG42VVU4iXAth9VrsK0YbG5slaRc7m33+PPwHnyXl19XVV9bNW1tRJUVMzy+WWR2XPcepJXQiKlW6AAFgiIiLlEWZZrXcLzcobda6SWrq5ncscUbck+fkPEnYd1edP6PLnaQcZrsW6gcOdvLvTN22jO3MfN3bsD37oqeSa+oL2UGsxKmoi0TOtf9v4dVQCL0NQ2W6afustrvFHJSVcR95j+47EEbEHsRsV566iCDYqY1weA5puCiIi4X0iIiIiyLfXVtvqW1VBV1FJO34ZYJCx4+hG6x0RcEAixU2t3FfiDQwiKLUtTI0dPaI2TH7vaT/VZjuNHEYjAv7W7dqOH/wAFXqybZVvoLjTV0TI5H08rZWskbzMcWnIBHcbLuFRKMtY+qhvw2kdmYWk/8jspVNqPiRrRz6dlffbo0jlkhpGu9Xj9pkYDcfUL3dK8Dta3eZjrhBDZqU4JkqHh78ZwcMaSc+TuX6rYDhZr2za2tDX0fLT18LR7VRuI5oz4j8Tc9D98HZTTp5FW0OHxygPc8uWMrNI6mlc6CKERkefYfKr7QHCPSelPVVQpjcbkzDva6oBxa7Y5Y3ozcZB+IfiU4uNBR3Giloq6miqaaVvLJFIwOa4eBB2KycoFZshYxuq0WCys9ZPUSfUlcS7n25eSonW3o+0VVPLVaWuHsBO7aSoy+LPk/dzR9Q5VxXcE+IlNO6OO0wVTAcCSKsia13053NP9Ft6g8QVEkwyB5uMvBXVNpTXwN1SQ7xGfqCPdaf0/BXiNK9ofZIoWn5n1sJA/lcT/AEUz0z6O1wkkbJqK9wwxggmGiaXOcPDneAGn+Fy2NRcMwuBpzuV9TaWV8gs2zfAdyVH9G6O09pKhFLZLdHASAJJT70khHdzjufp0GdgFIOyIp7WtaLNGSz0sr5Xl7zcniVGeIWiLFra0+xXanxNGCaeqjwJYSfA+B7g7H6gEan8SOH990PcDFcIjPQvdinrY2n1cngD+F2PlPgcEjdbq91EOLWoNNWPSVS7UkMNXBMwsjo3gF1Q/qGgdt8Hm+Xr1xmBW0kcjS8mx5q/wLGKqmkELRrtP+vb9t4b1pWi7Kh7JKiSSOJsLHPJbG0khgJ2AJ32811rOL1BERERERERERERZ1iu1xsd0gulqq5KSrgdlkjDuPEEdCD0IOxWzfC7jTZtRRw26/Ojtd2OGAuOIZz+y4/Cf2XeIAJWqyKTT1UkB2d3JVeJYRT4iy0gsRuI3j8dF+gbSHDIP/pc9/Baa6F4qat0mI6enrPbqBmwparL2tHg13xN+gON+iuvS/H3SVwjYy8xVVoqMe8XMMsWfAOaMn82hXcOIxSbzY9e6wVdozW0xuwa7eY3+m/0urfyEXkWTUun70ALTe7fWu5eYthqWPcB5tByPzXqhze5x9VOa4OFwVn5I3xmzwQeq+k22XAe09D0XlXrUdgsoH6WvNBQkjIE9Q1hd9ATk/khcG5koyN0hswXPRetkLgkdzhVbqDjtoa3M/wADPV3aXcBtNAWgHtl0nKMeYyqb11xq1ZqJr6ageLJROyCymeTK4bfFLse3yhvXfKhzYhDGMjc9FeUWjldUnNuoObsvberv4o8WrDo6OahpntuN5AwKWN3uxHxkcPh/d+LpsAcrVrVupLxqm8SXS9Vbqid2zR0ZG3s1jew//TkkleSSSSSckrhUdTVyTnPdyW+wvBqfDm7GbjvJ3+XIfpRERRVboiIiIiIiIiIiIiIiIiIiIsqluVwpf+VrqqD/AC5nN/sVioiEXWbUXW6VIxUXKsm/zJ3O/uVhIiLgADciIiLlERERERERERERERERERERERERERERERERERERERERERERERERf//Z" alt="Calyntro" />
+        <img src="calyntro.png" alt="Calyntro" />
         Calyntro
       </a>
       <span class="footer-note">© 2025–2026 Ing-Büro Reichel-Langer · calyntro.com</span>
@@ -651,7 +733,7 @@
     </div>
   </footer>
 
-  <!-- ===== IMPRESSUM MODAL ===== -->
+  <!-- Impressum Modal -->
   <div class="impressum-overlay" id="impressum-overlay" role="dialog" aria-modal="true" aria-labelledby="impressum-modal-title">
     <div class="impressum-modal" id="impressum-modal">
       <div class="impressum-header">
@@ -661,102 +743,50 @@
         </div>
         <button class="impressum-close" id="impressum-close" aria-label="Impressum schließen">✕</button>
       </div>
-
       <div class="impressum-body">
-
-        <!-- Angaben gemäß §5 TMG -->
         <div class="imp-section">
           <div class="imp-section-label">Angaben gemäß § 5 TMG</div>
-          <div class="imp-row">
-            <span class="imp-key">Unternehmen</span>
-            <span class="imp-val">Ing-Büro Reichel-Langer</span>
-          </div>
-          <div class="imp-row">
-            <span class="imp-key">Rechtsform</span>
-            <span class="imp-val">Personengesellschaft</span>
-          </div>
-          <div class="imp-row">
-            <span class="imp-key">Anschrift</span>
-            <span class="imp-val">Trollmannstraße 9<br>86650 Wemding<br>Deutschland</span>
-          </div>
+          <div class="imp-row"><span class="imp-key">Unternehmen</span><span class="imp-val">Ing-Büro Reichel-Langer</span></div>
+          <div class="imp-row"><span class="imp-key">Rechtsform</span><span class="imp-val">Personengesellschaft</span></div>
+          <div class="imp-row"><span class="imp-key">Anschrift</span><span class="imp-val">Trollmannstraße 9<br>86650 Wemding<br>Deutschland</span></div>
         </div>
-
         <div class="imp-divider"></div>
-
-        <!-- Kontakt -->
         <div class="imp-section">
           <div class="imp-section-label">Kontakt</div>
-          <div class="imp-row">
-            <span class="imp-key">Telefon</span>
-            <span class="imp-val"><a href="tel:+4909092911773">09092 911773</a></span>
-          </div>
-          <div class="imp-row">
-            <span class="imp-key">E-Mail</span>
-            <span class="imp-val"><a href="mailto:khreichel@calyntro.com">khreichel@calyntro.com</a></span>
-          </div>
+          <div class="imp-row"><span class="imp-key">Telefon</span><span class="imp-val"><a href="tel:+4909092911773">09092 911773</a></span></div>
+          <div class="imp-row"><span class="imp-key">E-Mail</span><span class="imp-val"><a href="mailto:khreichel@calyntro.com">khreichel@calyntro.com</a></span></div>
         </div>
-
         <div class="imp-divider"></div>
-
-        <!-- Verantwortlicher -->
         <div class="imp-section">
           <div class="imp-section-label">Vertretungsberechtigte Person</div>
-          <div class="imp-row">
-            <span class="imp-key">Inhaber</span>
-            <span class="imp-val">Karl-Heinz Reichel</span>
-          </div>
+          <div class="imp-row"><span class="imp-key">Inhaber</span><span class="imp-val">Karl-Heinz Reichel</span></div>
         </div>
-
         <div class="imp-divider"></div>
-
-        <!-- Steuer / Berufsrecht -->
         <div class="imp-section">
           <div class="imp-section-label">Steuerliche Angaben</div>
-          <div class="imp-row">
-            <span class="imp-key">Umsatzsteuer-ID</span>
-            <span class="imp-val"><!-- Nicht vorhanden (Kleinunternehmer gemäß § 19 UStG) --> </span>
-          </div>
-          <div class="imp-note">
-            <!--  Gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Eine Umsatzsteuer-Identifikationsnummer liegt nicht vor. -->
-          </div>
+          <div class="imp-row"><span class="imp-key">Umsatzsteuer-ID</span><span class="imp-val"></span></div>
+          <div class="imp-note">Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</div>
         </div>
-
         <div class="imp-divider"></div>
-
-        <!-- Haftung für Inhalte -->
         <div class="imp-section">
           <div class="imp-section-label">Haftung für Inhalte</div>
-          <div class="imp-note">
-            Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.
-          </div>
+          <div class="imp-note">Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</div>
         </div>
-
         <div class="imp-divider"></div>
-
-        <!-- Haftung für Links -->
         <div class="imp-section">
           <div class="imp-section-label">Haftung für Links</div>
-          <div class="imp-note">
-            Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
-          </div>
+          <div class="imp-note">Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</div>
         </div>
-
         <div class="imp-divider"></div>
-
-        <!-- Urheberrecht -->
         <div class="imp-section">
           <div class="imp-section-label">Urheberrecht</div>
-          <div class="imp-note">
-            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
-          </div>
+          <div class="imp-note">Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</div>
         </div>
-
-      </div><!-- /impressum-body -->
-    </div><!-- /impressum-modal -->
-  </div><!-- /impressum-overlay -->
+      </div>
+    </div>
+  </div>
 
   <script>
-   /* Contact form */
    (function () {
        const form = document.getElementById('calyntro-contact-form');
        const success = document.getElementById('cf-success');
@@ -775,50 +805,23 @@
        });
    })();
 
-   /* Impressum Modal */
    (function () {
        const overlay  = document.getElementById('impressum-overlay');
        const modal    = document.getElementById('impressum-modal');
        const trigger  = document.getElementById('impressum-trigger');
        const closeBtn = document.getElementById('impressum-close');
-
-       function openModal(e) {
-           e.preventDefault();
-           overlay.classList.add('is-open');
-           document.body.style.overflow = 'hidden';
-           closeBtn.focus();
-       }
-
-       function closeModal() {
-           overlay.classList.remove('is-open');
-           document.body.style.overflow = '';
-           trigger.focus();
-       }
-
+       function openModal(e) { e.preventDefault(); overlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; closeBtn.focus(); }
+       function closeModal() { overlay.classList.remove('is-open'); document.body.style.overflow = ''; trigger.focus(); }
        trigger.addEventListener('click', openModal);
        closeBtn.addEventListener('click', closeModal);
-
-       // Close on backdrop click
-       overlay.addEventListener('click', function (e) {
-           if (e.target === overlay) closeModal();
-       });
-
-       // Close on Escape
-       document.addEventListener('keydown', function (e) {
-           if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
-       });
-
-       // Trap focus inside modal
+       overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
+       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal(); });
        modal.addEventListener('keydown', function (e) {
            if (e.key !== 'Tab') return;
            const focusable = modal.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
-           const first = focusable[0];
-           const last  = focusable[focusable.length - 1];
-           if (e.shiftKey) {
-               if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-           } else {
-               if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
-           }
+           const first = focusable[0]; const last = focusable[focusable.length - 1];
+           if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+           else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
        });
    })();
   </script>
