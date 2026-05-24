@@ -1052,6 +1052,111 @@ Shows the top 3 contributing teams for each module (Module-centric view).
      ]
    }
 
+Change Coupling
+~~~~~~~~~~~~~~~
+Returns module pairs ranked by co-change frequency, enriched with team ownership context.
+Each pair represents two modules that were modified together in the same commits.
+Cross-team pairs indicate Conway's Law violations — coordination overhead caused by
+architectural boundaries that do not align with team boundaries.
+
+Results are pre-sorted: cross-team pairs first, then by ``total_co_changes`` descending
+within each boundary type.
+
+*   **URL:** ``/v1/analysis/coupling/modules``
+*   **Method:** ``POST``
+
+.. note::
+   Requires at least one completed analysis import. Returns an empty ``items`` list if
+   coupling data has not been computed yet.
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "start_date":    "2024-01-01T00:00:00",
+     "end_date":      "2024-12-31T23:59:59",
+     "boundary_type": "cross_team"
+   }
+
+.. list-table:: Request Parameters
+   :header-rows: 1
+   :widths: 20 10 70
+
+   * - Parameter
+     - Required
+     - Description
+   * - ``start_date``
+     - No
+     - ISO 8601 timestamp. Restricts team ownership calculation to commits within this window. Omit to use all available history.
+   * - ``end_date``
+     - No
+     - ISO 8601 timestamp. Upper bound for the ownership window.
+   * - ``boundary_type``
+     - No
+     - Filter results by team boundary: ``cross_team``, ``same_team``, or ``unknown``. Omit to return all pairs.
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "module1":              "src_mongo",
+         "team1":                "Storage Engine",
+         "team1_ownership":      0.46,
+         "module2":              "src_third_party",
+         "team2":                "Test Infrastructure",
+         "team2_ownership":      0.98,
+         "coupled_file_pairs":   15,
+         "total_co_changes":     21415,
+         "boundary_type":        "cross_team",
+         "module1_commit_count": 204831,
+         "module2_commit_count": 27112,
+         "shared_commit_count":  27
+       }
+     ]
+   }
+
+.. list-table:: Response Fields (each item in ``items``)
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``module1``
+     - Name of the first module in the pair. The module with the lower lexicographic name is always placed in ``module1``.
+   * - ``team1``
+     - Primary owning team of ``module1`` as resolved from the team configuration. ``null`` if no team assignment exists.
+   * - ``team1_ownership``
+     - Fraction (0–1) of commits to ``module1`` attributed to ``team1`` in the configured time window. ``null`` if team is unknown.
+   * - ``module2``
+     - Name of the second module in the pair.
+   * - ``team2``
+     - Primary owning team of ``module2``. ``null`` if no team assignment exists.
+   * - ``team2_ownership``
+     - Fraction (0–1) of commits to ``module2`` attributed to ``team2``.
+   * - ``coupled_file_pairs``
+     - Number of distinct file pairs (one file from each module) that have co-changed at least once. Indicates the *breadth* of the coupling: a low value suggests an isolated connection; a high value indicates systemic coupling across many files.
+   * - ``total_co_changes``
+     - Total file-pair co-change events: Σ (co_change_count per file pair). If a single commit touches *N* files in module1 and *M* files in module2, that counts as *N × M* events. Can be orders of magnitude larger than ``shared_commit_count``.
+   * - ``boundary_type``
+     - Team boundary classification: ``cross_team`` (modules owned by different teams), ``same_team``, or ``unknown`` (team data unavailable for one or both modules).
+   * - ``module1_commit_count``
+     - Total distinct commits that touched any file in ``module1`` across all history. Used as the denominator in coupling direction calculations: ``P(module2 | module1) = shared_commit_count / module1_commit_count``.
+   * - ``module2_commit_count``
+     - Total distinct commits that touched any file in ``module2`` across all history.
+   * - ``shared_commit_count``
+     - Commits that touched at least one file in ``module1`` **and** at least one file in ``module2`` simultaneously. This is the commit-level coordination count — directly comparable to ``module1_commit_count`` and ``module2_commit_count`` for direction analysis.
+
+.. note::
+   **``total_co_changes`` vs ``shared_commit_count``** — these measure different things.
+   ``shared_commit_count`` counts commits at the module level (27 in the example above).
+   ``total_co_changes`` counts file-pair co-change events, which multiplies with the number
+   of files touched per commit (27 commits × ~790 file pairs per commit ≈ 21,415 events).
+   Use ``shared_commit_count`` for direction analysis; use ``total_co_changes`` for ranking pairs.
+
 --------------------------------------------------------------------------------
 
 Dashboard KPIs

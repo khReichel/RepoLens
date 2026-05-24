@@ -1466,6 +1466,48 @@
         }
       }
     },
+    "/v1/analysis/coupling/modules": {
+      "post": {
+        "tags": [
+          "Change Coupling"
+        ],
+        "summary": "Get Module Coupling",
+        "description": "Returns module pairs ranked by co-change frequency, enriched with team ownership context.\n\nEach pair shows which two modules change together and whether they are owned by the\nsame team or cross team boundaries. Cross-team pairs are returned first.\n\nRequires at least one completed analysis import. Returns an empty list if no coupling\ndata has been computed yet (module_coupling table missing or empty).",
+        "operationId": "get_module_coupling_v1_analysis_coupling_modules_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleCouplingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModuleCouplingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/info": {
       "get": {
         "summary": "Info",
@@ -1885,6 +1927,15 @@
         ],
         "title": "AvgFileAgeWrapped",
         "description": "Wrapper response model exposing avg file age data under an `items` key."
+      },
+      "BoundaryType": {
+        "type": "string",
+        "enum": [
+          "cross_team",
+          "same_team",
+          "unknown"
+        ],
+        "title": "BoundaryType"
       },
       "CombinedComplexityItem": {
         "properties": {
@@ -3446,6 +3497,166 @@
         ],
         "title": "ModuleContributorResponse",
         "description": "Pydantic model for the module-level contributor analysis response."
+      },
+      "ModuleCouplingItem": {
+        "properties": {
+          "module1": {
+            "type": "string",
+            "title": "Module1"
+          },
+          "team1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team1",
+            "description": "Primary owning team of module1"
+          },
+          "team1_ownership": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team1 Ownership",
+            "description": "Ownership ratio of team1 over module1 (0\u20131)"
+          },
+          "module2": {
+            "type": "string",
+            "title": "Module2"
+          },
+          "team2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team2",
+            "description": "Primary owning team of module2"
+          },
+          "team2_ownership": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team2 Ownership",
+            "description": "Ownership ratio of team2 over module2 (0\u20131)"
+          },
+          "coupled_file_pairs": {
+            "type": "integer",
+            "title": "Coupled File Pairs",
+            "description": "Number of distinct file pairs that co-changed"
+          },
+          "total_co_changes": {
+            "type": "integer",
+            "title": "Total Co Changes",
+            "description": "Total number of co-change events across all file pairs"
+          },
+          "boundary_type": {
+            "$ref": "#/components/schemas/BoundaryType",
+            "description": "cross_team | same_team | unknown"
+          },
+          "module1_commit_count": {
+            "type": "integer",
+            "title": "Module1 Commit Count",
+            "description": "Total commits touching module1",
+            "default": 0
+          },
+          "module2_commit_count": {
+            "type": "integer",
+            "title": "Module2 Commit Count",
+            "description": "Total commits touching module2",
+            "default": 0
+          },
+          "shared_commit_count": {
+            "type": "integer",
+            "title": "Shared Commit Count",
+            "description": "Commits that touched both modules simultaneously",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "module1",
+          "module2",
+          "coupled_file_pairs",
+          "total_co_changes",
+          "boundary_type"
+        ],
+        "title": "ModuleCouplingItem"
+      },
+      "ModuleCouplingRequest": {
+        "properties": {
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start date for team ownership calculation"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End date for team ownership calculation"
+          },
+          "boundary_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BoundaryType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter results by boundary type: cross_team | same_team | unknown. Omit for all."
+          }
+        },
+        "type": "object",
+        "title": "ModuleCouplingRequest"
+      },
+      "ModuleCouplingResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModuleCouplingItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ModuleCouplingResponse"
       },
       "ModuleHotspotTrendItem": {
         "properties": {

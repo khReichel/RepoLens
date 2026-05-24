@@ -185,22 +185,6 @@
     .feat-metric-name { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--teal); margin-bottom: 6px; }
     .feat-metric-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
 
-    /* Coupling diagram */
-    .coupling-visual { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 24px; margin-bottom: 28px; }
-    .coupling-title { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 16px; }
-    .coupling-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 13px; }
-    .coupling-row:last-child { margin-bottom: 0; }
-    .coupling-modules { display: flex; align-items: center; gap: 8px; min-width: 220px; }
-    .coupling-mod { background: rgba(27,191,176,0.1); border: 0.5px solid var(--teal-border); border-radius: var(--r-sm); padding: 4px 10px; font-size: 12px; color: var(--teal); font-family: var(--mono); }
-    .coupling-mod-danger { background: var(--danger-bg); border-color: rgba(226,75,74,0.3); color: var(--danger); }
-    .coupling-arrow { color: var(--text-tertiary); font-size: 11px; }
-    .coupling-pct { font-size: 13px; font-weight: 500; min-width: 48px; }
-    .coupling-pct-high { color: var(--danger); }
-    .coupling-pct-mid  { color: var(--amber); }
-    .coupling-pct-low  { color: var(--teal); }
-    .coupling-teams { font-size: 11px; color: var(--text-tertiary); }
-    .coupling-teams strong { color: var(--text-secondary); }
-
     /* How it works */
     .how-section { padding: 72px 32px; border-bottom: 0.5px solid var(--border); position: relative; z-index: 1; }
     .steps { display: flex; flex-direction: column; }
@@ -509,50 +493,37 @@
     </div>
   </section>
 
-  <!-- Feature 4: Change Coupling + Team Alignment (NEW) -->
+  <!-- Feature 4: Change Coupling + Team Alignment -->
   <section class="feature-block">
     <div class="feat-inner">
       <span class="feat-tag feat-tag-purple">Team Structure</span>
       <h3 class="feat-headline">Optimise your team structure using the evidence in your commits</h3>
       <p class="feat-sub">Change Coupling reveals which modules are modified together in the same commits — even when no explicit dependency exists. Cross that with ownership data and your current team structure, and you can quantify exactly where team boundaries generate coordination overhead.</p>
 
-      <div class="coupling-visual">
-        <div class="coupling-title">Change Coupling — Module Level · Cross-team dependencies</div>
-        <div class="coupling-row">
-          <div class="coupling-modules">
-            <span class="coupling-mod coupling-mod-danger">auth</span>
-            <span class="coupling-arrow">↔</span>
-            <span class="coupling-mod coupling-mod-danger">session</span>
-          </div>
-          <span class="coupling-pct coupling-pct-high">73%</span>
-          <span class="coupling-teams">commits shared · owners: <strong>Team A</strong> + <strong>Team B</strong></span>
-        </div>
-        <div class="coupling-row">
-          <div class="coupling-modules">
-            <span class="coupling-mod">payment</span>
-            <span class="coupling-arrow">↔</span>
-            <span class="coupling-mod">billing-api</span>
-          </div>
-          <span class="coupling-pct coupling-pct-mid">51%</span>
-          <span class="coupling-teams">commits shared · owners: <strong>Team C</strong> + <strong>Team C</strong></span>
-        </div>
-        <div class="coupling-row">
-          <div class="coupling-modules">
-            <span class="coupling-mod">reporting</span>
-            <span class="coupling-arrow">↔</span>
-            <span class="coupling-mod">analytics</span>
-          </div>
-          <span class="coupling-pct coupling-pct-low">18%</span>
-          <span class="coupling-teams">commits shared · owners: <strong>Team D</strong> + <strong>Team D</strong></span>
-        </div>
+      <div class="feat-metrics" style="margin-bottom:20px;">
+        <div class="feat-metric"><div class="feat-metric-name">Change Coupling</div><div class="feat-metric-desc">Modules modified together in the same commits — quantified as a normalised score plus absolute co-change count. A hidden dependency that static analysis cannot see because it emerges from behaviour, not code structure.</div></div>
+        <div class="feat-metric"><div class="feat-metric-name">Cross-Team Coupling Risk</div><div class="feat-metric-desc">When coupled modules belong to different teams, every shared commit is a coordination event. This view makes the overhead measurable — and the team restructuring case concrete.</div></div>
+        <div class="feat-metric"><div class="feat-metric-name">Coupling Direction</div><div class="feat-metric-desc">Measures whether coupling is symmetric or asymmetric — revealing which module drives the dependency. Asymmetric coupling often points to a missing stable interface.</div></div>
+        <div class="feat-metric"><div class="feat-metric-name">Team Alignment</div><div class="feat-metric-desc">Combines coupling, ownership, and team data into a quantitative basis for restructuring decisions. The analysis that previously took days of manual work — automated.</div></div>
       </div>
 
-      <div class="feat-metrics">
-        <div class="feat-metric"><div class="feat-metric-name">Change Coupling</div><div class="feat-metric-desc">Modules modified together in the same commits — quantified as a percentage. A hidden dependency that static analysis cannot see because it emerges from behaviour, not code structure.</div></div>
-        <div class="feat-metric"><div class="feat-metric-name">Cross-Team Coupling Risk</div><div class="feat-metric-desc">When coupled modules belong to different teams, every shared commit is a coordination event. This view makes the overhead measurable — and the team restructuring case concrete.</div></div>
-        <div class="feat-metric"><div class="feat-metric-name">Team Alignment</div><div class="feat-metric-desc">Maps which teams effectively own which modules based on commit history. Reveals drift between the intended architecture and where development effort actually lands.</div></div>
-        <div class="feat-metric"><div class="feat-metric-name">Teamschnitt Support</div><div class="feat-metric-desc">Combines coupling, ownership, and team data into a quantitative basis for restructuring decisions. The analysis that previously took days of manual work — automated.</div></div>
+      <div class="screenshot-frame" style="margin-bottom:12px;">
+        <div class="screenshot-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <span class="screenshot-label">Change Coupling · Top Co-Change Pairs · Cross-Team Detail</span>
+        </div>
+        <img src="screenshots/change-coupling.png" alt="Change Coupling – Top Pairs with Cross-Team Detail" />
       </div>
+
+      <div class="screenshot-frame" style="margin-bottom:10px;">
+        <div class="screenshot-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <span class="screenshot-label">Change Coupling · Hierarchical Edge Bundling · src_mongo selected · 27 connections</span>
+        </div>
+        <img src="screenshots/edge-bundling.png" alt="Change Coupling – Hierarchical Edge Bundling with team colour coding" />
+      </div>
+
+      <div class="screenshot-caption">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository. <span style="color:rgba(96,165,250,0.8);">Blue</span> = same team · <span style="color:#EF9F27;">Orange</span> = cross team · <span style="color:rgba(255,255,255,0.3);">Grey</span> = unknown ownership · Line thickness = coupling strength.</div>
     </div>
   </section>
 
@@ -828,4 +799,3 @@
 
 </body>
 </html>
-
