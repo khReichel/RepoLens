@@ -1,0 +1,27 @@
+<svg viewBox="0 0 1210 490" xmlns="http://www.w3.org/2000/svg" role="img" style="">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Blog header: The Architecture Is Too Late</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Dark teal background with white and teal typography for Karl-Heinz Reichel's blog post</desc>
+
+  <defs>
+    <radialGradient id="bgGlow" cx="85%" cy="15%" r="40%">
+      <stop offset="0%" stop-color="#0F6E56" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#04342C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="480" fill="#0a2e26" style="fill:rgb(10, 46, 38);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <rect width="1200" height="480" fill="url(#bgGlow)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <text x="600" y="175" text-anchor="middle" font-family="Georgia, serif" font-size="82" font-weight="400" fill="white" letter-spacing="-1" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:82px;font-weight:400;text-anchor:middle;dominant-baseline:auto">The Architecture Is</text>
+
+  <text x="600" y="275" text-anchor="middle" font-family="Georgia, serif" font-size="98" font-weight="400" font-style="italic" fill="#1D9E75" letter-spacing="-1" style="fill:rgb(29, 158, 117);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, serif;font-size:98px;font-weight:400;font-style:italic;text-anchor:middle;dominant-baseline:auto">Too Late</text>
+
+  <line x1="540" y1="305" x2="660" y2="305" stroke="#1D9E75" stroke-width="2.5" style="fill:rgb(0, 0, 0);stroke:rgb(29, 158, 117);color:rgb(255, 255, 255);stroke-width:2.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <text x="600" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="300" fill="#9FE1CB" letter-spacing="0.5" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:22px;font-weight:300;text-anchor:middle;dominant-baseline:auto">Coherence is built upstream.</text>
+
+  <text x="600" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="white" letter-spacing="0.5" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:22px;font-weight:400;text-anchor:middle;dominant-baseline:auto">Not refactored into chaos.</text>
+
+  <circle cx="68" cy="415" r="4" fill="#1D9E75" style="fill:rgb(29, 158, 117);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="84" y="421" font-family="Arial, sans-serif" font-size="18" fill="#9FE1CB" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Arial, sans-serif;font-size:18px;font-weight:400;text-anchor:start;dominant-baseline:auto">Karl-Heinz Reichel · calyntor.com</text>
+</svg>
