@@ -198,6 +198,36 @@ case "$1" in
     echo "Update complete."
     ;;
 
+  pull-gitlab)
+    # Pull :dev images from GitLab Registry and retag to match docker-compose image names.
+    # Requires GL_REGISTRY_IMAGE and GL_REGISTRY_TOKEN to be set (or logged in already).
+    # Example: GL_REGISTRY_IMAGE=registry.gitlab.com/khreichel/codemaatng
+    #          GL_REGISTRY_TOKEN=<deploy-token or PAT with read_registry scope>
+    if [ -z "$GL_REGISTRY_IMAGE" ]; then
+      echo "Error: GL_REGISTRY_IMAGE is not set."
+      echo "  export GL_REGISTRY_IMAGE=registry.gitlab.com/<namespace>/<project>"
+      exit 1
+    fi
+    ensure_volume_dir "./data"
+    ensure_volume_dir "./exports"
+    ensure_volume_dir "./repo"
+    echo "Logging into GitLab Registry..."
+    if [ -n "$GL_REGISTRY_TOKEN" ]; then
+      echo "$GL_REGISTRY_TOKEN" | docker login registry.gitlab.com -u "$GL_REGISTRY_USER" --password-stdin
+    else
+      docker login registry.gitlab.com
+    fi
+    echo "Pulling :dev images from $GL_REGISTRY_IMAGE ..."
+    docker pull "$GL_REGISTRY_IMAGE/backend:dev"
+    docker pull "$GL_REGISTRY_IMAGE/ui:dev"
+    echo "Retagging to match docker-compose image names..."
+    docker tag "$GL_REGISTRY_IMAGE/backend:dev" ghcr.io/khreichel/calyntro-backend:latest
+    docker tag "$GL_REGISTRY_IMAGE/ui:dev" ghcr.io/khreichel/calyntro-ui:latest
+    echo "Restarting services..."
+    docker compose -f docker-compose.yml up -d
+    echo "Update from GitLab Registry complete."
+    ;;
+
   update)
     echo "Rebuilding and restarting containers..."
     docker compose up -d --build --remove-orphans
@@ -222,7 +252,8 @@ case "$1" in
     echo "  down                   - Stop and remove services"
     echo "  import [path]          - Run import/analysis (uses config path if omitted)"
     echo "  refresh                - Move staging DB to production"
-    echo "  pull-latest            - Pull images from registry and restart"
+    echo "  pull-latest            - Pull images from GHCR and restart
+  pull-gitlab            - Pull :dev images from GitLab Registry and restart (requires GL_REGISTRY_IMAGE)"
     echo "  update                 - Rebuild and restart containers"
     echo "  logs                   - Stream logs to background file"
     echo "  debug-path             - Check container Python environment"
