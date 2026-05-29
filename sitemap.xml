@@ -4,7 +4,7 @@
   <!-- Landing Page -->
   <url>
     <loc>https://calyntro.com/</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,21 +12,70 @@
   <!-- Blog Index -->
   <url>
     <loc>https://calyntro.com/blog/</loc>
-    <lastmod>2026-04-20</lastmod>
+    <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Blog Posts -->
   <url>
-    <loc>https://calyntro.com/blog/posts/why-ai-cannot-handle-full-specifications/</loc>
+    <loc>https://calyntro.com/blog/posts/2026-05-28-ssd_arguments/</loc>
+    <lastmod>2026-05-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/2026-05-26-calyntro_week4/</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/2026-05-25-architecture_too_late/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/2026-05-20-the_review_is_too_late/</loc>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/programming_in_threes/</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/2026-05-13-if-it-happens/</loc>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/ai_ready_architecture/</loc>
     <lastmod>2026-04-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://calyntro.com/blog/posts/the-parallelization-paradox/</loc>
+    <loc>https://calyntro.com/blog/posts/2026-04-30-invisible_risks_in_codebase/</loc>
+    <lastmod>2026-04-30</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calyntro.com/blog/posts/2026-04-10-the-parallelization-paradox/</loc>
     <lastmod>2026-04-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
@@ -47,7 +96,7 @@
   </url>
 
   <url>
-    <loc>https://calyntro.com/blog/posts/ai-in-software-engineering-between-vision-and-craftsmanship/</loc>
+    <loc>https://calyntro.com/blog/posts/ai-in-software-engineering-vision-and-craftsmanship/</loc>
     <lastmod>2025-04-07</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
