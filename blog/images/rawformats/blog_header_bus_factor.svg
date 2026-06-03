@@ -1,0 +1,128 @@
+<svg width="100%" viewBox="0 0 680 380" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Bus factor blog header - abstract network version English</title>
+<desc>Dark background with abstract network graph showing concentrated knowledge ownership</desc>
+
+<defs>
+  <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0a1f22" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#0a1f22" stop-opacity="1"/>
+  </linearGradient>
+</defs>
+
+<rect width="680" height="380" fill="#0a1f22"/>
+
+<g stroke="#0f2a2e" stroke-width="1">
+  <line x1="0" y1="40" x2="680" y2="40"/>
+  <line x1="0" y1="80" x2="680" y2="80"/>
+  <line x1="0" y1="120" x2="680" y2="120"/>
+  <line x1="0" y1="160" x2="680" y2="160"/>
+  <line x1="0" y1="200" x2="680" y2="200"/>
+  <line x1="0" y1="240" x2="680" y2="240"/>
+  <line x1="0" y1="280" x2="680" y2="280"/>
+  <line x1="0" y1="320" x2="680" y2="320"/>
+  <line x1="0" y1="360" x2="680" y2="360"/>
+</g>
+
+<g stroke="#1e5a5f" stroke-width="0.8" fill="none" opacity="0.5">
+  <line x1="460" y1="195" x2="540" y2="130"/>
+  <line x1="460" y1="195" x2="570" y2="200"/>
+  <line x1="460" y1="195" x2="530" y2="270"/>
+  <line x1="460" y1="195" x2="460" y2="285"/>
+  <line x1="460" y1="195" x2="385" y2="255"/>
+  <line x1="460" y1="195" x2="370" y2="170"/>
+  <line x1="460" y1="195" x2="400" y2="110"/>
+  <line x1="460" y1="195" x2="480" y2="105"/>
+  <line x1="540" y1="130" x2="570" y2="200"/>
+  <line x1="570" y1="200" x2="530" y2="270"/>
+  <line x1="530" y1="270" x2="460" y2="285"/>
+  <line x1="385" y1="255" x2="460" y2="285"/>
+  <line x1="370" y1="170" x2="385" y2="255"/>
+  <line x1="400" y1="110" x2="370" y2="170"/>
+  <line x1="400" y1="110" x2="480" y2="105"/>
+  <line x1="480" y1="105" x2="540" y2="130"/>
+</g>
+
+<g fill="#1a5a5f">
+  <circle cx="600" cy="115" r="5"/>
+  <circle cx="620" cy="185" r="4"/>
+  <circle cx="610" cy="255" r="5"/>
+  <circle cx="555" cy="305" r="4"/>
+  <circle cx="490" cy="315" r="5"/>
+  <circle cx="345" cy="275" r="4"/>
+  <circle cx="335" cy="195" r="5"/>
+  <circle cx="355" cy="120" r="4"/>
+  <circle cx="430" cy="68" r="5"/>
+  <circle cx="510" cy="62" r="4"/>
+  <circle cx="560" cy="80" r="5"/>
+</g>
+<g stroke="#1a5a5f" stroke-width="0.5" fill="none" opacity="0.35">
+  <line x1="540" y1="130" x2="600" y2="115"/>
+  <line x1="540" y1="130" x2="560" y2="80"/>
+  <line x1="570" y1="200" x2="620" y2="185"/>
+  <line x1="530" y1="270" x2="610" y2="255"/>
+  <line x1="460" y1="285" x2="555" y2="305"/>
+  <line x1="460" y1="285" x2="490" y2="315"/>
+  <line x1="385" y1="255" x2="345" y2="275"/>
+  <line x1="370" y1="170" x2="335" y2="195"/>
+  <line x1="400" y1="110" x2="355" y2="120"/>
+  <line x1="480" y1="105" x2="430" y2="68"/>
+  <line x1="480" y1="105" x2="510" y2="62"/>
+  <line x1="540" y1="130" x2="560" y2="80"/>
+</g>
+
+<g fill="#1d6870" stroke="#2a8a8f" stroke-width="0.8">
+  <circle cx="540" cy="130" r="10"/>
+  <circle cx="570" cy="200" r="9"/>
+  <circle cx="530" cy="270" r="10"/>
+  <circle cx="460" cy="285" r="9"/>
+  <circle cx="385" cy="255" r="10"/>
+  <circle cx="370" cy="170" r="9"/>
+  <circle cx="400" cy="110" r="10"/>
+  <circle cx="480" cy="105" r="9"/>
+</g>
+
+<circle cx="460" cy="195" r="52" fill="#2dd4c4" opacity="0.04"/>
+<circle cx="460" cy="195" r="40" fill="#2dd4c4" opacity="0.07"/>
+<circle cx="460" cy="195" r="30" fill="#1d6870" stroke="#2dd4c4" stroke-width="1.5"/>
+<circle cx="460" cy="195" r="22" fill="#1a5a5f" stroke="#2dd4c4" stroke-width="1"/>
+<circle cx="460" cy="195" r="12" fill="#2dd4c4"/>
+
+<text x="460" y="240" text-anchor="middle" fill="#2dd4c4" font-size="10" font-weight="500" font-family="ui-sans-serif, system-ui, sans-serif">sole owner</text>
+<text x="460" y="253" text-anchor="middle" fill="#5ba3a0" font-size="9" font-family="ui-sans-serif, system-ui, sans-serif">1,502 commits</text>
+
+<path d="M 460 148 A 47 47 0 1 1 418 222" fill="none" stroke="#2dd4c4" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+<path d="M 418 222 A 47 47 0 0 1 418 168" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+<text x="502" y="152" fill="#f59e0b" font-size="10" font-weight="500" font-family="ui-sans-serif, system-ui, sans-serif">95% silo</text>
+
+<rect x="44" y="44" width="130" height="22" rx="11" fill="#112f33" stroke="#2dd4c4" stroke-width="0.8"/>
+<text x="109" y="59" text-anchor="middle" fill="#2dd4c4" font-size="10" font-weight="500" font-family="ui-sans-serif, system-ui, sans-serif">Engineering Leadership</text>
+
+<text x="44" y="108" fill="#dff2f0" font-size="34" font-weight="500" font-family="ui-sans-serif, system-ui, sans-serif">Bus Factor</text>
+<text x="44" y="148" fill="#2dd4c4" font-size="34" font-weight="500" font-family="ui-sans-serif, system-ui, sans-serif">measured</text>
+<text x="44" y="180" fill="#5ba3a0" font-size="14" font-family="ui-sans-serif, system-ui, sans-serif">Knowledge only one person carries.</text>
+
+<line x1="44" y1="198" x2="310" y2="198" stroke="#1e5a5f" stroke-width="0.8"/>
+
+<g font-family="ui-sans-serif, system-ui, sans-serif">
+  <text x="44" y="224" fill="#2dd4c4" font-size="22" font-weight="500">17/43</text>
+  <text x="44" y="238" fill="#4a8a88" font-size="10">modules at risk</text>
+
+  <text x="145" y="224" fill="#f59e0b" font-size="22" font-weight="500">2</text>
+  <text x="145" y="238" fill="#4a8a88" font-size="10">100% silo ratio</text>
+
+  <text x="210" y="224" fill="#2dd4c4" font-size="22" font-weight="500">161</text>
+  <text x="210" y="238" fill="#4a8a88" font-size="10">files, single owner</text>
+</g>
+
+<g font-family="ui-monospace, monospace" opacity="0.55">
+  <text x="44" y="272" fill="#2dd4c4" font-size="10">● a3f9c2  src/storage/wiredtiger.cpp</text>
+  <text x="44" y="289" fill="#f59e0b" font-size="10">● b8e1aa  src/storage/wiredtiger.cpp</text>
+  <text x="44" y="306" fill="#2dd4c4" font-size="10">● 91c4f0  src/storage/wiredtiger.cpp</text>
+  <text x="44" y="323" fill="#2dd4c4" font-size="10">● 7d2b38  src/storage/wiredtiger.cpp</text>
+  <text x="44" y="340" fill="#f59e0b" font-size="10">● e5a901  src/storage/wiredtiger.cpp</text>
+</g>
+<rect x="44" y="350" width="290" height="25" fill="url(#fade)"/>
+
+<text x="636" y="365" text-anchor="end" fill="#2a5a5f" font-size="10" font-family="ui-sans-serif, system-ui, sans-serif">calyntro.com/blog</text>
+
+</svg>
