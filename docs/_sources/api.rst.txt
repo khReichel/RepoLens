@@ -114,9 +114,9 @@ Get File Details
 Returns comprehensive metrics, KPIs, and activity history for a specific file.
 
 *   **URL:** ``/v1/files/details``
-*   **Method:** ``GET``
+*   **Method:** ``POST``
 
-**Query Parameters:**
+**Request Body (JSON):**
 
 *   ``file_path`` (required): The full path of the file.
 *   ``start_date`` (optional): Analysis start date.

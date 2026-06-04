@@ -1347,57 +1347,22 @@
       }
     },
     "/v1/files/details": {
-      "get": {
+      "post": {
         "tags": [
           "Files"
         ],
         "summary": "Get File Details",
-        "operationId": "get_file_details_v1_files_details_get",
-        "parameters": [
-          {
-            "name": "file_path",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "File Path"
+        "operationId": "get_file_details_v1_files_details_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileDetailRequest"
+              }
             }
           },
-          {
-            "name": "start_date",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Start Date"
-            }
-          },
-          {
-            "name": "end_date",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "format": "date-time"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "End Date"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -2818,6 +2783,43 @@
           "cognitive"
         ],
         "title": "FileDetailMetrics"
+      },
+      "FileDetailRequest": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file_path"
+        ],
+        "title": "FileDetailRequest"
       },
       "FileDetailResponse": {
         "properties": {
