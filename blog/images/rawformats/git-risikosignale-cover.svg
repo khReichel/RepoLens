@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1200"
+   height="630"
+   viewBox="0 0 1200 630"
+   role="img"
+   version="1.1"
+   id="svg34"
+   sodipodi:docname="git-risikosignale-cover.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview34"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.3142857"
+     inkscape:cx="599.94565"
+     inkscape:cy="315"
+     inkscape:window-width="1920"
+     inkscape:window-height="1031"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg34" />
+  <title
+     id="title1">5 Risikosignale in Ihrer Git-Historie — Calyntro</title>
+  <desc
+     id="desc1">Stilisierte Git-Commit-Timeline mit fünf farblich markierten Risikosignalen auf dunklem Teal-Hintergrund</desc>
+  <defs
+     id="defs3">
+    <linearGradient
+       id="bg"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1">
+      <stop
+         offset="0%"
+         stop-color="#0A2A28"
+         id="stop1" />
+      <stop
+         offset="55%"
+         stop-color="#0D3330"
+         id="stop2" />
+      <stop
+         offset="100%"
+         stop-color="#061E1C"
+         id="stop3" />
+    </linearGradient>
+  </defs>
+  <rect
+     width="1200"
+     height="630"
+     fill="url(#bg)"
+     id="rect3" />
+  <!-- Subtle grid -->
+  <line
+     x1="0"
+     y1="157"
+     x2="1200"
+     y2="157"
+     stroke="#1A3E3A"
+     stroke-width="0.8"
+     id="line3" />
+  <line
+     x1="0"
+     y1="315"
+     x2="1200"
+     y2="315"
+     stroke="#1A3E3A"
+     stroke-width="0.8"
+     id="line4" />
+  <line
+     x1="0"
+     y1="472"
+     x2="1200"
+     y2="472"
+     stroke="#1A3E3A"
+     stroke-width="0.8"
+     id="line5" />
+  <!-- Git timeline trunk -->
+  <line
+     x1="140"
+     y1="60"
+     x2="140"
+     y2="570"
+     stroke="#1A4A44"
+     stroke-width="3.5"
+     id="line6" />
+  <!-- Branch lines -->
+  <path
+     d="M140 215 Q230 215 230 165 L230 130"
+     fill="none"
+     stroke="#1A4A44"
+     stroke-width="2.5"
+     id="path6" />
+  <path
+     d="M140 330 Q280 330 280 280 L280 185"
+     fill="none"
+     stroke="#1A4A44"
+     stroke-width="2.5"
+     id="path7" />
+  <path
+     d="M230 130 L230 95 Q230 80 140 80"
+     fill="none"
+     stroke="#1A4A44"
+     stroke-width="2.5"
+     id="path8" />
+  <!-- Commit dots on main trunk -->
+  <circle
+     cx="140"
+     cy="100"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle8" />
+  <circle
+     cx="140"
+     cy="165"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle9" />
+  <circle
+     cx="140"
+     cy="230"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle10" />
+  <circle
+     cx="140"
+     cy="295"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle11" />
+  <circle
+     cx="140"
+     cy="360"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle12" />
+  <circle
+     cx="140"
+     cy="425"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle13" />
+  <circle
+     cx="140"
+     cy="490"
+     r="8"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle14" />
+  <!-- Branch commit dots -->
+  <circle
+     cx="230"
+     cy="130"
+     r="7"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle15" />
+  <circle
+     cx="280"
+     cy="230"
+     r="7"
+     fill="#1A4A44"
+     stroke="#2A6A60"
+     stroke-width="1.5"
+     id="circle16" />
+  <!-- SIGNAL 1: HOTSPOT — red -->
+  <circle
+     cx="140"
+     cy="165"
+     r="28"
+     fill="#E94560"
+     fill-opacity="0.14"
+     stroke="#E94560"
+     stroke-width="0.8"
+     stroke-opacity="0.4"
+     id="circle17" />
+  <circle
+     cx="140"
+     cy="165"
+     r="14"
+     fill="#E94560"
+     fill-opacity="0.22"
+     id="circle18" />
+  <circle
+     cx="140"
+     cy="165"
+     r="8"
+     fill="#E94560"
+     id="circle19" />
+  <path
+     d="M152,145 Q158,132 154,125 Q162,134 158,147 Q166,138 163,128 Q172,140 166,155 Q160,168 152,164 Z"
+     fill="#E94560"
+     fill-opacity="0.65"
+     id="path19" />
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="18"
+     font-weight="600"
+     fill="#E94560"
+     x="195"
+     y="156"
+     id="text19">hotspot</text>
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="14"
+     fill="#E94560"
+     fill-opacity="0.55"
+     x="195"
+     y="178"
+     id="text20">high churn · high complexity</text>
+  <line
+     x1="172"
+     y1="165"
+     x2="188"
+     y2="165"
+     stroke="#E94560"
+     stroke-width="0.8"
+     stroke-opacity="0.5"
+     id="line20" />
+  <!-- SIGNAL 2: SILO-RISIKO — amber -->
+  <circle
+     cx="140"
+     cy="295"
+     r="28"
+     fill="#F5A623"
+     fill-opacity="0.12"
+     stroke="#F5A623"
+     stroke-width="0.8"
+     stroke-opacity="0.4"
+     id="circle20" />
+  <circle
+     cx="140"
+     cy="295"
+     r="8"
+     fill="#F5A623"
+     id="circle21" />
+  <circle
+     cx="140"
+     cy="277"
+     r="8"
+     fill="#F5A623"
+     fill-opacity="0.45"
+     id="circle22" />
+  <path
+     d="M126,295 Q126,282 140,282 Q154,282 154,295"
+     fill="#F5A623"
+     fill-opacity="0.35"
+     id="path22" />
+  <circle
+     cx="140"
+     cy="295"
+     r="36"
+     fill="none"
+     stroke="#F5A623"
+     stroke-width="1.2"
+     stroke-dasharray="5 5"
+     stroke-opacity="0.45"
+     id="circle23" />
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="18"
+     font-weight="600"
+     fill="#F5A623"
+     x="195"
+     y="287"
+     id="text23">silo-risiko</text>
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="14"
+     fill="#F5A623"
+     fill-opacity="0.55"
+     x="195"
+     y="309"
+     id="text24">100% ownership · single point of failure</text>
+  <line
+     x1="172"
+     y1="295"
+     x2="188"
+     y2="295"
+     stroke="#F5A623"
+     stroke-width="0.8"
+     stroke-opacity="0.5"
+     id="line24" />
+  <!-- SIGNAL 3: CHANGE COUPLING — teal/cyan -->
+  <circle
+     cx="140"
+     cy="425"
+     r="8"
+     fill="#3DD6C8"
+     id="circle24" />
+  <rect
+     x="258"
+     y="408"
+     width="52"
+     height="36"
+     rx="6"
+     fill="#3DD6C8"
+     fill-opacity="0.12"
+     stroke="#3DD6C8"
+     stroke-width="0.8"
+     id="rect24" />
+  <circle
+     cx="284"
+     cy="426"
+     r="7"
+     fill="#3DD6C8"
+     id="circle25" />
+  <line
+     x1="148"
+     y1="425"
+     x2="256"
+     y2="426"
+     stroke="#3DD6C8"
+     stroke-width="2"
+     stroke-dasharray="6 4"
+     id="line25" />
+  <circle
+     cx="200"
+     cy="425"
+     r="4"
+     fill="#3DD6C8"
+     fill-opacity="0.5"
+     id="circle26" />
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="18"
+     font-weight="600"
+     fill="#3DD6C8"
+     x="356"
+     y="418"
+     id="text26">change coupling</text>
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="14"
+     fill="#3DD6C8"
+     fill-opacity="0.55"
+     x="356"
+     y="440"
+     id="text27">hidden dependency · coordination overhead</text>
+  <!-- SIGNAL 4: KOMPLEXITÄTS-DRIFT — light teal (etwas heller) -->
+  <polyline
+     points="730,500 775,475 820,458 865,435 910,408 955,375 1000,335 1045,308 1090,285"
+     fill="none"
+     stroke="#5EEADE"
+     stroke-width="2.5"
+     id="polyline27" />
+  <circle
+     cx="1090"
+     cy="285"
+     r="7"
+     fill="#5EEADE"
+     id="circle27" />
+  <path
+     d="M1081,275 L1090,262 L1099,275"
+     fill="none"
+     stroke="#5EEADE"
+     stroke-width="2"
+     id="path27" />
+  <polygon
+     points="730,515 775,490 820,473 865,450 910,423 955,390 1000,350 1045,323 1090,300 1090,515"
+     fill="#5EEADE"
+     fill-opacity="0.06"
+     id="polygon27" />
+  <text
+     font-family="ui-monospace, SFMono-Regular, monospace"
+     font-size="18px"
+     font-weight="600"
+     fill="#5eeade"
+     x="730"
+     y="548.58698"
+     id="text28">komplexitäts-drift</text>
+  <text
+     font-family="ui-monospace, SFMono-Regular, monospace"
+     font-size="14px"
+     fill="#5eeade"
+     fill-opacity="0.55"
+     x="730"
+     y="571.34784"
+     id="text29">+2% / monat · unsichtbar im sprint review</text>
+  <!-- SIGNAL 5: LEGACY REACTIVATION — white/muted -->
+  <line
+     x1="730"
+     y1="200"
+     x2="880"
+     y2="200"
+     stroke="#FFFFFF"
+     stroke-width="1.5"
+     stroke-dasharray="4 7"
+     stroke-opacity="0.25"
+     id="line29" />
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="14"
+     fill="#FFFFFF"
+     fill-opacity="0.2"
+     x="790"
+     y="187"
+     id="text30">zzz</text>
+  <polyline
+     points="880,200 910,130 935,220 960,145 985,200"
+     fill="none"
+     stroke="#FFFFFF"
+     stroke-width="2.5"
+     stroke-opacity="0.7"
+     id="polyline30" />
+  <circle
+     cx="910"
+     cy="130"
+     r="7"
+     fill="#FFFFFF"
+     fill-opacity="0.7"
+     id="circle30" />
+  <circle
+     cx="960"
+     cy="145"
+     r="5"
+     fill="#FFFFFF"
+     fill-opacity="0.5"
+     id="circle31" />
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="18"
+     font-weight="600"
+     fill="#FFFFFF"
+     fill-opacity="0.8"
+     x="730"
+     y="280"
+     id="text31">legacy reactivation</text>
+  <text
+     font-family="ui-monospace,SFMono-Regular,monospace"
+     font-size="14"
+     fill="#FFFFFF"
+     fill-opacity="0.4"
+     x="730"
+     y="302"
+     id="text32">dormant → sudden high churn</text>
+  <!-- Divider -->
+  <line
+     x1="700"
+     y1="60"
+     x2="700"
+     y2="570"
+     stroke="#1A4A44"
+     stroke-width="1"
+     id="line32" />
+  <!-- Calyntro wordmark -->
+  <text
+     font-family="sans-serif"
+     font-size="22"
+     font-weight="700"
+     fill="#3DD6C8"
+     x="1160"
+     y="600"
+     text-anchor="end"
+     letter-spacing="2"
+     id="text33">CALYNTRO</text>
+  <line
+     x1="870"
+     y1="608"
+     x2="1162"
+     y2="608"
+     stroke="#3DD6C8"
+     stroke-width="0.8"
+     stroke-opacity="0.4"
+     id="line33" />
+  <!-- Top label -->
+  <text
+     font-family="sans-serif"
+     font-size="14"
+     fill="#3DD6C8"
+     fill-opacity="0.5"
+     x="60"
+     y="38"
+     letter-spacing="2"
+     id="text34">GIT HISTORY  ·  REPOSITORY INTELLIGENCE</text>
+  <line
+     x1="60"
+     y1="44"
+     x2="400"
+     y2="44"
+     stroke="#1A4A44"
+     stroke-width="0.8"
+     id="line34" />
+</svg>
