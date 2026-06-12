@@ -68,6 +68,8 @@ def _extract_users(repo: Repo, branch: str) -> list[dict]:
     Group commit authors by e-mail address.
     Most frequent name per e-mail → canonical name.
     Other spelling variants → aliases list.
+    Second pass: merge entries with identical canonical names (same person,
+    multiple e-mail addresses).
     """
     email_names: dict[str, Counter] = defaultdict(Counter)
 
@@ -77,13 +79,19 @@ def _extract_users(repo: Repo, branch: str) -> list[dict]:
         if email and name:
             email_names[email][name] += 1
 
-    users: list[dict] = []
+    # First pass: one entry per e-mail
+    by_name: dict[str, set] = defaultdict(set)
     for _, name_counts in sorted(email_names.items()):
         canonical, _ = name_counts.most_common(1)[0]
-        aliases = sorted(n for n in name_counts if n != canonical)
+        aliases = {n for n in name_counts if n != canonical}
+        by_name[canonical] |= aliases
+
+    # Second pass: merge entries sharing the same canonical name
+    users: list[dict] = []
+    for canonical, aliases in by_name.items():
         entry: dict = {"name": canonical}
         if aliases:
-            entry["aliases"] = aliases
+            entry["aliases"] = sorted(aliases)
         users.append(entry)
 
     return sorted(users, key=lambda u: u["name"].lower())
