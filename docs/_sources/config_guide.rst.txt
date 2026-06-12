@@ -74,8 +74,40 @@ The ``analysis`` section defines the scope of the code analysis, including which
 *   **components**: A list of objects, each representing a logical component of the software.
 
     *   **component_name**: A unique identifier for the component.
-    *   **path_prefix**: The directory path that uniquely identifies the files belonging to this component.
+    *   **path_prefix**: A single directory path that identifies files belonging to this component. Use ``paths`` instead if you need to map multiple directories to one component.
+    *   **paths**: A list of directory paths, all mapped to the same component. Use this when the component's source is spread across multiple directories (e.g. ``src/core/`` and ``lib/core/``). Mutually exclusive with ``path_prefix`` — use one or the other per entry.
     *   **display_name**: A user-friendly name for the component that will be used in the UI.
+
+    **Single-path example** (classic format, still supported):
+
+    .. code-block:: yaml
+
+       components:
+         - component_name: "client"
+           path_prefix: "src/mongo/client/"
+           display_name: "Client"
+
+    **Multi-path example** (new format):
+
+    .. code-block:: yaml
+
+       components:
+         - component_name: "core"
+           paths:
+             - "src/core/"
+             - "lib/core/"
+           display_name: "Core"
+
+    File assignment uses longest-prefix matching: if a file path matches multiple components, the component with the longest matching prefix wins. If the same ``path_prefix`` appears in two different components, Calyntro raises a configuration error at sync time.
+
+.. note::
+
+   Component assignments are pre-computed at import time and stored in the database.
+   If you change the ``components`` section of your config (including switching from
+   ``path_prefix`` to ``paths``), run ``calyntro import config`` to re-sync the
+   configuration and re-assign all files. Existing databases imported before version 1.4
+   will have unpopulated component assignments and require a full ``calyntro import analysis``
+   to populate them.
 
 *   **excluded_prefixes**: A list of directory paths to be excluded from the analysis. Any file or directory starting with one of these prefixes will be ignored.
 
