@@ -108,8 +108,10 @@
     .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
     .nav-links a { font-size: 13px; color: var(--text-mid); text-decoration: none; transition: color .15s; }
     .nav-links a:hover { color: var(--text); }
-    .nav-cta { background: var(--teal) !important; color: #fff !important; padding: 7px 16px; border-radius: var(--radius-sm); font-weight: 500 !important; }
-    .nav-cta:hover { background: var(--teal-dark) !important; }
+    .nav-demo { color: var(--teal-mid) !important; border: 0.5px solid var(--border-mid); padding: 7px 16px; border-radius: var(--radius-sm); font-weight: 500 !important; }
+    .nav-demo:hover { border-color: var(--teal); color: var(--teal) !important; }
+    .nav-cta { background: transparent !important; color: var(--text-mid) !important; padding: 7px 0; font-weight: 400 !important; }
+    .nav-cta:hover { color: var(--text) !important; }
 
     /* ── Hero ── */
     .hero { padding: 100px 32px 80px; position: relative; overflow: hidden; }
@@ -177,8 +179,10 @@
     .feature-list li strong { font-size: 13px; font-weight: 500; color: var(--text); display: block; margin-bottom: 2px; }
     .feature-list li span { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
     .feature-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 6px; }
-    .screenshot-wrap { border-radius: var(--radius); overflow: hidden; border: 0.5px solid var(--border); background: var(--bg3); }
+    .screenshot-wrap { border-radius: var(--radius); overflow: hidden; border: 0.5px solid var(--border); background: var(--bg3); transition: border-color .15s; }
     .screenshot-wrap img { width: 100%; height: auto; display: block; }
+    .screenshot-link { display: block; text-decoration: none; }
+    .screenshot-link:hover .screenshot-wrap { border-color: var(--teal-mid); }
     .screenshot-note { font-size: 11px; color: var(--text-dim); margin-top: 10px; font-style: italic; }
 
     /* ── Toolstack ── */
@@ -287,6 +291,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">How it works</a></li>
         <li><a href="https://calyntro.com/blog">Blog</a></li>
+        <li><a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="nav-demo">Live Demo</a></li>
         <li><a href="#contact" class="nav-cta">Get in touch</a></li>
       </ul>
     </div>
@@ -297,14 +302,15 @@
     <div class="hero-inner">
       <div class="hero-eyebrow">
         <span class="eyebrow">Repository Intelligence for Engineering Leaders</span>
-        <span class="badge-v">1.0</span>
+        <span class="badge-v">v1.3 · Production-ready</span>
       </div>
       <h1>Make team and architecture decisions <em>on evidence, not instinct</em></h1>
       <p class="hero-sub">Calyntro turns your Git history into a strategic map of knowledge risk, team coupling, and architectural drift — giving CTOs and Engineering Managers the quantitative foundation their decisions have been missing.</p>
       <div class="hero-btns">
-        <a href="#contact" class="btn btn-primary">Get in touch →</a>
-        <a href="https://calyntro.com/blog" class="btn btn-outline">Read the blog</a>
+        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary">Explore the live demo →</a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
       </div>
+      <p style="font-size: 12px; color: var(--text-dim); margin-top: -36px; margin-bottom: 40px;">Live, read-only · MongoDB open-source repository · No login required</p>
       <div class="hero-trust">
         <span class="trust-pill">3 scopes: File · Module · Team</span>
         <span class="trust-pill">Git-native · no agents</span>
@@ -407,10 +413,12 @@
             </ul>
           </div>
           <div>
-            <div class="screenshot-wrap">
-              <img src="screenshots/hotspot-heatmap.png" alt="Calyntro Hotspot Heatmap — five-dimension risk analysis across all modules" loading="lazy" width="600" height="400" />
-            </div>
-            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository — no synthetic data.</p>
+            <a href="https://demo.calyntro.com/analysis" target="_blank" rel="noopener" class="screenshot-link">
+              <div class="screenshot-wrap">
+                <img src="screenshots/hotspot-heatmap.png" alt="Calyntro Hotspot Heatmap — five-dimension risk analysis across all modules" loading="lazy" width="600" height="400" />
+              </div>
+            </a>
+            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository — no synthetic data. <a href="https://demo.calyntro.com/analysis" target="_blank" rel="noopener" style="color:var(--teal-mid);text-decoration:none;">→ Open in live demo</a></p>
           </div>
         </div>
       </div>
@@ -430,10 +438,12 @@
             </ul>
           </div>
           <div>
-            <div class="screenshot-wrap">
-              <img src="screenshots/scatter-analysis.png" alt="Calyntro Scatter Analysis — architectural risk mapped by complexity versus churn" loading="lazy" width="600" height="400" />
-            </div>
-            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository.</p>
+            <a href="https://demo.calyntro.com/analysis" target="_blank" rel="noopener" class="screenshot-link">
+              <div class="screenshot-wrap">
+                <img src="screenshots/scatter-analysis.png" alt="Calyntro Scatter Analysis — architectural risk mapped by complexity versus churn" loading="lazy" width="600" height="400" />
+              </div>
+            </a>
+            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository. <a href="https://demo.calyntro.com/analysis" target="_blank" rel="noopener" style="color:var(--teal-mid);text-decoration:none;">→ Open in live demo</a></p>
           </div>
         </div>
       </div>
@@ -453,10 +463,12 @@
             </ul>
           </div>
           <div>
-            <div class="screenshot-wrap">
-              <img src="screenshots/knowledge-risk.png" alt="Calyntro Knowledge Risk Dashboard — bus factor, silo ratio trend, key person risk analysis" loading="lazy" width="600" height="400" />
-            </div>
-            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository.</p>
+            <a href="https://demo.calyntro.com/knowledge-risk" target="_blank" rel="noopener" class="screenshot-link">
+              <div class="screenshot-wrap">
+                <img src="screenshots/knowledge-risk.png" alt="Calyntro Knowledge Risk Dashboard — bus factor, silo ratio trend, key person risk analysis" loading="lazy" width="600" height="400" />
+              </div>
+            </a>
+            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository. <a href="https://demo.calyntro.com/knowledge-risk" target="_blank" rel="noopener" style="color:var(--teal-mid);text-decoration:none;">→ Open in live demo</a></p>
           </div>
         </div>
       </div>
@@ -476,10 +488,12 @@
             </ul>
           </div>
           <div>
-            <div class="screenshot-wrap">
-              <img src="screenshots/change-coupling.png" alt="Calyntro Change Coupling Analysis — cross-team dependency and coupling direction" loading="lazy" width="600" height="400" />
-            </div>
-            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository.</p>
+            <a href="https://demo.calyntro.com/change-coupling" target="_blank" rel="noopener" class="screenshot-link">
+              <div class="screenshot-wrap">
+                <img src="screenshots/change-coupling.png" alt="Calyntro Change Coupling Analysis — cross-team dependency and coupling direction" loading="lazy" width="600" height="400" />
+              </div>
+            </a>
+            <p class="screenshot-note">Real data: Calyntro analysed against the <strong>MongoDB</strong> open-source repository. <a href="https://demo.calyntro.com/change-coupling" target="_blank" rel="noopener" style="color:var(--teal-mid);text-decoration:none;">→ Open in live demo</a></p>
           </div>
         </div>
       </div>
@@ -607,9 +621,10 @@
       <h2>Your Git history already holds the answers</h2>
       <p>Calyntro surfaces them. Get in touch to discuss what a codebase and team-structure analysis would look like for your organisation.</p>
       <div class="cta-btns">
-        <a href="#contact" class="btn btn-primary">Get in touch →</a>
-        <a href="https://calyntro.com/blog" class="btn btn-outline">Read the blog</a>
+        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary">Explore the live demo →</a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
       </div>
+      <p style="font-size: 12px; color: var(--text-dim); margin-top: -20px; margin-bottom: 24px;">Live, read-only · MongoDB open-source repository · No login required</p>
       <div class="cta-trust">
         <span class="trust-pill">Your data stays in your infrastructure</span>
         <span class="trust-pill">Git-native · no agents required</span>
