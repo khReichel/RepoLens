@@ -70,6 +70,9 @@
   }
   </script>
 
+  <!-- ── Analytics (Umami, self-hosted) ── -->
+  <script defer src="https://analytics.calyntro.com/script.js" data-website-id="UMAMI_WEBSITE_ID"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -320,7 +323,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">How it works</a></li>
         <li><a href="https://calyntro.com/blog">Blog</a></li>
-        <li><a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="nav-demo">Live Demo</a></li>
+        <li><a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="nav-demo" data-umami-event="demo-click" data-umami-event-location="nav">Live Demo</a></li>
         <li><a href="#contact" class="nav-cta">Get in touch</a></li>
       </ul>
     </div>
@@ -336,7 +339,7 @@
       <h1>Make team and architecture decisions <em>on evidence, not instinct</em></h1>
       <p class="hero-sub">Calyntro turns your Git history into a strategic map of knowledge risk, team coupling, and architectural drift — giving CTOs and Engineering Managers the quantitative foundation their decisions have been missing.</p>
       <div class="hero-btns">
-        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary">Explore the live demo →</a>
+        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary" data-umami-event="demo-click" data-umami-event-location="hero">Explore the live demo →</a>
         <a href="#contact" class="btn btn-outline">Get in touch</a>
       </div>
       <p style="font-size: 12px; color: var(--text-dim); margin-top: -36px; margin-bottom: 40px;">Live, read-only · MongoDB open-source repository · No login required</p>
@@ -674,7 +677,7 @@
       <h2>Engineering leadership through quantitative data</h2>
       <p style="font-size: 15px; color: var(--text-mid); margin-bottom: 28px;">Deep-dive articles on knowledge risk, team topology, and using Git history as a strategic management tool — written for CTOs and Engineering Managers.</p>
       <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 14px;">Explore the live demo →</a>
+        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary" style="font-size: 14px;" data-umami-event="demo-click" data-umami-event-location="blog-cta">Explore the live demo →</a>
         <a href="https://calyntro.com/blog" class="btn btn-outline" style="font-size: 14px;">Read the blog</a>
       </div>
     </div>
@@ -709,7 +712,7 @@
       <h2>Your Git history already holds the answers</h2>
       <p>Calyntro surfaces them. Get in touch to discuss what a codebase and team-structure analysis would look like for your organisation.</p>
       <div class="cta-btns">
-        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary">Explore the live demo →</a>
+        <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary" data-umami-event="demo-click" data-umami-event-location="get-started">Explore the live demo →</a>
         <a href="#contact" class="btn btn-outline">Get in touch</a>
       </div>
       <p style="font-size: 12px; color: var(--text-dim); margin-top: -20px; margin-bottom: 24px;">Live, read-only · MongoDB open-source repository · No login required</p>
@@ -850,6 +853,7 @@
           if (res.ok) {
             form.style.display = 'none';
             document.getElementById('cf-success').style.display = 'flex';
+            if (typeof umami !== 'undefined') umami.track('contact-form-submit');
           } else {
             btn.textContent = 'Error — please email us directly';
           }
@@ -877,6 +881,7 @@
           if (res.ok || res.status === 302) {
             nlForm.style.display = 'none';
             document.getElementById('newsletter-success').style.display = 'block';
+            if (typeof umami !== 'undefined') umami.track('newsletter-signup');
           } else {
             document.getElementById('newsletter-error').textContent = 'Something went wrong — please try again or email khreichel@calyntro.com.';
             document.getElementById('newsletter-error').style.display = 'block';
