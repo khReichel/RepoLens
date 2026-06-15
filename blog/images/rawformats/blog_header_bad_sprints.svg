@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#091c2b"/>
+      <stop offset="100%" stop-color="#0d2535"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="500" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="125" x2="500" y2="125" stroke="#0f2d42" stroke-width="1"/>
+  <line x1="0" y1="250" x2="500" y2="250" stroke="#0f2d42" stroke-width="1"/>
+  <line x1="0" y1="375" x2="500" y2="375" stroke="#0f2d42" stroke-width="1"/>
+
+  <!-- Category tag -->
+  <rect x="40" y="36" width="170" height="26" rx="13" fill="none" stroke="#00d4b1" stroke-width="1.2"/>
+  <circle cx="58" cy="49" r="4" fill="#00d4b1"/>
+  <text x="72" y="54" font-family="Arial, sans-serif" font-size="12" fill="#00d4b1">Agile · Delivery</text>
+
+  <!-- Title -->
+  <text x="40" y="148" font-family="Arial, sans-serif" font-size="58" font-weight="bold" fill="#ffffff">Bad Sprints</text>
+  <text x="40" y="212" font-family="Arial, sans-serif" font-size="58" font-weight="bold" fill="#ffffff">Start Before</text>
+  <text x="40" y="276" font-family="Arial, sans-serif" font-size="58" font-weight="bold" fill="#00d4b1">the Sprint</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="300" x2="450" y2="300" stroke="#1a4a66" stroke-width="1"/>
+
+  <!-- Subtitle -->
+  <text x="40" y="326" font-family="Arial, sans-serif" font-size="16" fill="#5a9ab4">The board shows what refinement produced.</text>
+
+  <!-- Watermark -->
+  <text x="960" y="478" font-family="Arial, sans-serif" font-size="12" fill="#2a5a78" text-anchor="end">calyntro.com/blog</text>
+
+  <!-- ========== KANBAN BOARD ========== -->
+  <rect x="510" y="50" width="460" height="400" rx="10" fill="#061625" opacity="0.5"/>
+
+  <!-- Column headers -->
+  <rect x="525" y="68" width="120" height="24" rx="4" fill="#0f2d42"/>
+  <text x="585" y="85" font-family="Arial, sans-serif" font-size="11" fill="#5a9ab4" text-anchor="middle" letter-spacing="1.5">TO DO</text>
+
+  <rect x="658" y="68" width="150" height="24" rx="4" fill="#0f2d42"/>
+  <text x="733" y="85" font-family="Arial, sans-serif" font-size="11" fill="#5a9ab4" text-anchor="middle" letter-spacing="1.5">IN PROGRESS</text>
+  <circle cx="805" cy="80" r="11" fill="#f59e0b"/>
+  <text x="805" y="85" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#091c2b" text-anchor="middle">6</text>
+
+  <rect x="821" y="68" width="124" height="24" rx="4" fill="#0f2d42"/>
+  <text x="883" y="85" font-family="Arial, sans-serif" font-size="11" fill="#5a9ab4" text-anchor="middle" letter-spacing="1.5">DONE</text>
+
+  <!-- Column dividers -->
+  <line x1="652" y1="60" x2="652" y2="445" stroke="#0f2d42" stroke-width="1.5"/>
+  <line x1="816" y1="60" x2="816" y2="445" stroke="#0f2d42" stroke-width="1.5"/>
+
+  <!-- TO DO: 2 neat cards -->
+  <rect x="529" y="104" width="116" height="46" rx="4" fill="#112d44"/>
+  <rect x="536" y="112" width="72" height="5" rx="2" fill="#5a9ab4" opacity="0.8"/>
+  <rect x="536" y="122" width="100" height="3" rx="1" fill="#1e4a66"/>
+  <rect x="536" y="129" width="80" height="3" rx="1" fill="#1e4a66"/>
+  <rect x="536" y="136" width="60" height="3" rx="1" fill="#1e4a66"/>
+
+  <rect x="529" y="158" width="116" height="46" rx="4" fill="#112d44"/>
+  <rect x="536" y="166" width="52" height="5" rx="2" fill="#5a9ab4" opacity="0.8"/>
+  <rect x="536" y="176" width="100" height="3" rx="1" fill="#1e4a66"/>
+  <rect x="536" y="183" width="72" height="3" rx="1" fill="#1e4a66"/>
+  <rect x="536" y="190" width="88" height="3" rx="1" fill="#1e4a66"/>
+
+  <!-- IN PROGRESS: 6 cards, slightly rotated/chaotic -->
+  <g transform="rotate(-1.2, 733, 126)">
+    <rect x="659" y="104" width="148" height="44" rx="4" fill="#13304a"/>
+    <rect x="666" y="112" width="90" height="5" rx="2" fill="#f59e0b" opacity="0.85"/>
+    <rect x="666" y="122" width="132" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="129" width="100" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="136" width="58" height="3" rx="1" fill="#1e4a66"/>
+  </g>
+
+  <g transform="rotate(1.0, 733, 174)">
+    <rect x="659" y="152" width="148" height="44" rx="4" fill="#13304a"/>
+    <rect x="666" y="160" width="65" height="5" rx="2" fill="#f59e0b" opacity="0.85"/>
+    <rect x="666" y="170" width="132" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="177" width="82" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="184" width="110" height="3" rx="1" fill="#1e4a66"/>
+  </g>
+
+  <g transform="rotate(-0.7, 733, 222)">
+    <rect x="659" y="200" width="148" height="44" rx="4" fill="#13304a"/>
+    <rect x="666" y="208" width="78" height="5" rx="2" fill="#f59e0b" opacity="0.85"/>
+    <rect x="666" y="218" width="132" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="225" width="55" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="232" width="95" height="3" rx="1" fill="#1e4a66"/>
+  </g>
+
+  <g transform="rotate(1.5, 733, 270)">
+    <rect x="659" y="248" width="148" height="44" rx="4" fill="#13304a"/>
+    <rect x="666" y="256" width="100" height="5" rx="2" fill="#f59e0b" opacity="0.85"/>
+    <rect x="666" y="266" width="132" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="273" width="68" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="280" width="112" height="3" rx="1" fill="#1e4a66"/>
+  </g>
+
+  <g transform="rotate(-1.0, 733, 318)">
+    <rect x="659" y="296" width="148" height="44" rx="4" fill="#13304a"/>
+    <rect x="666" y="304" width="48" height="5" rx="2" fill="#f59e0b" opacity="0.85"/>
+    <rect x="666" y="314" width="132" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="321" width="90" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="328" width="70" height="3" rx="1" fill="#1e4a66"/>
+  </g>
+
+  <g transform="rotate(0.8, 733, 366)">
+    <rect x="659" y="344" width="148" height="44" rx="4" fill="#13304a"/>
+    <rect x="666" y="352" width="82" height="5" rx="2" fill="#f59e0b" opacity="0.85"/>
+    <rect x="666" y="362" width="132" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="369" width="62" height="3" rx="1" fill="#1e4a66"/>
+    <rect x="666" y="376" width="98" height="3" rx="1" fill="#1e4a66"/>
+  </g>
+
+  <!-- DONE: 1 card -->
+  <rect x="825" y="104" width="106" height="46" rx="4" fill="#0d2e1e"/>
+  <rect x="832" y="112" width="75" height="5" rx="2" fill="#00d4b1" opacity="0.8"/>
+  <rect x="832" y="122" width="92" height="3" rx="1" fill="#1a4a2e"/>
+  <rect x="832" y="129" width="62" height="3" rx="1" fill="#1a4a2e"/>
+  <rect x="832" y="136" width="80" height="3" rx="1" fill="#1a4a2e"/>
+
+</svg>
