@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#091c2b"/>
+      <stop offset="100%" stop-color="#0d2535"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="500" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines (left half) -->
+  <line x1="0" y1="125" x2="490" y2="125" stroke="#0f2d42" stroke-width="1"/>
+  <line x1="0" y1="250" x2="490" y2="250" stroke="#0f2d42" stroke-width="1"/>
+  <line x1="0" y1="375" x2="490" y2="375" stroke="#0f2d42" stroke-width="1"/>
+
+  <!-- Category tag -->
+  <rect x="40" y="36" width="200" height="26" rx="13" fill="none" stroke="#00d4b1" stroke-width="1.2"/>
+  <circle cx="58" cy="49" r="4" fill="#00d4b1"/>
+  <text x="72" y="54" font-family="Arial, sans-serif" font-size="12" fill="#00d4b1">Engineering Leadership</text>
+
+  <!-- Title -->
+  <text x="40" y="148" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#ffffff">Knowledge Risk:</text>
+  <text x="40" y="208" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#ffffff">From Metric to</text>
+  <text x="40" y="268" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#00d4b1">Recommended Action</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="294" x2="460" y2="294" stroke="#1a4a66" stroke-width="1"/>
+
+  <!-- Subtitle -->
+  <text x="40" y="320" font-family="Arial, sans-serif" font-size="15" fill="#5a9ab4">5 findings. 3 critical. One sentence you can act on.</text>
+
+  <!-- Watermark -->
+  <text x="960" y="478" font-family="Arial, sans-serif" font-size="12" fill="#2a5a78" text-anchor="end">calyntro.com/blog</text>
+
+  <!-- ========== RISK PANEL ========== -->
+  <rect x="505" y="30" width="470" height="440" rx="10" fill="#061625" opacity="0.55"/>
+
+  <!-- Panel header bar -->
+  <rect x="505" y="30" width="470" height="42" rx="10" fill="#0a1e30"/>
+  <rect x="505" y="52" width="470" height="20" fill="#0a1e30"/>
+  <text x="525" y="57" font-family="Arial, sans-serif" font-size="11" fill="#5a9ab4" letter-spacing="1.5">RECOMMENDED ACTIONS</text>
+  <text x="965" y="57" font-family="Arial, sans-serif" font-size="11" fill="#2a5a78" text-anchor="end" letter-spacing="0.5">5 FINDINGS · MONGODB REPO</text>
+  <line x1="515" y1="72" x2="965" y2="72" stroke="#0f2d42" stroke-width="1"/>
+
+  <!-- Row 1 — CRITICAL — src_third_party (highlighted) -->
+  <rect x="515" y="80" width="450" height="62" rx="5" fill="#1f0a0a" opacity="0.8"/>
+  <rect x="515" y="80" width="4" height="62" rx="2" fill="#ef4444"/>
+  <rect x="527" y="91" width="62" height="17" rx="3" fill="#ef4444" opacity="0.18"/>
+  <rect x="527" y="91" width="62" height="17" rx="3" fill="none" stroke="#ef4444" stroke-width="1"/>
+  <text x="558" y="103" font-family="Arial, sans-serif" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="bold" letter-spacing="1">CRITICAL</text>
+  <text x="600" y="101" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">src_third_party</text>
+  <text x="600" y="119" font-family="Arial, sans-serif" font-size="11" fill="#7a9db4">Developer 1389 · 116 files · 1,551 commits · sole owner</text>
+  <text x="527" y="135" font-family="Arial, sans-serif" font-size="10" fill="#ef4444" font-style="italic">→ Initiate knowledge transfer — no secondary owner in high-churn module</text>
+
+  <!-- Row 2 — CRITICAL — bazel_resmoke -->
+  <rect x="515" y="150" width="450" height="62" rx="5" fill="#150c0a" opacity="0.7"/>
+  <rect x="515" y="150" width="4" height="62" rx="2" fill="#ef4444"/>
+  <rect x="527" y="161" width="62" height="17" rx="3" fill="#ef4444" opacity="0.18"/>
+  <rect x="527" y="161" width="62" height="17" rx="3" fill="none" stroke="#ef4444" stroke-width="1"/>
+  <text x="558" y="173" font-family="Arial, sans-serif" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="bold" letter-spacing="1">CRITICAL</text>
+  <text x="600" y="171" font-family="Arial, sans-serif" font-size="13" fill="#ffffff" font-weight="bold">bazel_resmoke</text>
+  <text x="600" y="189" font-family="Arial, sans-serif" font-size="11" fill="#7a9db4">100% silo · cross-team coupling src_mongo · combined risk score 100</text>
+  <text x="527" y="205" font-family="Arial, sans-serif" font-size="10" fill="#ef4444" font-style="italic">→ Priority: silo risk amplified by cross-team coupling</text>
+
+  <!-- Row 3 — CRITICAL (blurred/redacted) -->
+  <rect x="515" y="220" width="450" height="48" rx="5" fill="#0d1a26" opacity="0.6"/>
+  <rect x="515" y="220" width="4" height="48" rx="2" fill="#ef4444"/>
+  <rect x="527" y="231" width="62" height="17" rx="3" fill="#ef4444" opacity="0.18"/>
+  <rect x="527" y="231" width="62" height="17" rx="3" fill="none" stroke="#ef4444" stroke-width="1"/>
+  <text x="558" y="243" font-family="Arial, sans-serif" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="bold" letter-spacing="1">CRITICAL</text>
+  <!-- Redacted module name -->
+  <rect x="600" y="230" width="110" height="11" rx="2" fill="#1e3a50" opacity="0.9"/>
+  <rect x="600" y="248" width="240" height="8" rx="2" fill="#132433" opacity="0.8"/>
+
+  <!-- Row 4 — WATCH (blurred/redacted) -->
+  <rect x="515" y="276" width="450" height="48" rx="5" fill="#0d1a26" opacity="0.6"/>
+  <rect x="515" y="276" width="4" height="48" rx="2" fill="#f59e0b"/>
+  <rect x="527" y="287" width="56" height="17" rx="3" fill="#f59e0b" opacity="0.15"/>
+  <rect x="527" y="287" width="56" height="17" rx="3" fill="none" stroke="#f59e0b" stroke-width="1"/>
+  <text x="555" y="299" font-family="Arial, sans-serif" font-size="10" fill="#f59e0b" text-anchor="middle" font-weight="bold" letter-spacing="1">WATCH</text>
+  <!-- Redacted -->
+  <rect x="594" y="286" width="85" height="11" rx="2" fill="#1e3a50" opacity="0.9"/>
+  <rect x="594" y="304" width="200" height="8" rx="2" fill="#132433" opacity="0.8"/>
+
+  <!-- Row 5 — ELEVATED (blurred/redacted) -->
+  <rect x="515" y="332" width="450" height="48" rx="5" fill="#0d1a26" opacity="0.6"/>
+  <rect x="515" y="332" width="4" height="48" rx="2" fill="#3b82f6"/>
+  <rect x="527" y="343" width="70" height="17" rx="3" fill="#3b82f6" opacity="0.15"/>
+  <rect x="527" y="343" width="70" height="17" rx="3" fill="none" stroke="#3b82f6" stroke-width="1"/>
+  <text x="562" y="355" font-family="Arial, sans-serif" font-size="10" fill="#3b82f6" text-anchor="middle" font-weight="bold" letter-spacing="1">ELEVATED</text>
+  <!-- Redacted -->
+  <rect x="609" y="342" width="100" height="11" rx="2" fill="#1e3a50" opacity="0.9"/>
+  <rect x="609" y="360" width="160" height="8" rx="2" fill="#132433" opacity="0.8"/>
+
+  <!-- Footer bar -->
+  <rect x="505" y="388" width="470" height="40" rx="0" fill="#081525" opacity="0.7"/>
+  <rect x="505" y="408" width="470" height="20" rx="0 0 10 10" fill="#081525" opacity="0.7"/>
+  <text x="740" y="412" font-family="Arial, sans-serif" font-size="11" fill="#2a5a78" text-anchor="middle">17 of 43 MongoDB modules show measurable knowledge risk</text>
+
+</svg>
