@@ -779,6 +779,63 @@ Returns the historical complexity trend for a specific file.
 Team & Knowledge
 ----------------
 
+Engineering Eras
+~~~~~~~~~~~~~~~~
+Detects temporal development phases (eras) for a module or the full repository.
+Eras are derived deterministically from Git signals — no AI is involved.
+Each era spans a contiguous period with a stable, recognisable pattern.
+
+*   **URL:** ``/v1/analysis/eras``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. code-block:: json
+
+   {
+     "module_name": "db",
+     "start_date": "2022-01-01T00:00:00",
+     "end_date": "2024-01-01T00:00:00",
+     "min_duration_months": 2,
+     "cp_threshold": 0.30
+   }
+
+All fields except ``start_date`` and ``end_date`` are optional.
+``cp_threshold`` controls sensitivity: lower values detect more era boundaries.
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "module": "db",
+     "eras": [
+       {
+         "era_type": "knowledge_concentration",
+         "label": "Ownership Concentration Era",
+         "start": "2023-04-01T00:00:00",
+         "end": "2024-01-01T00:00:00",
+         "duration_months": 9,
+         "signals": {
+           "commits_norm": 0.45,
+           "complexity_delta": 0.08,
+           "contributor_norm": 0.12,
+           "silo_ratio": 0.87
+         }
+       }
+     ]
+   }
+
+**Era types:** ``rapid_growth``, ``stabilization``, ``knowledge_concentration``,
+``refactoring``, ``neglect``, ``transition``, ``unknown``.
+
+**Signal semantics:**
+
+*   ``commits_norm`` — relative commit activity (0 = lowest month in range, 1 = highest)
+*   ``complexity_delta`` — signed complexity change per bucket (positive = growing)
+*   ``contributor_norm`` — relative team size (0 = fewest contributors, 1 = most)
+*   ``silo_ratio`` — fraction of files in this bucket where one author holds ≥ 80 % of commits (0–1)
+
 Code Ownership (Files)
 ~~~~~~~~~~~~~~~~~~~~~~
 Returns the number of distinct authors per file and identifies the main contributor.
@@ -1558,10 +1615,67 @@ Configuration
 
 Get Modules
 ~~~~~~~~~~~
-Returns a list of all configured modules/components.
+Returns a list of all configured architectural components/modules.
 
 *   **URL:** ``/v1/config/modules``
 *   **Method:** ``GET``
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "items": [
+       {
+         "component_name": "src_core",
+         "display_name": "Core"
+       }
+     ]
+   }
+
+.. list-table:: Response Fields
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``component_name``
+     - Internal component identifier as defined in ``config.yaml``.
+   * - ``display_name``
+     - Human-readable label shown in the UI.
+
+Runtime Context
+~~~~~~~~~~~~~~~
+Returns UI-facing runtime flags set by the server configuration. Clients fetch
+this once at startup to adapt their behaviour (e.g. hide author names in
+anonymised deployments, or enable demo-mode restrictions).
+
+.. note::
+   This endpoint does **not** carry the ``/v1`` prefix and is served outside
+   the versioned API namespace.
+
+*   **URL:** ``/api/context``
+*   **Method:** ``GET``
+
+**Response:**
+
+.. code-block:: json
+
+   {
+     "anonymized": false,
+     "demo_mode": false
+   }
+
+.. list-table:: Response Fields
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``anonymized``
+     - When ``true``, author names are replaced with anonymised identifiers in all responses. Controlled by the ``context.anonymized`` flag in the server configuration.
+   * - ``demo_mode``
+     - When ``true``, the instance is running in read-only demo mode. Write operations and certain configuration endpoints are disabled.
 
 Average File Age KPI
 ~~~~~~~~~~~~~~~~~~~~

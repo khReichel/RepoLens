@@ -119,7 +119,7 @@
 </div>
 </dd>
 <dt><strong>import [path]</strong></dt><dd><p>Runs the full data import process for a local repository. This command takes the path to the repository on your host machine, mounts it into the container, and runs both the configuration and analysis import steps.</p>
-<p>If the path is omitted, the script attempts to read the <code class="docutils literal notranslate"><span class="pre">repo_path</span></code> from <code class="docutils literal notranslate"><span class="pre">calyntro_config.yaml</span></code> (requires <code class="docutils literal notranslate"><span class="pre">yq</span></code>).</p>
+<p>If the path is omitted, the script reads the <code class="docutils literal notranslate"><span class="pre">repo_path</span></code> from <code class="docutils literal notranslate"><span class="pre">config/config.yaml</span></code>.</p>
 <p><em>Note: After the import is complete, the generated DuckDB database files will be located in the ``data/update_data/`` directory (or as defined by ``db_update_path`` in your ``config.yaml``). Reference the ``config.yaml`` or :ref:`calyntro_config` for more details.</em></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>import<span class="w"> </span>/path/to/your/local/repo
 </pre></div>
@@ -129,7 +129,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>refresh
 </pre></div>
 </div>
-<p>The script stops the backend, creates a backup of the current production databases, moves the new files from the staging area to the production area, and restarts the backend.</p>
+<p>The script stops the backend, creates a backup of the current production databases, moves the new files from the staging area to the production area, and restarts the backend. Configuration values (<code class="docutils literal notranslate"><span class="pre">db_path</span></code>, <code class="docutils literal notranslate"><span class="pre">db_update_path</span></code>, <code class="docutils literal notranslate"><span class="pre">db_basename</span></code>) are read directly from <code class="docutils literal notranslate"><span class="pre">config/config.yaml</span></code> — no additional utilities required.</p>
 </dd>
 <dt><strong>update</strong></dt><dd><p>Rebuilds the Docker images and restarts all services. This is useful when you have made changes to the source code.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>update
@@ -141,12 +141,20 @@
 </pre></div>
 </div>
 </dd>
-<dt><strong>pull-latest</strong></dt><dd><p>Pulls the latest Docker images from the GitLab registry and restarts the services. This is useful for updating to the latest pre-built version.</p>
+<dt><strong>pull-latest</strong></dt><dd><p>Pulls the latest Docker images from the GitHub Container Registry (GHCR) and restarts the services. This is the standard update path for self-hosted installations.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>pull-latest
 </pre></div>
 </div>
 </dd>
+<dt><strong>pull-gitlab</strong></dt><dd><p>Pulls <code class="docutils literal notranslate"><span class="pre">:dev</span></code> images from the GitLab registry and retags them to match the <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> image names. Intended for testing pre-release builds. Requires <code class="docutils literal notranslate"><span class="pre">GL_REGISTRY_IMAGE</span></code> and <code class="docutils literal notranslate"><span class="pre">GL_REGISTRY_TOKEN</span></code> environment variables (or an active <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span></code> to the registry).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GL_REGISTRY_IMAGE</span><span class="o">=</span>registry.gitlab.com/youruser/calyntro<span class="w"> </span>./manage.sh<span class="w"> </span>pull-gitlab
+</pre></div>
+</div>
+</dd>
 <dt><strong>debug-path</strong></dt><dd><p>A debugging utility that prints the Python search path (<code class="docutils literal notranslate"><span class="pre">sys.path</span></code>) and lists the contents of the <code class="docutils literal notranslate"><span class="pre">/app/src</span></code> directory inside the <code class="docutils literal notranslate"><span class="pre">importer</span></code> container. This is useful for diagnosing module import errors.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./manage.sh<span class="w"> </span>debug-path
+</pre></div>
+</div>
 </dd>
 </dl>
 </section>

@@ -262,7 +262,7 @@ Trend Analysis — Per-Module Time Series
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 *   **UI Name**: *[Metric]* per Module over Time
-*   **What it Shows**: A line or area chart of up to 15 modules across a shared time axis, bucketed in configurable intervals (default: 30 days). Four metrics are available via toggle:
+*   **What it Shows**: A line or area chart of up to 10 modules across a shared time axis, bucketed in configurable intervals (default: 30 days). Four metrics are available via toggle:
 
     *   **Avg. Cognitive Complexity** — is the code getting harder to understand?
     *   **Lines of Code** — is the module growing, shrinking, or stable?

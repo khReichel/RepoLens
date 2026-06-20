@@ -36,7 +36,7 @@ Here is a list of the commands supported by the ``manage.sh`` script:
 **import [path]**
    Runs the full data import process for a local repository. This command takes the path to the repository on your host machine, mounts it into the container, and runs both the configuration and analysis import steps.
 
-   If the path is omitted, the script attempts to read the ``repo_path`` from ``calyntro_config.yaml`` (requires ``yq``).
+   If the path is omitted, the script reads the ``repo_path`` from ``config/config.yaml``.
 
    *Note: After the import is complete, the generated DuckDB database files will be located in the ``data/update_data/`` directory (or as defined by ``db_update_path`` in your ``config.yaml``). Reference the ``config.yaml`` or :ref:`calyntro_config` for more details.*
 
@@ -51,7 +51,7 @@ Here is a list of the commands supported by the ``manage.sh`` script:
 
       ./manage.sh refresh
 
-   The script stops the backend, creates a backup of the current production databases, moves the new files from the staging area to the production area, and restarts the backend.
+   The script stops the backend, creates a backup of the current production databases, moves the new files from the staging area to the production area, and restarts the backend. Configuration values (``db_path``, ``db_update_path``, ``db_basename``) are read directly from ``config/config.yaml`` — no additional utilities required.
 
 **update**
    Rebuilds the Docker images and restarts all services. This is useful when you have made changes to the source code.
@@ -68,15 +68,22 @@ Here is a list of the commands supported by the ``manage.sh`` script:
       ./manage.sh logs
 
 **pull-latest**
-   Pulls the latest Docker images from the GitLab registry and restarts the services. This is useful for updating to the latest pre-built version.
+   Pulls the latest Docker images from the GitHub Container Registry (GHCR) and restarts the services. This is the standard update path for self-hosted installations.
 
    .. code-block:: bash
 
       ./manage.sh pull-latest
 
+**pull-gitlab**
+   Pulls ``:dev`` images from the GitLab registry and retags them to match the ``docker-compose.yml`` image names. Intended for testing pre-release builds. Requires ``GL_REGISTRY_IMAGE`` and ``GL_REGISTRY_TOKEN`` environment variables (or an active ``docker login`` to the registry).
+
+   .. code-block:: bash
+
+      GL_REGISTRY_IMAGE=registry.gitlab.com/youruser/calyntro ./manage.sh pull-gitlab
+
 **debug-path**
    A debugging utility that prints the Python search path (``sys.path``) and lists the contents of the ``/app/src`` directory inside the ``importer`` container. This is useful for diagnosing module import errors.
 
-   .. code-bash
+   .. code-block:: bash
 
       ./manage.sh debug-path

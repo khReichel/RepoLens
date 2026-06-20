@@ -1473,6 +1473,48 @@
         }
       }
     },
+    "/v1/analysis/eras": {
+      "post": {
+        "tags": [
+          "Engineering Eras"
+        ],
+        "summary": "Get Eras",
+        "description": "Detect engineering eras for a module (or the full repository).\n\nAn era is a contiguous time period with a stable, recognisable\ndevelopment pattern \u2014 e.g. Rapid Growth, Refactoring, or Knowledge\nConcentration.  Era boundaries are detected deterministically from\nGit signals (commits, complexity, contributors, silo ratio); no AI\nis involved.\n\nUse `min_duration_months` to filter out short-lived noise spikes and\n`cp_threshold` to tune sensitivity (lower = more eras detected).",
+        "operationId": "get_eras_v1_analysis_eras_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErasRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErasResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/info": {
       "get": {
         "summary": "Info",
@@ -2472,10 +2514,6 @@
             "type": "string",
             "title": "Component Name"
           },
-          "path_prefix": {
-            "type": "string",
-            "title": "Path Prefix"
-          },
           "display_name": {
             "type": "string",
             "title": "Display Name"
@@ -2484,7 +2522,6 @@
         "type": "object",
         "required": [
           "component_name",
-          "path_prefix",
           "display_name"
         ],
         "title": "ConfigModulesResponseItem"
@@ -2597,6 +2634,163 @@
           "items"
         ],
         "title": "DeveloperSiloResponse"
+      },
+      "EraItem": {
+        "properties": {
+          "era_type": {
+            "$ref": "#/components/schemas/EraType"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End"
+          },
+          "duration_months": {
+            "type": "integer",
+            "title": "Duration Months"
+          },
+          "signals": {
+            "$ref": "#/components/schemas/EraSignals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "era_type",
+          "label",
+          "start",
+          "end",
+          "duration_months",
+          "signals"
+        ],
+        "title": "EraItem"
+      },
+      "EraSignals": {
+        "properties": {
+          "commits_norm": {
+            "type": "number",
+            "title": "Commits Norm"
+          },
+          "complexity_delta": {
+            "type": "number",
+            "title": "Complexity Delta"
+          },
+          "contributor_norm": {
+            "type": "number",
+            "title": "Contributor Norm"
+          },
+          "silo_ratio": {
+            "type": "number",
+            "title": "Silo Ratio"
+          }
+        },
+        "type": "object",
+        "required": [
+          "commits_norm",
+          "complexity_delta",
+          "contributor_norm",
+          "silo_ratio"
+        ],
+        "title": "EraSignals",
+        "description": "Normalised signal averages for one era."
+      },
+      "EraType": {
+        "type": "string",
+        "enum": [
+          "rapid_growth",
+          "stabilization",
+          "knowledge_concentration",
+          "refactoring",
+          "neglect",
+          "transition",
+          "unknown"
+        ],
+        "title": "EraType"
+      },
+      "ErasRequest": {
+        "properties": {
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Restrict analysis to this module"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Date",
+            "description": "Start of the analysis window"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Date",
+            "description": "End of the analysis window"
+          },
+          "min_duration_months": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Min Duration Months",
+            "description": "Minimum number of months an era must span",
+            "default": 2
+          },
+          "cp_threshold": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.05,
+            "title": "Cp Threshold",
+            "description": "Euclidean-distance threshold for change-point detection",
+            "default": 0.3
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_date",
+          "end_date"
+        ],
+        "title": "ErasRequest"
+      },
+      "ErasResponse": {
+        "properties": {
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module"
+          },
+          "eras": {
+            "items": {
+              "$ref": "#/components/schemas/EraItem"
+            },
+            "type": "array",
+            "title": "Eras"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module",
+          "eras"
+        ],
+        "title": "ErasResponse"
       },
       "FileContributorItem": {
         "properties": {
@@ -5094,6 +5288,18 @@
             "type": "string",
             "title": "Metric Unit",
             "description": "Unit of the metric value"
+          },
+          "trend_direction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trend Direction",
+            "description": "Trend direction: rising, falling, stable"
           }
         },
         "type": "object",
