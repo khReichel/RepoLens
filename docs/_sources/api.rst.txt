@@ -1109,6 +1109,186 @@ Shows the top 3 contributing teams for each module (Module-centric view).
      ]
    }
 
+Team Ownership Drift Timeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Returns team ownership ratios per module per time bucket, enabling visualisation of
+how team responsibility shifted over time (Conway's Law drift). Only modules with a
+meaningful ownership change (≥10% shift in the leading team's ratio across buckets)
+are included.
+
+*   **URL:** ``/v1/analysis/alignment/drift``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 15 65
+
+   * - Field
+     - Type
+     - Description
+   * - ``start_date``
+     - datetime *(optional)*
+     - Start of the analysis window. Defaults to two years ago.
+   * - ``end_date``
+     - datetime *(optional)*
+     - End of the analysis window. Defaults to today.
+   * - ``bucket_months``
+     - integer *(default: 3)*
+     - Bucket size in months. Use 3 for quarterly, 1 for monthly.
+   * - ``module_name``
+     - string *(optional)*
+     - Filter to a single module name.
+
+**Response Fields:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``buckets``
+     - List of ISO date strings (``YYYY-MM-DD``) representing bucket start dates.
+   * - ``modules``
+     - List of module objects with meaningful ownership drift (see below).
+   * - ``modules[].module_name``
+     - Module name (component name).
+   * - ``modules[].health_status``
+     - Latest bucket health status: ``monopoly`` (>90% one team), ``unassigned_heavy``
+       (Unassigned/Others >30%), ``fragmented`` (top-2 teams cover <50%), ``healthy``.
+   * - ``modules[].series``
+     - One entry per bucket (aligned to ``buckets``). Each entry has a ``bucket``
+       (ISO date) and ``teams`` list of ``{ team, ratio }`` slices sorted by ratio desc.
+       Empty ``teams`` list means no commits in that bucket.
+
+**Example Response:**
+
+.. code-block:: json
+
+   {
+     "buckets": ["2023-01-01", "2023-04-01", "2023-07-01", "2023-10-01"],
+     "modules": [
+       {
+         "module_name": "MMI_QML",
+         "health_status": "fragmented",
+         "series": [
+           { "bucket": "2023-01-01", "teams": [{"team": "Team C", "ratio": 0.72}, {"team": "Team F", "ratio": 0.21}] },
+           { "bucket": "2023-04-01", "teams": [{"team": "Team C", "ratio": 0.61}, {"team": "Team F", "ratio": 0.31}] },
+           { "bucket": "2023-07-01", "teams": [{"team": "Team F", "ratio": 0.55}, {"team": "Team C", "ratio": 0.38}] },
+           { "bucket": "2023-10-01", "teams": [{"team": "Team F", "ratio": 0.60}, {"team": "Team C", "ratio": 0.33}] }
+         ]
+       }
+     ]
+   }
+
+Hotspot Concentration
+~~~~~~~~~~~~~~~~~~~~~
+Returns the hotspot severity distribution for a module or the entire codebase as a
+single aggregated result — not a ranked list.
+
+Structural scores (``log1p(churn) × age_days``) are normalised within the result set so
+the metric is comparable across modules of any size and age. The normalisation mirrors
+the ``coupling_score`` approach: the file with the highest score receives 1.0, the lowest
+receives 0.0. Thresholds are consistent with the ``critical_hotspot`` warning type.
+
+*   **URL:** ``/v1/analyze/hotspots/concentration``
+*   **Method:** ``POST``
+
+.. note::
+   Returns zeros for all fields when no file activity exists in the requested window
+   or the requested module does not exist.
+
+**Request Body:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 15 65
+
+   * - Field
+     - Type
+     - Description
+   * - ``module``
+     - string *(optional)*
+     - Filter to a specific module name. Omit for codebase-wide concentration.
+   * - ``start_date``
+     - datetime *(optional)*
+     - Start of the analysis window.
+   * - ``end_date``
+     - datetime *(optional)*
+     - End of the analysis window.
+
+**Response Fields:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``total_files``
+     - Total number of files with activity in the requested window.
+   * - ``critical_count``
+     - Files whose normalised hotspot score is ≥ 0.9.
+   * - ``high_count``
+     - Files whose normalised hotspot score is ≥ 0.7 and < 0.9.
+   * - ``critical_ratio``
+     - ``critical_count / total_files × 100``. Returns 0.0 when ``total_files = 0``.
+   * - ``high_ratio``
+     - ``high_count / total_files × 100``. Returns 0.0 when ``total_files = 0``.
+
+Contributors Trend
+~~~~~~~~~~~~~~~~~~
+Returns the number of distinct active contributors per time bucket.
+
+Each bucket spans ``bucket_days`` days (default 30). The ``t`` field marks the bucket
+start date, formatted identically to other trend endpoints (``/analysis/trends/overview``,
+``/analyze/module_trend``), making it straightforward to overlay contributor activity
+with complexity or churn sparklines in custom dashboards.
+
+Without ``module_name``, the trend reflects the entire codebase. A declining trend
+signals growing knowledge concentration risk before silo metrics surface it at file level.
+
+*   **URL:** ``/v1/analysis/contributors/trend``
+*   **Method:** ``POST``
+
+**Request Body:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 15 65
+
+   * - Field
+     - Type
+     - Description
+   * - ``module_name``
+     - string *(optional)*
+     - Filter to a specific module. Omit for codebase-wide trend.
+   * - ``start_date``
+     - datetime *(optional)*
+     - Start of the time window. Defaults to the repository's analysis start date.
+   * - ``end_date``
+     - datetime *(optional)*
+     - End of the time window. Defaults to today.
+   * - ``bucket_days``
+     - integer *(optional, default 30)*
+     - Bucket width in days.
+
+**Response Fields** (per item in ``items``):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``t``
+     - Bucket start date (ISO 8601 datetime). Buckets are non-overlapping and ordered ascending.
+   * - ``contributor_count``
+     - Number of distinct authors who committed to the module (or codebase) within this bucket.
+       Each author is counted once per bucket regardless of commit frequency.
+
 Change Coupling
 ~~~~~~~~~~~~~~~
 Returns module pairs ranked by co-change frequency, enriched with team ownership context.
@@ -1213,6 +1393,71 @@ within each boundary type.
    ``total_co_changes`` counts file-pair co-change events, which multiplies with the number
    of files touched per commit (27 commits × ~790 file pairs per commit ≈ 21,415 events).
    Use ``shared_commit_count`` for direction analysis; use ``total_co_changes`` for ranking pairs.
+
+Coupling Partners
+~~~~~~~~~~~~~~~~~
+Returns all modules that co-change with a given module, ranked by co-change frequency.
+Provides an asymmetric, partner-centric view: instead of symmetric pairs, each result
+item describes one partner relative to the queried module.
+
+The ``coupling_score`` is normalised within the result set — the strongest partner always
+receives a score of 1.0, making relative comparisons meaningful regardless of absolute
+co-change volume.
+
+*   **URL:** ``/v1/analysis/coupling/partners``
+*   **Method:** ``POST``
+
+.. note::
+   Returns an empty ``items`` list if no coupling data exists or the given module has no
+   known co-change partners.
+
+**Request Body:**
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 15 65
+
+   * - Field
+     - Type
+     - Description
+   * - ``module_name``
+     - string *(required)*
+     - The module for which coupling partners are queried.
+   * - ``start_date``
+     - datetime *(optional)*
+     - Restrict team ownership calculation to commits on or after this date.
+   * - ``end_date``
+     - datetime *(optional)*
+     - Restrict team ownership calculation to commits on or before this date.
+   * - ``boundary_type``
+     - string *(optional)*
+     - Filter by ``cross_team``, ``same_team``, or ``unknown``. Omit to return all.
+
+**Response Fields** (per item in ``items``):
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
+
+   * - Field
+     - Description
+   * - ``partner_module``
+     - Name of the co-changing partner module.
+   * - ``team``
+     - Primary owning team of the partner module. ``null`` if no team data is available.
+   * - ``team_ownership``
+     - Fraction (0–1) of churn in the partner module attributed to ``team``. ``null`` if no team data.
+   * - ``coupled_file_pairs``
+     - Number of distinct file pairs (one from each module) that have co-changed at least once.
+   * - ``total_co_changes``
+     - Total co-change events between this module and the partner. Used for absolute ranking.
+   * - ``coupling_score``
+     - Normalised coupling strength (0.0–1.0). The partner with the highest ``total_co_changes``
+       receives 1.0; all others are scaled relative to it. Enables meaningful comparison across modules
+       with different activity levels.
+   * - ``boundary_type``
+     - Team boundary classification relative to the queried module: ``cross_team``, ``same_team``, or
+       ``unknown`` (team data unavailable for one or both modules).
 
 --------------------------------------------------------------------------------
 

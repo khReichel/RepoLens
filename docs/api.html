@@ -102,7 +102,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#knowledge-silos-developers">Knowledge Silos (Developers)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-ownership-by-teams">Module Ownership by Teams</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#top-team-contributors">Top Team Contributors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#team-ownership-drift-timeline">Team Ownership Drift Timeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hotspot-concentration">Hotspot Concentration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contributors-trend">Contributors Trend</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#change-coupling">Change Coupling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coupling-partners">Coupling Partners</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#dashboard-kpis">Dashboard KPIs</a><ul>
@@ -1284,6 +1288,241 @@ knowledge holder of. Results are ordered by silo file count descending.</p>
 </pre></div>
 </div>
 </section>
+<section id="team-ownership-drift-timeline">
+<h3>Team Ownership Drift Timeline<a class="headerlink" href="#team-ownership-drift-timeline" title="Link to this heading"></a></h3>
+<p>Returns team ownership ratios per module per time bucket, enabling visualisation of
+how team responsibility shifted over time (Conway’s Law drift). Only modules with a
+meaningful ownership change (≥10% shift in the leading team’s ratio across buckets)
+are included.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/v1/analysis/alignment/drift</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">start_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>Start of the analysis window. Defaults to two years ago.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">end_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>End of the analysis window. Defaults to today.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bucket_months</span></code></p></td>
+<td><p>integer <em>(default: 3)</em></p></td>
+<td><p>Bucket size in months. Use 3 for quarterly, 1 for monthly.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code></p></td>
+<td><p>string <em>(optional)</em></p></td>
+<td><p>Filter to a single module name.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response Fields:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">buckets</span></code></p></td>
+<td><p>List of ISO date strings (<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD</span></code>) representing bucket start dates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">modules</span></code></p></td>
+<td><p>List of module objects with meaningful ownership drift (see below).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">modules[].module_name</span></code></p></td>
+<td><p>Module name (component name).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">modules[].health_status</span></code></p></td>
+<td><p>Latest bucket health status: <code class="docutils literal notranslate"><span class="pre">monopoly</span></code> (&gt;90% one team), <code class="docutils literal notranslate"><span class="pre">unassigned_heavy</span></code>
+(Unassigned/Others &gt;30%), <code class="docutils literal notranslate"><span class="pre">fragmented</span></code> (top-2 teams cover &lt;50%), <code class="docutils literal notranslate"><span class="pre">healthy</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">modules[].series</span></code></p></td>
+<td><p>One entry per bucket (aligned to <code class="docutils literal notranslate"><span class="pre">buckets</span></code>). Each entry has a <code class="docutils literal notranslate"><span class="pre">bucket</span></code>
+(ISO date) and <code class="docutils literal notranslate"><span class="pre">teams</span></code> list of <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">team,</span> <span class="pre">ratio</span> <span class="pre">}</span></code> slices sorted by ratio desc.
+Empty <code class="docutils literal notranslate"><span class="pre">teams</span></code> list means no commits in that bucket.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example Response:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;buckets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2023-04-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2023-07-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;2023-10-01&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;module_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MMI_QML&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;health_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fragmented&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;bucket&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;teams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team C&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.72</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team F&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.21</span><span class="p">}]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;bucket&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-04-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;teams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team C&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.61</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team F&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.31</span><span class="p">}]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;bucket&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-07-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;teams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team F&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.55</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team C&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.38</span><span class="p">}]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;bucket&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2023-10-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;teams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team F&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.60</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Team C&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;ratio&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.33</span><span class="p">}]</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="hotspot-concentration">
+<h3>Hotspot Concentration<a class="headerlink" href="#hotspot-concentration" title="Link to this heading"></a></h3>
+<p>Returns the hotspot severity distribution for a module or the entire codebase as a
+single aggregated result — not a ranked list.</p>
+<p>Structural scores (<code class="docutils literal notranslate"><span class="pre">log1p(churn)</span> <span class="pre">×</span> <span class="pre">age_days</span></code>) are normalised within the result set so
+the metric is comparable across modules of any size and age. The normalisation mirrors
+the <code class="docutils literal notranslate"><span class="pre">coupling_score</span></code> approach: the file with the highest score receives 1.0, the lowest
+receives 0.0. Thresholds are consistent with the <code class="docutils literal notranslate"><span class="pre">critical_hotspot</span></code> warning type.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/v1/analyze/hotspots/concentration</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Returns zeros for all fields when no file activity exists in the requested window
+or the requested module does not exist.</p>
+</div>
+<p><strong>Request Body:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">module</span></code></p></td>
+<td><p>string <em>(optional)</em></p></td>
+<td><p>Filter to a specific module name. Omit for codebase-wide concentration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">start_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>Start of the analysis window.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">end_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>End of the analysis window.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response Fields:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">total_files</span></code></p></td>
+<td><p>Total number of files with activity in the requested window.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">critical_count</span></code></p></td>
+<td><p>Files whose normalised hotspot score is ≥ 0.9.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">high_count</span></code></p></td>
+<td><p>Files whose normalised hotspot score is ≥ 0.7 and &lt; 0.9.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">critical_ratio</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">critical_count</span> <span class="pre">/</span> <span class="pre">total_files</span> <span class="pre">×</span> <span class="pre">100</span></code>. Returns 0.0 when <code class="docutils literal notranslate"><span class="pre">total_files</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">high_ratio</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">high_count</span> <span class="pre">/</span> <span class="pre">total_files</span> <span class="pre">×</span> <span class="pre">100</span></code>. Returns 0.0 when <code class="docutils literal notranslate"><span class="pre">total_files</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contributors-trend">
+<h3>Contributors Trend<a class="headerlink" href="#contributors-trend" title="Link to this heading"></a></h3>
+<p>Returns the number of distinct active contributors per time bucket.</p>
+<p>Each bucket spans <code class="docutils literal notranslate"><span class="pre">bucket_days</span></code> days (default 30). The <code class="docutils literal notranslate"><span class="pre">t</span></code> field marks the bucket
+start date, formatted identically to other trend endpoints (<code class="docutils literal notranslate"><span class="pre">/analysis/trends/overview</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/analyze/module_trend</span></code>), making it straightforward to overlay contributor activity
+with complexity or churn sparklines in custom dashboards.</p>
+<p>Without <code class="docutils literal notranslate"><span class="pre">module_name</span></code>, the trend reflects the entire codebase. A declining trend
+signals growing knowledge concentration risk before silo metrics surface it at file level.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/v1/analysis/contributors/trend</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<p><strong>Request Body:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code></p></td>
+<td><p>string <em>(optional)</em></p></td>
+<td><p>Filter to a specific module. Omit for codebase-wide trend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">start_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>Start of the time window. Defaults to the repository’s analysis start date.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">end_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>End of the time window. Defaults to today.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bucket_days</span></code></p></td>
+<td><p>integer <em>(optional, default 30)</em></p></td>
+<td><p>Bucket width in days.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response Fields</strong> (per item in <code class="docutils literal notranslate"><span class="pre">items</span></code>):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">t</span></code></p></td>
+<td><p>Bucket start date (ISO 8601 datetime). Buckets are non-overlapping and ordered ascending.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contributor_count</span></code></p></td>
+<td><p>Number of distinct authors who committed to the module (or codebase) within this bucket.
+Each author is counted once per bucket regardless of commit frequency.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="change-coupling">
 <h3>Change Coupling<a class="headerlink" href="#change-coupling" title="Link to this heading"></a></h3>
 <p>Returns module pairs ranked by co-change frequency, enriched with team ownership context.
@@ -1416,6 +1655,94 @@ coupling data has not been computed yet.</p>
 of files touched per commit (27 commits × ~790 file pairs per commit ≈ 21,415 events).
 Use <code class="docutils literal notranslate"><span class="pre">shared_commit_count</span></code> for direction analysis; use <code class="docutils literal notranslate"><span class="pre">total_co_changes</span></code> for ranking pairs.</p>
 </div>
+</section>
+<section id="coupling-partners">
+<h3>Coupling Partners<a class="headerlink" href="#coupling-partners" title="Link to this heading"></a></h3>
+<p>Returns all modules that co-change with a given module, ranked by co-change frequency.
+Provides an asymmetric, partner-centric view: instead of symmetric pairs, each result
+item describes one partner relative to the queried module.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">coupling_score</span></code> is normalised within the result set — the strongest partner always
+receives a score of 1.0, making relative comparisons meaningful regardless of absolute
+co-change volume.</p>
+<ul class="simple">
+<li><p><strong>URL:</strong> <code class="docutils literal notranslate"><span class="pre">/v1/analysis/coupling/partners</span></code></p></li>
+<li><p><strong>Method:</strong> <code class="docutils literal notranslate"><span class="pre">POST</span></code></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Returns an empty <code class="docutils literal notranslate"><span class="pre">items</span></code> list if no coupling data exists or the given module has no
+known co-change partners.</p>
+</div>
+<p><strong>Request Body:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code></p></td>
+<td><p>string <em>(required)</em></p></td>
+<td><p>The module for which coupling partners are queried.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">start_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>Restrict team ownership calculation to commits on or after this date.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">end_date</span></code></p></td>
+<td><p>datetime <em>(optional)</em></p></td>
+<td><p>Restrict team ownership calculation to commits on or before this date.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">boundary_type</span></code></p></td>
+<td><p>string <em>(optional)</em></p></td>
+<td><p>Filter by <code class="docutils literal notranslate"><span class="pre">cross_team</span></code>, <code class="docutils literal notranslate"><span class="pre">same_team</span></code>, or <code class="docutils literal notranslate"><span class="pre">unknown</span></code>. Omit to return all.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response Fields</strong> (per item in <code class="docutils literal notranslate"><span class="pre">items</span></code>):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">partner_module</span></code></p></td>
+<td><p>Name of the co-changing partner module.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">team</span></code></p></td>
+<td><p>Primary owning team of the partner module. <code class="docutils literal notranslate"><span class="pre">null</span></code> if no team data is available.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">team_ownership</span></code></p></td>
+<td><p>Fraction (0–1) of churn in the partner module attributed to <code class="docutils literal notranslate"><span class="pre">team</span></code>. <code class="docutils literal notranslate"><span class="pre">null</span></code> if no team data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">coupled_file_pairs</span></code></p></td>
+<td><p>Number of distinct file pairs (one from each module) that have co-changed at least once.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">total_co_changes</span></code></p></td>
+<td><p>Total co-change events between this module and the partner. Used for absolute ranking.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">coupling_score</span></code></p></td>
+<td><p>Normalised coupling strength (0.0–1.0). The partner with the highest <code class="docutils literal notranslate"><span class="pre">total_co_changes</span></code>
+receives 1.0; all others are scaled relative to it. Enables meaningful comparison across modules
+with different activity levels.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">boundary_type</span></code></p></td>
+<td><p>Team boundary classification relative to the queried module: <code class="docutils literal notranslate"><span class="pre">cross_team</span></code>, <code class="docutils literal notranslate"><span class="pre">same_team</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">unknown</span></code> (team data unavailable for one or both modules).</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <hr class="docutils" />

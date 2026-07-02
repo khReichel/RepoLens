@@ -322,6 +322,45 @@
         }
       }
     },
+    "/v1/analyze/hotspots/concentration": {
+      "post": {
+        "summary": "Hotspot Concentration",
+        "description": "Returns the hotspot severity distribution for a module or the entire codebase.\n\nStructural scores (log1p(churn) \u00d7 age_days) are normalised within the result set\nso the metric is comparable across modules of any size. Thresholds are consistent\nwith the critical_hotspot warning type: critical \u2265 0.9, high \u2265 0.7 (normalised).\n\nReturns zeros for all fields when no file activity exists in the requested window.",
+        "operationId": "hotspot_concentration_v1_analyze_hotspots_concentration_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HotspotConcentrationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HotspotConcentrationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/analyze/hotspots/complexity": {
       "post": {
         "summary": "Get Complexity Trend",
@@ -697,6 +736,48 @@
         }
       }
     },
+    "/v1/analysis/contributors/trend": {
+      "post": {
+        "tags": [
+          "Contributors"
+        ],
+        "summary": "Get Contributors Trend",
+        "description": "Returns the number of distinct active contributors per time bucket.\n\nEach bucket spans ``bucket_days`` days (default 30). The ``t`` field marks the\nbucket start date and is formatted identically to other trend endpoints, making it\nstraightforward to overlay contributor trends with complexity or churn sparklines.\n\nWithout ``module_name``, the trend reflects the entire codebase.\nA declining trend signals knowledge concentration risk before silo metrics\nsurface it at the file level.",
+        "operationId": "get_contributors_trend_v1_analysis_contributors_trend_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContributorsTrendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContributorsTrendResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/analysis/loc/files": {
       "post": {
         "tags": [
@@ -890,6 +971,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TeamModuleAlignmentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/alignment/drift": {
+      "post": {
+        "tags": [
+          "Module-Team Alignment"
+        ],
+        "summary": "Get Alignment Drift",
+        "description": "Returns team ownership ratios per module per time bucket.\nOnly modules with meaningful ownership drift (\u226510% ratio change) are included.\nUseful for visualising how team responsibility shifted over time (Conway's Law drift).",
+        "operationId": "get_alignment_drift_v1_analysis_alignment_drift_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DriftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriftResponse"
                 }
               }
             }
@@ -1473,6 +1596,48 @@
         }
       }
     },
+    "/v1/analysis/coupling/partners": {
+      "post": {
+        "tags": [
+          "Change Coupling"
+        ],
+        "summary": "Get Coupling Partners",
+        "description": "Returns all modules that co-change with the given module, ranked by co-change frequency.\n\nThe coupling_score is normalised within the result set (strongest partner = 1.0),\nmaking it meaningful for relative comparison regardless of absolute co-change counts.\nboundary_type reflects whether the partner module is owned by the same team or a different one.\n\nReturns an empty list if no coupling data exists or the module has no known partners.",
+        "operationId": "get_coupling_partners_v1_analysis_coupling_partners_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CouplingPartnersRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CouplingPartnersResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/analysis/eras": {
       "post": {
         "tags": [
@@ -1586,11 +1751,6 @@
               }
             ],
             "title": "Module"
-          },
-          "nbr_items": {
-            "type": "integer",
-            "title": "Nbr Items",
-            "default": 50
           }
         },
         "type": "object",
@@ -1750,11 +1910,6 @@
               }
             ],
             "title": "Module"
-          },
-          "nbr_items": {
-            "type": "integer",
-            "title": "Nbr Items",
-            "default": 50
           }
         },
         "type": "object",
@@ -2587,6 +2742,220 @@
         "title": "ContributorsRequest",
         "description": "Pydantic model for the contributor analysis request body."
       },
+      "ContributorsTrendItem": {
+        "properties": {
+          "t": {
+            "type": "string",
+            "format": "date-time",
+            "title": "T",
+            "description": "Bucket start date."
+          },
+          "contributor_count": {
+            "type": "integer",
+            "title": "Contributor Count",
+            "description": "Number of distinct active contributors in this bucket."
+          }
+        },
+        "type": "object",
+        "required": [
+          "t",
+          "contributor_count"
+        ],
+        "title": "ContributorsTrendItem"
+      },
+      "ContributorsTrendRequest": {
+        "properties": {
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter by a specific module name. Omit for codebase-wide."
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start of the time window. Defaults to analysis start date."
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End of the time window. Defaults to today."
+          },
+          "bucket_days": {
+            "type": "integer",
+            "title": "Bucket Days",
+            "description": "Bucket size in days.",
+            "default": 30
+          }
+        },
+        "type": "object",
+        "title": "ContributorsTrendRequest"
+      },
+      "ContributorsTrendResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ContributorsTrendItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ContributorsTrendResponse"
+      },
+      "CouplingPartnerItem": {
+        "properties": {
+          "partner_module": {
+            "type": "string",
+            "title": "Partner Module",
+            "description": "The coupled partner module"
+          },
+          "team": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team",
+            "description": "Primary owning team of the partner module"
+          },
+          "team_ownership": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team Ownership",
+            "description": "Ownership ratio of the team over the partner module (0\u20131)"
+          },
+          "coupled_file_pairs": {
+            "type": "integer",
+            "title": "Coupled File Pairs",
+            "description": "Number of distinct file pairs that co-changed"
+          },
+          "total_co_changes": {
+            "type": "integer",
+            "title": "Total Co Changes",
+            "description": "Total number of co-change events"
+          },
+          "coupling_score": {
+            "type": "number",
+            "title": "Coupling Score",
+            "description": "Normalised coupling strength (0.0\u20131.0), relative to strongest partner"
+          },
+          "boundary_type": {
+            "$ref": "#/components/schemas/BoundaryType",
+            "description": "cross_team | same_team | unknown"
+          }
+        },
+        "type": "object",
+        "required": [
+          "partner_module",
+          "coupled_file_pairs",
+          "total_co_changes",
+          "coupling_score",
+          "boundary_type"
+        ],
+        "title": "CouplingPartnerItem"
+      },
+      "CouplingPartnersRequest": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start date for team ownership calculation"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End date for team ownership calculation"
+          },
+          "boundary_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BoundaryType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Filter by boundary type: cross_team | same_team | unknown. Omit for all."
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name"
+        ],
+        "title": "CouplingPartnersRequest"
+      },
+      "CouplingPartnersResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CouplingPartnerItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "CouplingPartnersResponse"
+      },
       "DeveloperSiloItem": {
         "properties": {
           "developer": {
@@ -2634,6 +3003,146 @@
           "items"
         ],
         "title": "DeveloperSiloResponse"
+      },
+      "DriftBucket": {
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "title": "Bucket"
+          },
+          "teams": {
+            "items": {
+              "$ref": "#/components/schemas/DriftTeamSlice"
+            },
+            "type": "array",
+            "title": "Teams"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bucket",
+          "teams"
+        ],
+        "title": "DriftBucket"
+      },
+      "DriftModule": {
+        "properties": {
+          "module_name": {
+            "type": "string",
+            "title": "Module Name"
+          },
+          "health_status": {
+            "type": "string",
+            "title": "Health Status"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/DriftBucket"
+            },
+            "type": "array",
+            "title": "Series"
+          }
+        },
+        "type": "object",
+        "required": [
+          "module_name",
+          "health_status",
+          "series"
+        ],
+        "title": "DriftModule"
+      },
+      "DriftRequest": {
+        "properties": {
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start of analysis window"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End of analysis window"
+          },
+          "bucket_months": {
+            "type": "integer",
+            "title": "Bucket Months",
+            "description": "Bucket size in months (default: quarterly)",
+            "default": 3
+          },
+          "module_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Name",
+            "description": "Filter to a single module"
+          }
+        },
+        "type": "object",
+        "title": "DriftRequest",
+        "description": "Request model for team ownership drift timeline."
+      },
+      "DriftResponse": {
+        "properties": {
+          "buckets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Buckets"
+          },
+          "modules": {
+            "items": {
+              "$ref": "#/components/schemas/DriftModule"
+            },
+            "type": "array",
+            "title": "Modules"
+          }
+        },
+        "type": "object",
+        "required": [
+          "buckets",
+          "modules"
+        ],
+        "title": "DriftResponse"
+      },
+      "DriftTeamSlice": {
+        "properties": {
+          "team": {
+            "type": "string",
+            "title": "Team"
+          },
+          "ratio": {
+            "type": "number",
+            "title": "Ratio"
+          }
+        },
+        "type": "object",
+        "required": [
+          "team",
+          "ratio"
+        ],
+        "title": "DriftTeamSlice"
       },
       "EraItem": {
         "properties": {
@@ -3463,6 +3972,88 @@
         "title": "HotspotComplexityRequest",
         "description": "Pydantic model for the hotspot complexity analysis request body."
       },
+      "HotspotConcentrationRequest": {
+        "properties": {
+          "module": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module",
+            "description": "Filter by module name. Omit for codebase-wide."
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date",
+            "description": "Start of the time window."
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date",
+            "description": "End of the time window."
+          }
+        },
+        "type": "object",
+        "title": "HotspotConcentrationRequest"
+      },
+      "HotspotConcentrationResponse": {
+        "properties": {
+          "total_files": {
+            "type": "integer",
+            "title": "Total Files",
+            "description": "Total files with activity in the time window."
+          },
+          "critical_count": {
+            "type": "integer",
+            "title": "Critical Count",
+            "description": "Files with normalised hotspot score >= 0.9."
+          },
+          "high_count": {
+            "type": "integer",
+            "title": "High Count",
+            "description": "Files with normalised hotspot score >= 0.7 and < 0.9."
+          },
+          "critical_ratio": {
+            "type": "number",
+            "title": "Critical Ratio",
+            "description": "critical_count / total_files * 100. 0.0 when total_files = 0."
+          },
+          "high_ratio": {
+            "type": "number",
+            "title": "High Ratio",
+            "description": "high_count / total_files * 100. 0.0 when total_files = 0."
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_files",
+          "critical_count",
+          "high_count",
+          "critical_ratio",
+          "high_ratio"
+        ],
+        "title": "HotspotConcentrationResponse"
+      },
       "KpiValue": {
         "properties": {
           "value": {
@@ -3999,6 +4590,39 @@
               }
             ],
             "title": "Dominant Silo Developer"
+          },
+          "dominant_silo_ownership_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dominant Silo Ownership Pct"
+          },
+          "secondary_silo_developer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary Silo Developer"
+          },
+          "secondary_silo_ownership_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Secondary Silo Ownership Pct"
           },
           "risk": {
             "$ref": "#/components/schemas/SiloRisk"
@@ -5082,11 +5706,6 @@
               }
             ],
             "title": "Module"
-          },
-          "nbr_items": {
-            "type": "integer",
-            "title": "Nbr Items",
-            "default": 50
           }
         },
         "type": "object",
