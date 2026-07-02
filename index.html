@@ -323,6 +323,7 @@
         <li><a href="#features">Features</a></li>
         <li><a href="#how-it-works">How it works</a></li>
         <li><a href="https://calyntro.com/blog">Blog</a></li>
+        <li><a href="https://calyntro.com/docs">Docs</a></li>
         <li><a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="nav-demo" data-umami-event="demo-click" data-umami-event-location="nav">Live Demo</a></li>
         <li><a href="#contact" class="nav-cta">Get in touch</a></li>
       </ul>
@@ -336,7 +337,7 @@
         <span class="eyebrow">Repository Intelligence for Engineering Leaders</span>
         <span class="badge-v">v1.8.1 · Production-ready</span>
       </div>
-      <h1>Make team and architecture decisions <em>on evidence, not instinct</em></h1>
+      <h1>One engineer leaves. <em>How many modules go dark?</em></h1>
       <p class="hero-sub">Calyntro turns your Git history into a strategic map of knowledge risk, team coupling, and architectural drift — giving CTOs and Engineering Managers the quantitative foundation their decisions have been missing.</p>
       <div class="hero-btns">
         <a href="https://demo.calyntro.com" target="_blank" rel="noopener" class="btn btn-primary" data-umami-event="demo-click" data-umami-event-location="hero">Explore the live demo →</a>
@@ -644,6 +645,11 @@
           <h3>Is complexity rising faster than your team can manage it?</h3>
           <p>Trend analysis tracks Cognitive Complexity and LOC over time per module. A rising complexity curve in a high-churn module is an early warning signal — not a post-mortem finding.</p>
         </div>
+        <div class="usecase-card">
+          <span class="usecase-keyword">Org Transformation &amp; Team Topologies</span>
+          <h3>Is your team structure aligned with your architecture — or working against it?</h3>
+          <p>Conway's Law drift is measurable. Change coupling and ownership data reveal where your current team boundaries generate coordination overhead — the quantitative foundation for a Team Topologies-driven reorganisation.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -741,6 +747,14 @@
         <details class="faq-item">
           <summary class="faq-q">Can we try it before committing to a license?</summary>
           <p class="faq-a">Yes, in two ways. The <a href="https://demo.calyntro.com" target="_blank" rel="noopener">live demo</a> runs against the MongoDB open-source repository — no login or setup required. For a trial on your own codebase, get in touch: we typically run a first analysis as part of an initial engagement before any license conversation.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">How is pricing structured?</summary>
+          <p class="faq-a">Calyntro is licensed annually from <strong>€5,000/year</strong> — a flat rate regardless of team size, number of repositories, or number of users. There are no per-seat or per-author fees. The license covers all current features and access to new releases throughout the license period. Consulting engagements and guided onboarding sessions are scoped and quoted separately. Get in touch to discuss what makes sense for your organisation.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Does Calyntro work with AI-generated code (Copilot, Cursor)?</summary>
+          <p class="faq-a">Mostly yes, with one honest caveat. Ownership, change coupling, churn, and knowledge silo metrics are derived from Git metadata — commit author, file path, timestamp, and line counts. These work regardless of whether code was written by a human or an AI assistant. Complexity metrics (cyclomatic and cognitive) run on the source code itself and are equally unaffected. The caveat: if AI-assisted commits are consistently made under a single author identity (e.g. always the same developer triggering Copilot), ownership signals for that author will be inflated relative to their actual understanding. Calyntro surfaces this as a high ownership concentration — which is technically accurate and worth knowing.</p>
         </details>
         <details class="faq-item">
           <summary class="faq-q">How does Calyntro differ from CodeScene?</summary>
