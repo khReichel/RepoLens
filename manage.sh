@@ -176,6 +176,7 @@ case "$1" in
 
     docker compose run --rm importer config --config-file /app/config/config.yaml
     docker compose run --rm importer analysis --config-file /app/config/config.yaml
+    docker compose run --rm importer coupling --config-file /app/config/config.yaml
 
     unset REPO_PATH_HOST
     echo "Import and analysis complete."

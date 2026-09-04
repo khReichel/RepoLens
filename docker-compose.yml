@@ -14,7 +14,7 @@ services:
       - calyntro-network
 
   backend:
-    image: ghcr.io/khreichel/calyntro-backend:latest
+    image: calyntro-backend:latest
     container_name: calyntro-backend
     restart: unless-stopped
     user: "${HOST_UID}:${HOST_GID}"
@@ -30,14 +30,14 @@ services:
       - calyntro-network
 
   ui:
-    image: ghcr.io/khreichel/calyntro-ui:latest
+    image: calyntro-ui:latest
     container_name: calyntro-ui
     restart: unless-stopped
     networks:
       - calyntro-network
 
   importer:
-    image: ghcr.io/khreichel/calyntro-backend:latest
+    image: calyntro-backend:latest
     container_name: calyntro-importer
     user: "${HOST_UID}:${HOST_GID}"
     profiles:
